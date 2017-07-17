@@ -1,2 +1,11 @@
+awscli==1.11.120
+awsebcli==3.10.4
+boto3==1.4.4
 Django==1.11.3
+django-extensions==1.8.1
+djangorestframework==3.6.3
+ipython==6.1.0
+Pillow==4.2.1
+psycopg2==2.7.1
 pytz==2017.2
+six==1.10.0
