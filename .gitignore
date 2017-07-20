@@ -4,6 +4,8 @@
 .config/
 .config_secret/
 .DS_Store
+.dockerfiles/
+Dockerfile
 
 ### gitignore.io ###
 
