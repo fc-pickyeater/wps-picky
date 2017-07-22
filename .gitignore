@@ -3,8 +3,10 @@
 .idea/
 .config/
 .config_secret/
+.static_root/
 .DS_Store
 .dockerfiles/
+.media_root/
 Dockerfile
 
 ### gitignore.io ###
