@@ -62,3 +62,6 @@ print('@@@@@@ ALLOWED_HOSTS:', ALLOWED_HOSTS)
 #   9000번 포트에서 연결확인
 #   /static/, /media/에 alias연결
 #   설정 완료했으면 Dockerfile에서 supervisord부분 주석 해제, 빌드, run후 static파일 정상출력 확인
+
+
+
