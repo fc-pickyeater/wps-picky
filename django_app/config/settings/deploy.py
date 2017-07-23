@@ -22,7 +22,7 @@ STATICFILES_STORAGE = 'config.storages.StaticStorage'
 
 # Static URLs
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
+# STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 
 # Media URL
 MEDIA_URL = '/media/'
