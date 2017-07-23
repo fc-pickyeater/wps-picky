@@ -26,7 +26,7 @@ STATIC_URL = '/static/'
 
 # Media URL
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
+# MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
 # 배포모드니까 DEBUG는 False
 DEBUG = False
