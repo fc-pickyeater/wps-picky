@@ -35,10 +35,6 @@ ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 # Database
 DATABASES = config_secret_deploy['django']['databases']
 
-print('@@@@@@ DEBUG:', DEBUG)
-print('@@@@@@ ALLOWED_HOSTS:', ALLOWED_HOSTS)
-
-
 # 1. RDS연동 후 데이터 들어가는지 확인
 #    DJANGO_SETTINGS_MODULE=config.settings.deploy설정
 #    createsuperuser커맨드 실행 후 pgAdmin으로 auth_user테이블에 데이터가 들어갔는지 확인
