@@ -8,6 +8,8 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
+
+'test'
 """
 import json
 import os
@@ -119,4 +121,3 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [
     STATIC_DIR,
 ]
-
