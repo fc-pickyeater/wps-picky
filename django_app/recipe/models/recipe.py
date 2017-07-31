@@ -1,10 +1,9 @@
 from django.db import models
 
-# Create your models here.
+from ingredient.models import Ingredient
 
 __all__ = (
     'Recipe',
-    'RecipeDetail',
 )
 
 
@@ -20,10 +19,16 @@ class Recipe(models.Model):
     # like_users = models.ManyToManyField(User)
     like_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)
-    # ingredient = models.ManyToManyField(Ingredient)
+    ingredient = models.ManyToManyField(
+        Ingredient,
+        related_name='Recipe_Ingredient',
+        through='Recipe_Ingredient',
+    )
     # tag = models.ManyToManyField(Tag)
     # rate = models.ManyToManyField(Rate)
     # bookmark = models.ManyToManyField(Bookmark)
     rate_sum = models.PositiveIntegerField(default=0)
     img_recipe = models.ImageField()
     cal_sum = models.PositiveIntegerField(default=0)
+
+

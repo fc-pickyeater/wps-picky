@@ -30,7 +30,7 @@ config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config_secret_common['django']['secret_key']
 
-
+AUTH_USER_MODEL = 'member.PickyUser'
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,7 +44,10 @@ INSTALLED_APPS = [
     ### add list ###
     'django_extensions',
     'rest_framework',
+
     'recipe',
+    'ingredient',
+    'member',
 ]
 
 MIDDLEWARE = [
