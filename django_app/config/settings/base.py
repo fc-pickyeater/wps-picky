@@ -44,11 +44,16 @@ INSTALLED_APPS = [
     ### add list ###
     'django_extensions',
     'rest_framework',
+    'django_filters',
 
     'recipe',
     'ingredient',
     'member',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
