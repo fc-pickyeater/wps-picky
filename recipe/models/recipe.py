@@ -2,6 +2,12 @@ from django.db import models
 
 # Create your models here.
 
+__all__ = (
+    'Recipe',
+    'RecipeDetail',
+)
+
+
 class Recipe(models.Model):
     """
     중간자 모델이 필요한 테이플은 주석
@@ -21,15 +27,3 @@ class Recipe(models.Model):
     rate_sum = models.PositiveIntegerField(default=0)
     img_recipe = models.ImageField()
     cal_sum = models.PositiveIntegerField(default=0)
-
-class RecipeDetail(models.Model):
-    recipe = models.ForeignKey(Recipe)
-    step = models.PositiveIntegerField()
-    description = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    timer = models.BooleanField(default=False)
-    # 타이머의 필요 여부 기본
-    timer_time = models.PositiveIntegerField()
-    img_step = models.ImageField()
-
