@@ -7,18 +7,29 @@ __all__ = (
 )
 
 
-class PickUserManager(BaseUserManager):
-    def create_user(self, id_type, email, nickname, password=None, profile_image=None, profile_content=None):
+class PickyUserManager(BaseUserManager):
+    # create Manager
+    def create_user(self, email, nickname, password=None, profile_image=None, profile_content=None):
         if not email:
             raise ValueError('email을 입력하세요.')
 
         user = self.model(
                 email=self.normalize_email(email),
                 nickname=nickname,
-                id_type=id_type,
         )
         user.set_password(password)
         user.save()
+        return user
+
+    # createsuperuser manager : 디버그모드에서 확인완료 - Joe
+    def create_superuser(self, email, nickname, password):
+        user = self.create_user(
+                email=email,
+                password=password,
+                nickname=nickname,
+        )
+        user.is_admin = True
+        user.save(using=self._db)
         return user
 
 
@@ -41,12 +52,12 @@ class PickyUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     # is_staff = models.BooleanField(default=False)
 
-    objects = PickUserManager()
+    objects = PickyUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = [
         'nickname',
-        'id_type'
+        # 'id_type'
     ]
 
     def get_full_name(self):
