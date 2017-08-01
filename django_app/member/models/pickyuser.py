@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -5,6 +6,69 @@ __all__ = (
     'PickyUser',
 )
 
+
+class PickUserManager(BaseUserManager):
+    def create_user(self, id_type, email, nickname, password=None, profile_image=None, profile_content=None):
+        if not email:
+            raise ValueError('email을 입력하세요.')
+
+        user = self.model(
+                email=self.normalize_email(email),
+                nickname=nickname,
+                id_type=id_type,
+        )
+        user.set_password(password)
+        user.save()
+        return user
+
+
+class PickyUser(AbstractBaseUser):
+    email = models.EmailField(
+            verbose_name='email',
+            max_length=100,
+            unique=True
+    )
+    nickname = models.CharField(
+            max_length=100,
+            unique=True
+    )
+    # django user : d
+    # facebook user : f
+    # naver user : n
+    # kakao user : k
+    id_type = models.CharField(default='d', max_length=1)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    # is_staff = models.BooleanField(default=False)
+
+    objects = PickUserManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [
+        'nickname',
+        'id_type'
+    ]
+
+    def get_full_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def get_short_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def __str__(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
+
+    @property
+    def is_staff(self):
+        return self.is_admin
 
 # class PickyUser(AbstractUser):
 #     # 프로필 사진
