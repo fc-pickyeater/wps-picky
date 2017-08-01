@@ -10,6 +10,9 @@
 migrations/
 Dockerfile
 migrations/
+django_app/ingredient/migrations
+django_app/member/migrations
+django_app/recipe/migrations
 
 ### gitignore.io ###
 
