@@ -2,7 +2,7 @@ from rest_framework import filters
 from rest_framework import generics
 
 from recipe.models import Recipe
-from recipe.serializers import RecipeSerializer
+from recipe.serializers.recipelist import RecipeSerializer
 
 __all__ = (
     'RecipeList',

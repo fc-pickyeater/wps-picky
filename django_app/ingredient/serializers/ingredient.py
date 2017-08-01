@@ -4,7 +4,7 @@ from ingredient.models import Ingredient
 
 __all__ = (
     'IngredientSerializer',
-    'IngredientUpdateSerializer',
+    # 'IngredientUpdateSerializer',
 )
 
 # ingredientserializer 생성 - hong 8/1

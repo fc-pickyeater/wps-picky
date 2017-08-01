@@ -4,9 +4,10 @@ from ingredient.models import Ingredient
 
 __all__ = (
     'Recipe',
-    'RecipeStep',
+    'RecipeReview',
     'RecipeStepComment',
-)
+    'RecipeStep',
+    )
 
 
 class Recipe(models.Model):
@@ -33,15 +34,6 @@ class Recipe(models.Model):
     img_recipe = models.ImageField()
     cal_sum = models.PositiveIntegerField(default=0)
 
-class RecipeStep(models.Model):
-    recipe = models.ForeignKey(Recipe)
-    step = models.PositiveIntegerField()
-    description = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-    is_timer = models.BooleanField(default=False)
-    timer_timer = models.PositiveIntegerField(default=0)
-    img_step = models.ImageField()
 
 class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe)
@@ -50,8 +42,27 @@ class RecipeReview(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     img_review = models.ImageField()
 
+class RecipeStep(models.Model):
+    # 레시피
+    recipe = models.ForeignKey(Recipe)
+    # 단계
+    step = models.PositiveIntegerField(default=0)
+    # 설명
+    description = models.TextField(max_length=256)
+    # 생성시간
+    created_date = models.DateTimeField(auto_now_add=True)
+    # 수정시간
+    modified_date = models.DateTimeField(auto_now=True)
+    # 타이머 필요
+    is_timer = models.BooleanField(default=False)
+    # 조리시간
+    timer = models.PositiveIntegerField(default=0)
+    # 사진
+    image_step = models.ImageField(blank=True)
+
 class RecipeStepComment(models.Model):
     recipe_detail = models.ForeignKey(RecipeStep)
     # author = models.ForeignKey(User)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+
