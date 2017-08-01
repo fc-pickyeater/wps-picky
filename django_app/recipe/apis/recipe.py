@@ -9,6 +9,7 @@ __all__ = (
     'RecipeModifyDelete',
 )
 
+# 8/1 승팔씀
 class RecipeList(generics.ListCreateAPIView):
     """
     POST GET
@@ -24,7 +25,7 @@ class RecipeList(generics.ListCreateAPIView):
         elif self.request.method == 'GET':
             return RecipeSerializer
 
-
+# 8/1 승팔씀
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     """
     PATCH DELETE
