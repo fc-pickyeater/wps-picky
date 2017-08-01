@@ -8,6 +8,7 @@
 .dockerfiles/
 .media_root/
 Dockerfile
+migrations/
 
 ### gitignore.io ###
 
