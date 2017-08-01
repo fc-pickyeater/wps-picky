@@ -3,13 +3,13 @@ from django.db import models
 from ingredient.models import Ingredient
 
 __all__ = (
-    'RecipeTitle',
+    'Recipe',
     'RecipeStep',
     'RecipeStepComment',
 )
 
 
-class RecipeTitle(models.Model):
+class Recipe(models.Model):
     """
     중간자 모델이 필요한 테이플은 주석
     """
@@ -34,7 +34,7 @@ class RecipeTitle(models.Model):
     cal_sum = models.PositiveIntegerField(default=0)
 
 class RecipeStep(models.Model):
-    recipe = models.ForeignKey(RecipeTitle)
+    recipe = models.ForeignKey(Recipe)
     step = models.PositiveIntegerField()
     description = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
@@ -44,7 +44,7 @@ class RecipeStep(models.Model):
     img_step = models.ImageField()
 
 class RecipeReview(models.Model):
-    recipe = models.ForeignKey(RecipeTitle)
+    recipe = models.ForeignKey(Recipe)
     # author = models.ForeignKey(User)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)

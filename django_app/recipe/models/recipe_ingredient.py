@@ -1,12 +1,12 @@
 from django.db import models
 
 from ingredient.models import Ingredient
-from recipe.models import RecipeTitle
+from recipe.models import Recipe
 
 
 class Recipe_Ingredient(models.Model):
     # 레시피
-    recipe = models.ForeignKey(RecipeTitle)
+    recipe = models.ForeignKey(Recipe)
     # 재료
     ingredient = models.ForeignKey(Ingredient)
     # 구분
