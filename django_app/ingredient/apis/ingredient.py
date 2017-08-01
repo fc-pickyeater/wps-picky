@@ -10,6 +10,7 @@ __all__ = (
 )
 
 
+# ingredient search and list post요청시 생성 get요청시 list postman 확인 - hong 8/1
 class IngredientSearchList(generics.ListCreateAPIView):
     """
     POST GET
@@ -26,6 +27,7 @@ class IngredientSearchList(generics.ListCreateAPIView):
             return IngredientSerializer
 
 
+# ingredient modify and delete patch요청시 수정 delete요청시 삭제 postman 확인 - hong 8/1
 class IngredientModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     """
     PATCH DELETE

@@ -4,7 +4,7 @@ __all__ = (
     'Ingredient',
 )
 
-
+# ingredient 모델 생성 - hong 8/1
 class Ingredient(models.Model):
     # 이름
     name = models.CharField(max_length=30)
