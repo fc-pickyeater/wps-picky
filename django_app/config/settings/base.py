@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'ingredient',
     'member',
 ]
-
+# 8/1 hong 추가 search filter html보여주는듯? -hong 8/1
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
