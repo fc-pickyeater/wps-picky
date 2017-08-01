@@ -4,7 +4,12 @@ from ingredient.models import Ingredient
 from recipe.models import Recipe
 
 
-class Recipe_Ingredient(models.Model):
+__all__ = (
+    'RecipeIngredient',
+)
+
+
+class RecipeIngredient(models.Model):
     # 레시피
     recipe = models.ForeignKey(Recipe)
     # 재료

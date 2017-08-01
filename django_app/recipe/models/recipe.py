@@ -1,6 +1,7 @@
 from django.db import models
 
 from ingredient.models import Ingredient
+from member.models import PickyUser
 
 __all__ = (
     'Recipe',
@@ -16,7 +17,7 @@ class Recipe(models.Model):
     """
     title = models.CharField(max_length=100)
     description = models.TextField()
-    # user = models.ForeignKey(User)
+    # user = models.ForeignKey(PickyUser)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     # like_users = models.ManyToManyField(User)
@@ -24,8 +25,8 @@ class Recipe(models.Model):
     bookmark_count = models.PositiveIntegerField(default=0)
     ingredient = models.ManyToManyField(
         Ingredient,
-        related_name='Recipe_Ingredient',
-        through='Recipe_Ingredient',
+        related_name='RecipeIngredient',
+        through='RecipeIngredient',
     )
     # tag = models.ManyToManyField(Tag)
     # rate = models.ManyToManyField(Rate)
@@ -37,10 +38,11 @@ class Recipe(models.Model):
 
 class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe)
-    # author = models.ForeignKey(User)
+    # author = models.ForeignKey(PickyUser)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     img_review = models.ImageField()
+
 
 class RecipeStep(models.Model):
     # 레시피
@@ -60,9 +62,10 @@ class RecipeStep(models.Model):
     # 사진
     image_step = models.ImageField(blank=True)
 
+
 class RecipeStepComment(models.Model):
     recipe_detail = models.ForeignKey(RecipeStep)
-    # author = models.ForeignKey(User)
+    # author = models.ForeignKey(PickyUser)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
 
