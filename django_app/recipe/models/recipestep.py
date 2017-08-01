@@ -2,7 +2,7 @@ from django.db import models
 
 from recipe.models import Recipe
 
-
+# recipestep 모델 생성 - hong 8/1
 class RecipeStep(models.Model):
     # 레시피
     recipe = models.ForeignKey(Recipe)
