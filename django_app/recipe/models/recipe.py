@@ -32,7 +32,7 @@ class Recipe(models.Model):
     # rate = models.ManyToManyField(Rate)
     # bookmark = models.ManyToManyField(Bookmark)
     rate_sum = models.PositiveIntegerField(default=0)
-    img_recipe = models.ImageField()
+    img_recipe = models.ImageField(blank=True)
     cal_sum = models.PositiveIntegerField(default=0)
 
 
