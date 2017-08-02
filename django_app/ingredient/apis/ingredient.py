@@ -1,8 +1,10 @@
 from rest_framework import filters
 from rest_framework import generics
+from rest_framework import permissions
 
 from ingredient.models import Ingredient
 from ingredient.serializers.ingredient import IngredientSerializer
+from utils.permissions import ObjectIsRequestUser
 
 __all__ = (
     'IngredientSearchList',
@@ -17,6 +19,7 @@ class IngredientSearchList(generics.ListCreateAPIView):
     """
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, ObjectIsRequestUser,)
     filter_backends = (filters.DjangoFilterBackend,)
     filter_fields = ('name',)
 
@@ -33,6 +36,7 @@ class IngredientModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     PATCH DELETE
     """
     queryset = Ingredient.objects.all()
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
     serializer_class = IngredientSerializer
 
     # permission_classes = (
