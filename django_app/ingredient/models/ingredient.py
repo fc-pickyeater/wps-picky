@@ -15,4 +15,5 @@ class Ingredient(models.Model):
     # 단위
     unit = models.CharField(max_length=30)
     # 칼로리
-    cal = models.PositiveIntegerField(default=0)
+    # 칼로리 float 필드로 변경합니다. 데이터입력 해보니 소수점이 필요하네요. 8/2 joe
+    cal = models.FloatField(default=0)
