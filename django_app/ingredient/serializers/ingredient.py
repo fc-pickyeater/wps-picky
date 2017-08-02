@@ -13,6 +13,7 @@ class IngredientSerializer(serializers.ModelSerializer):
         model = Ingredient
         fields = (
             'pk',
+            'user',
             'name',
             'description',
             'unit',
