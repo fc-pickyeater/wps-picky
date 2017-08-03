@@ -32,9 +32,9 @@ class PickyUserManager(BaseUserManager):
         return user
 
 
-# user image 저장폴더이름 지정
-def user_img_directory(instance):
-    return 'media/user/{}'.format(instance.user.id)
+# user image 저장폴더이름 지정 (유저 pk가 발생하기전이라 작동되지않음) 8/3 joe
+# def user_img_directory(instance):
+#     return 'media/user/{}'.format(instance.user.id)
 
 
 class PickyUser(AbstractBaseUser):
@@ -51,7 +51,7 @@ class PickyUser(AbstractBaseUser):
     )
     # user 사진
     img_profile = models.ImageField(
-            upload_to=user_img_directory,
+            upload_to='user/%Y/%m/',
             blank=True,
             null=True
     )

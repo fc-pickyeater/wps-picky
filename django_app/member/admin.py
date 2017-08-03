@@ -20,6 +20,8 @@ class UserCreationForm(forms.ModelForm):
             'nickname',
             'img_profile',
             'content',
+            'id_type',
+            'is_admin',
         )
 
     def clean_password2(self):

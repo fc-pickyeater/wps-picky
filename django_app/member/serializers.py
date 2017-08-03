@@ -10,5 +10,8 @@ class PickyUserSerializer(serializers.ModelSerializer):
             'email',
             'nickname',
             'content',
-            'id_type',
+            # 'id_type',
+            'img_profile',
+            'password',
+            # 'password2',
         )
