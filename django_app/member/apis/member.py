@@ -7,6 +7,7 @@ __all__ = (
     'PickyUserList',
     'PickyUserDetail',
     'PickyUserCreate',
+    'PickyUserDelete',
 )
 
 
@@ -22,5 +23,10 @@ class PickyUserDetail(generics.RetrieveAPIView):
 
 
 class PickyUserCreate(generics.CreateAPIView):
+    queryset = PickyUser.objects.all()
+    serializer_class = PickyUserSerializer
+
+
+class PickyUserDelete(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserSerializer
