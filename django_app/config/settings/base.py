@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     ### add list ###
-    'django_extensions',
+    # django_extensions는 debug 파일로 옮깁니다. 8/2 Joe
+    # 'django_extensions',
     'rest_framework',
     'django_filters',
 
