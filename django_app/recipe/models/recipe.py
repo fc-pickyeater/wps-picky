@@ -8,7 +8,7 @@ __all__ = (
     'RecipeReview',
     'RecipeStepComment',
     'RecipeStep',
-    )
+)
 
 
 class Recipe(models.Model):
@@ -17,7 +17,7 @@ class Recipe(models.Model):
     """
     title = models.CharField(max_length=100)
     description = models.TextField()
-    # user = models.ForeignKey(PickyUser)
+    user = models.ForeignKey(PickyUser)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     # like_users = models.ManyToManyField(User)
@@ -62,10 +62,14 @@ class RecipeStep(models.Model):
     # 사진
     image_step = models.ImageField(blank=True)
 
+    class Meta:
+        unique_together = (
+            ('recipe', 'step'),
+        )
+
 
 class RecipeStepComment(models.Model):
     recipe_detail = models.ForeignKey(RecipeStep)
     # author = models.ForeignKey(PickyUser)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
-

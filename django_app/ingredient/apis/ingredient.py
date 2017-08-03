@@ -29,6 +29,9 @@ class IngredientSearchList(generics.ListCreateAPIView):
         elif self.request.method == 'GET':
             return IngredientSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 # ingredient modify and delete patch요청시 수정 delete요청시 삭제 postman 확인 - hong 8/1
 class IngredientModifyDelete(generics.RetrieveUpdateDestroyAPIView):
