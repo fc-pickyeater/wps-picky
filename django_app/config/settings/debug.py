@@ -26,5 +26,8 @@ DATABASES = {
     }
 }
 
+# Installed Applications
+INSTALLED_APPS += ['django_extensions']
+
 print('@@@@@@ DEBUG:', DEBUG)
 print('@@@@@@ ALLOWED_HOSTS:', ALLOWED_HOSTS)
