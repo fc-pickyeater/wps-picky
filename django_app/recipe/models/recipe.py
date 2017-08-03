@@ -40,7 +40,8 @@ class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe)
     # author = models.ForeignKey(PickyUser)
     content = models.TextField()
-    created_date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
     img_review = models.ImageField()
 
 
