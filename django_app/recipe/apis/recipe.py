@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework import permissions
 
 from recipe.models import Recipe
-from recipe.serializers.recipelist import RecipeSerializer
+from recipe.serializers.recipe import RecipeSerializer
 from utils.permissions import ObjectIsRequestUser
 
 __all__ = (
