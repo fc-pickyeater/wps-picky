@@ -17,5 +17,3 @@ class RecipeSerializer(serializers.ModelSerializer):
             'user',
         )
 
-
-
