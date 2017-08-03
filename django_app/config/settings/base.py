@@ -30,9 +30,10 @@ config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config_secret_common['django']['secret_key']
 
+# User model
+AUTH_USER_MODEL = 'member.PickyUser'
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,12 +43,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     ### add list ###
-    'django_extensions',
+    # django_extensions는 debug 파일로 옮깁니다. 8/2 Joe
+    # 'django_extensions',
     'rest_framework',
+    'django_filters',
 
-
-
+    'recipe',
+    'ingredient',
+    'member',
 ]
+# 8/1 hong 추가 search filter html보여주는듯? -hong 8/1
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
