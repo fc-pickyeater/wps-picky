@@ -20,6 +20,10 @@ class UserCreationForm(forms.ModelForm):
             'nickname',
             'img_profile',
             'content',
+            'id_type',
+            'is_admin',
+            'password1',
+            'password2',
         )
 
     def clean_password2(self):
@@ -44,7 +48,7 @@ class UserChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password = ReadOnlyPasswordHashField()
+    # password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = PickyUser
@@ -57,7 +61,8 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
-class UserAdmin(BaseUserAdmin):
+# class UserAdmin(BaseUserAdmin):
+class UserAdmin(admin.ModelAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
     add_form = UserCreationForm
@@ -68,9 +73,9 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'nickname', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('nickname',)}),
-        ('Permissions', {'fields': ('is_admin',)}),
+        (None, {'fields': ('email', 'password', 'img_profile',)}),
+        ('Personal info', {'fields': ('nickname', 'id_type',)}),
+        ('Permissions', {'fields': ('is_admin', 'is_active',)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.

@@ -4,7 +4,10 @@ from rest_framework import permissions
 
 from recipe.models import Recipe
 from recipe.serializers.recipe import RecipeSerializer
-from utils.permissions import ObjectIsRequestUser
+from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipe
+
+
+
 
 __all__ = (
     'RecipeList',
@@ -29,6 +32,9 @@ class RecipeList(generics.ListCreateAPIView):
         elif self.request.method == 'GET':
             return RecipeSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
 
 # 8/1 승팔씀
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
@@ -36,5 +42,5 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     PATCH DELETE
     """
     queryset = Recipe.objects.all()
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipe,)
     serializer_class = RecipeSerializer

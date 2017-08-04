@@ -32,6 +32,11 @@ class PickyUserManager(BaseUserManager):
         return user
 
 
+# user image 저장폴더이름 지정 (유저 pk가 발생하기전이라 작동되지않음) 8/3 joe
+# def user_img_directory(instance):
+#     return 'media/user/{}'.format(instance.user.id)
+
+
 class PickyUser(AbstractBaseUser):
     # user id
     email = models.EmailField(
@@ -46,7 +51,7 @@ class PickyUser(AbstractBaseUser):
     )
     # user 사진
     img_profile = models.ImageField(
-            upload_to='media/user',
+            upload_to='user/%Y/%m/',
             blank=True,
             null=True
     )
@@ -72,15 +77,15 @@ class PickyUser(AbstractBaseUser):
     # admin 페이지때문에 필수 : 8/1 Joe
     def get_full_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.nickname
 
     # admin 페이지때문에 필수 : 8/1 Joe
     def get_short_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.nickname
 
     def __str__(self):
-        return self.email
+        return self.nickname
 
     # admin 페이지때문에 필수 : 8/1 Joe
     def has_perm(self, perm, obj=None):
