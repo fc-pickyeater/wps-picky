@@ -7,17 +7,21 @@ __all__ = (
     # 'IngredientUpdateSerializer',
 )
 
+
 # ingredientserializer 생성 - hong 8/1
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = (
             'pk',
-            'user',
             'name',
             'description',
             'unit',
             'cal',
+
+        )
+        read_only_fields = (
+            'user',
 
         )
 
