@@ -28,29 +28,6 @@ class PickyUserDetailSerializer(serializers.ModelSerializer):
         )
 
 
-# PickyUser 생성
-# ImageField override -> 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
-class PickyUserCreateSerializer(serializers.ModelSerializer):
-    img_profile = Base64ImageField(
-            max_length=None,
-            use_url=True,
-    )
-
-    class Meta:
-        model = PickyUser
-        fields = (
-            'pk',
-            'email',
-            'nickname',
-            'content',
-            'img_profile',
-        )
-        # 전송되지만 JSON에 보이지않을 필드 지정
-        write_only_fields = (
-            'password',
-        )
-
-
 # 배포 후 이미지를 저장하기 위해 조사한 예시 8/4 Joe
 # 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
 from rest_framework import serializers
@@ -95,3 +72,26 @@ class Base64ImageField(serializers.ImageField):
         extension = "jpg" if extension == "jpeg" else extension
 
         return extension
+
+
+# PickyUser 생성
+# ImageField override -> 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
+class PickyUserCreateSerializer(serializers.ModelSerializer):
+    img_profile = Base64ImageField(
+            max_length=None,
+            use_url=True,
+    )
+
+    class Meta:
+        model = PickyUser
+        fields = (
+            'pk',
+            'email',
+            'nickname',
+            'content',
+            'img_profile',
+        )
+        # 전송되지만 JSON에 보이지않을 필드 지정
+        write_only_fields = (
+            'password',
+        )
