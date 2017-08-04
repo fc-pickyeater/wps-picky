@@ -1,36 +1,8 @@
-from rest_framework import serializers
-
-from .models import PickyUser
-
-
-class PickyUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PickyUser
-        fields = (
-            'pk',
-            'email',
-            'nickname',
-            'content',
-            'img_profile',
-            'password',
-        )
-
-
-class PickyUserDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PickyUser
-        fields = (
-            'pk',
-            'email',
-            'nickname',
-            'content',
-            'img_profile',
-        )
-
-
 # 배포 후 이미지를 저장하기 위해 조사한 예시 8/4 Joe
 # 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
 from rest_framework import serializers
+
+from ..models import PickyUser
 
 
 class Base64ImageField(serializers.ImageField):
@@ -90,6 +62,7 @@ class PickyUserCreateSerializer(serializers.ModelSerializer):
             'nickname',
             'content',
             'img_profile',
+            # 'password',
         )
         # 전송되지만 JSON에 보이지않을 필드 지정
         write_only_fields = (
