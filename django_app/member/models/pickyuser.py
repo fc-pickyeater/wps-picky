@@ -38,6 +38,17 @@ class PickyUserManager(BaseUserManager):
 
 
 class PickyUser(AbstractBaseUser):
+    USER_TYPE_PICKY = 'd'
+    USER_TYPE_FACEBOOK = 'f'
+    USER_TYPE_KAKAO = 'k'
+    USER_TYPE_NAVER = 'n'
+    USER_TYPE_CHOICES = (
+        (USER_TYPE_PICKY, 'Picky'),
+        (USER_TYPE_FACEBOOK, 'Facebook'),
+        (USER_TYPE_KAKAO, 'Kakao'),
+        (USER_TYPE_NAVER, 'Naver'),
+    )
+
     # user id
     email = models.EmailField(
             verbose_name='email',
@@ -61,7 +72,11 @@ class PickyUser(AbstractBaseUser):
     # facebook user : f
     # naver user : n
     # kakao user : k
-    id_type = models.CharField(default='d', max_length=1)
+    id_type = models.CharField(
+            max_length=1,
+            choices=USER_TYPE_CHOICES,
+            default=USER_TYPE_PICKY,
+            )
     # 활성화된 유저인가? admin 페이지때문에 필수 : 8/1 Joe
     is_active = models.BooleanField(default=True)
     # 관리자인가? admin 페이지때문에 필수 : 8/1 Joe
