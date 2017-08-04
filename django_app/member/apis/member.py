@@ -1,11 +1,11 @@
 from rest_framework import generics
 
-from ..serializers import PickyUserSerializer
+from ..serializers import PickyUserSerializer, PickyUserCreateSerializer, PickyUserDetailSerializer
 from ..models import PickyUser
 
 __all__ = (
     'PickyUserList',
-    'PickyUserDetail',
+    'PickyUserDetailUpdate',
     'PickyUserCreate',
     'PickyUserDelete',
 )
@@ -17,14 +17,14 @@ class PickyUserList(generics.ListAPIView):
     serializer_class = PickyUserSerializer
 
 
-class PickyUserDetail(generics.RetrieveAPIView):
+class PickyUserDetailUpdate(generics.RetrieveUpdateAPIView):
     queryset = PickyUser.objects.all()
-    serializer_class = PickyUserSerializer
+    serializer_class = PickyUserDetailSerializer
 
 
 class PickyUserCreate(generics.CreateAPIView):
     queryset = PickyUser.objects.all()
-    serializer_class = PickyUserSerializer
+    serializer_class = PickyUserCreateSerializer
 
 
 class PickyUserDelete(generics.DestroyAPIView):
