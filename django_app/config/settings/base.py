@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     # 'django_extensions',
     'rest_framework',
     'django_filters',
+    # user token 생성용 8/4 Joe
+    'rest_framework.authtoken',
 
     'recipe',
     'ingredient',
