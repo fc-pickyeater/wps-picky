@@ -44,4 +44,3 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipe,)
     serializer_class = RecipeSerializer
-
