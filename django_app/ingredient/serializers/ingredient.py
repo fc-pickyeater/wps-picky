@@ -25,6 +25,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 
         )
 
+
 # 8/1 기준 사용하지 않는 serializer
 # class IngredientUpdateSerializer(serializers.ModelSerializer):
 #     class Meta:
