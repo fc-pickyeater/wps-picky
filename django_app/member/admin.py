@@ -20,6 +20,10 @@ class UserCreationForm(forms.ModelForm):
             'nickname',
             'img_profile',
             'content',
+            'id_type',
+            'is_admin',
+            'password1',
+            'password2',
         )
 
     def clean_password2(self):
@@ -44,6 +48,8 @@ class UserChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
+    # password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    # password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
     password = ReadOnlyPasswordHashField()
 
     class Meta:
@@ -57,6 +63,7 @@ class UserChangeForm(forms.ModelForm):
         return self.initial["password"]
 
 
+# class UserAdmin(BaseUserAdmin):
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
@@ -68,25 +75,37 @@ class UserAdmin(BaseUserAdmin):
     list_display = ('email', 'nickname', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('nickname',)}),
-        ('Permissions', {'fields': ('is_admin',)}),
+        (None,
+            {'fields': ('email', 'password', 'nickname',)}
+         ),
+        ('Personal info',
+            {'fields': ('img_profile', 'content', 'id_type',)}
+         ),
+        ('Permissions',
+            {'fields': ('is_admin', 'is_active',)}
+         ),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'nickname', 'password1', 'password2')}
-         ),
+        (None, {'classes': ('wide',),
+                'fields': (
+                'email',
+                'nickname',
+                'password1',
+                'password2',
+                'img_profile',
+                'content',
+                'id_type',
+                'is_admin',
+                )},
+        ),
     )
+
     search_fields = ('email',)
     ordering = ('email',)
     filter_horizontal = ()
 
 
-# Now register the new UserAdmin...
 admin.site.register(PickyUser, UserAdmin)
-# ... and, since we're not using Django's built-in permissions,
-# unregister the Group model from admin.
-admin.site.unregister(Group)
+# admin.site.unregister(Group)

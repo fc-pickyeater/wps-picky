@@ -38,3 +38,8 @@ RUN         apt-get -y install nginx
 
 # supervisor install
 RUN         apt-get -y install supervisor
+
+
+
+
+
