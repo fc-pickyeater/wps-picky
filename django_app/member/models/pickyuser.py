@@ -1,5 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 __all__ = (
     'PickyUser',
@@ -8,9 +12,11 @@ __all__ = (
 
 class PickyUserManager(BaseUserManager):
     # create Manager : 작업하면서 내용 확인 필요 - 8/1 Joe
-    def create_user(self, email, nickname, password=None, img_profile=None, content=None):
+    def create_user(self, email, nickname, password, img_profile=None, content=None):
         if not email:
             raise ValueError('email을 입력하세요.')
+        if not nickname:
+            raise ValueError('Nickname을 입력하세요.')
 
         user = self.model(
                 email=self.normalize_email(email),
@@ -114,3 +120,11 @@ class PickyUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-# from rest_framework.authtoken import views
+from rest_framework.authtoken.views import obtain_auth_token
 
 from . import apis
 
@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'(?P<pk>\d+)/$', apis.PickyUserDetailUpdate.as_view()),
     url(r'(?P<pk>\d+)/delete/$', apis.PickyUserDelete.as_view()),
     url(r'^create/$', apis.PickyUserCreate.as_view()),
-    # url(r'^o/$', views.obtain_auth_token),
+    url(r'^o/$', obtain_auth_token),
 ]
