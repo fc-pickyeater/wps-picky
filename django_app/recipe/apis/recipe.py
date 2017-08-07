@@ -3,9 +3,9 @@ from rest_framework import permissions
 
 from recipe.models import Recipe
 from recipe.models import RecipeStep
-from recipe.serializers import RecipeStepListSerializer
+from recipe.serializers.recipestep import RecipeStepListSerializer
 from recipe.serializers.recipe import RecipeSerializer
-from utils.permissions import ObjectIsRequestRecipe, ObjectIsRequestUser
+from utils.permissions import ObjectIsRequestRecipeStep, ObjectIsRequestUser
 
 
 
@@ -56,5 +56,5 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     PATCH DELETE
     """
     queryset = Recipe.objects.all()
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipe,)
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)
     serializer_class = RecipeSerializer

@@ -1,7 +1,11 @@
 from rest_framework import serializers
 
 from recipe.models import Recipe
-from recipe.serializers import RecipeStepListSerializer
+from recipe.serializers.recipestep import RecipeStepListSerializer
+
+__all__ = (
+    'RecipeSerializer',
+)
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -20,4 +24,3 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'user',
         )
-

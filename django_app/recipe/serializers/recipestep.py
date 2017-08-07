@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from recipe.models import RecipeStep
+from recipe.models.recipe import RecipeStep
+from recipe.serializers.recipestep_comment import RecipeStepCommentListSerializer
 
 __all__ = (
     'RecipeCreateSerializer',
@@ -8,11 +9,13 @@ __all__ = (
     'RecipeModifySerializer',
 )
 
+
 # recipestepserializer 생성 - hong 8/1
 class RecipeCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeStep
         fields = (
+            'pk',
             'recipe',
             'step',
             'description',
@@ -23,6 +26,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
 
 
 class RecipeStepListSerializer(serializers.ModelSerializer):
+    comments = RecipeStepCommentListSerializer(many=True)
+
     class Meta:
         model = RecipeStep
         fields = (
@@ -30,6 +35,7 @@ class RecipeStepListSerializer(serializers.ModelSerializer):
             'description',
             'is_timer',
             'image_step',
+            'comments',
         )
 
 

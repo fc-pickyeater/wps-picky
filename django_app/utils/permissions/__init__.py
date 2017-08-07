@@ -11,7 +11,7 @@ class ObjectIsRequestUser(permissions.BasePermission):
         return obj.user == request.user
 
 
-class ObjectIsRequestRecipe(permissions.BasePermission):
+class ObjectIsRequestRecipeStep(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
