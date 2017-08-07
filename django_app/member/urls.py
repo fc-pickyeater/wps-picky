@@ -10,5 +10,5 @@ urlpatterns = [
     url(r'^create/$', apis.PickyUserCreate.as_view()),
     # url(r'^login/$', apis.PickyUserLogin.as_view()),
     # 로그인시, 토큰을 생성하는 url
-    url(r'^o/$', obtain_auth_token),
+    url(r'^login/$', obtain_auth_token),
 ]
