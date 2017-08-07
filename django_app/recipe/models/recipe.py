@@ -46,7 +46,7 @@ class RecipeReview(models.Model):
 
 class RecipeStep(models.Model):
     # 레시피
-    recipe = models.ForeignKey(Recipe)
+    recipe = models.ForeignKey(Recipe, related_name='recipes', on_delete=models.CASCADE)
     # 단계
     step = models.PositiveIntegerField(default=0)
     # 설명

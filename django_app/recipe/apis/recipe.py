@@ -1,36 +1,50 @@
-from rest_framework import filters
 from rest_framework import generics
 from rest_framework import permissions
 
 from recipe.models import Recipe
+from recipe.models import RecipeStep
+from recipe.serializers import RecipeStepListSerializer
 from recipe.serializers.recipe import RecipeSerializer
-from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipe
+from utils.permissions import ObjectIsRequestRecipe, ObjectIsRequestUser
 
 __all__ = (
-    'RecipeList',
+    'MyRecipeListView',
+    'RecipeListView',
+    'RecipeDetailView',
     'RecipeModifyDelete',
 )
 
 
 # 8/1 승팔씀
-class RecipeList(generics.ListCreateAPIView):
-    """
-    POST GET
-    """
-    queryset = Recipe.objects.all()
+class RecipeListView(generics.ListAPIView):
     serializer_class = RecipeSerializer
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
-    filter_backends = (filters.DjangoFilterBackend,)
-    filter_fields = ('title',)
+    queryset = Recipe.objects.all()
+
+
+# 레시피에 달려있는 레시피 스탭들을 보기위한 시리얼라이저
+class RecipeDetailView(generics.RetrieveAPIView):
+    serializer_class = RecipeStepListSerializer
+
+    def get_queryset(self):
+        recipe = RecipeStep.objects.all()
+        print(recipe)
+        return recipe#RecipeStep.objects.filter(recipe_id=recipe)
+
+
+# 8/3 hong 로그인 한 유저가 자기가 쓴 레시피 리스트를 볼 수 있게 만들었음
+class MyRecipeListView(generics.ListAPIView):
+    serializer_class = RecipeSerializer
+    permission_classes = (
+        permissions.IsAuthenticated, ObjectIsRequestUser,
+    )
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.recipe_set.filter(user_id=user)
 
     def get_serializer_class(self):
-        if self.request.method == 'POST':
+        if self.request.method == 'GET':
             return RecipeSerializer
-        elif self.request.method == 'GET':
-            return RecipeSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
 
 
 # 8/1 승팔씀
