@@ -6,6 +6,7 @@ from member.models import PickyUser
 __all__ = (
     'PickyUserSerializer',
     'PickyUserDetailSerializer',
+    'PickyUserUpdateSerializer',
 )
 
 
@@ -31,4 +32,18 @@ class PickyUserDetailSerializer(serializers.ModelSerializer):
             'nickname',
             'content',
             'img_profile',
+        )
+
+
+class PickyUserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PickyUser
+        fields = (
+            'pk',
+            'nickname',
+            'content',
+            'img_profile',
+        )
+        read_only_fields = (
+            'email',
         )

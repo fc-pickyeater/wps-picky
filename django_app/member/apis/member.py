@@ -3,17 +3,20 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
-from ..serializers import PickyAuthTokenSerializer
-from ..serializers import PickyUserSerializer, PickyUserDetailSerializer
+# from ..serializers import PickyAuthTokenSerializer
+from ..serializers import (PickyUserSerializer, PickyUserDetailSerializer, PickyUserTokenSerializer,
+                           PickyUserUpdateSerializer)
 from ..serializers import PickyUserCreateSerializer
 from ..models import PickyUser
 
 __all__ = (
     'PickyUserList',
-    'PickyUserDetailUpdate',
+    'PickyUserDetail',
     'PickyUserCreate',
     'PickyUserDelete',
     # 'PickyUserLogin',
+    'PickyUserLogout',
+    'PickyUserUpdate',
 )
 
 
@@ -25,9 +28,14 @@ class PickyUserList(generics.ListAPIView):
 
 
 # postman, 배포환경에서 GET만 정상작동 확인 8/4 Joe
-class PickyUserDetailUpdate(generics.RetrieveUpdateAPIView):
+class PickyUserDetail(generics.RetrieveAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserDetailSerializer
+
+
+class PickyUserUpdate(generics.UpdateAPIView):
+    queryset = PickyUser.objects.all()
+    serializer_class = PickyUserUpdateSerializer
 
 
 # postman, 배포환경에서 확인함. 데이터 생성은 되지만 password 저장되지않음 8/4 Joe
@@ -39,6 +47,11 @@ class PickyUserCreate(generics.CreateAPIView):
 class PickyUserDelete(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserSerializer
+
+
+class PickyUserLogout(generics.DestroyAPIView):
+    queryset = Token.objects.all()
+    serializer_class = PickyUserTokenSerializer
 
 
 
