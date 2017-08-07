@@ -5,6 +5,11 @@ from rest_framework import serializers
 from ..models import PickyUser
 
 
+__all__ = (
+    'PickyUserCreateSerializer',
+)
+
+
 class Base64ImageField(serializers.ImageField):
 
     def to_internal_value(self, data):
@@ -47,7 +52,7 @@ class Base64ImageField(serializers.ImageField):
 
 
 # PickyUser 생성
-# ImageField override -> 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
+# ImageField override -> 배포환경, 로컬에서 작동됨. 8/7 Joe
 class PickyUserCreateSerializer(serializers.ModelSerializer):
     img_profile = Base64ImageField(
             max_length=None,
@@ -62,9 +67,9 @@ class PickyUserCreateSerializer(serializers.ModelSerializer):
             'nickname',
             'content',
             'img_profile',
-            # 'password',
+            'password',
         )
         # 전송되지만 JSON에 보이지않을 필드 지정
         write_only_fields = (
-            'password',
+            # 'password',
         )

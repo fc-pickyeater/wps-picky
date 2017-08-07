@@ -5,6 +5,11 @@ from rest_framework import serializers
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 
+__all__ = (
+    'PickyAuthTokenSerializer',
+)
+
+
 class PickyAuthTokenSerializer(AuthTokenSerializer):
     email = serializers.CharField(label=_("Email"))
     password = serializers.CharField(label=_("Password"), style={'input_type': 'password'})

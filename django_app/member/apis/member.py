@@ -12,6 +12,7 @@ __all__ = (
     'PickyUserDetailUpdate',
     'PickyUserCreate',
     'PickyUserDelete',
+    'PickyUserLogin',
 )
 
 
@@ -44,6 +45,6 @@ class PickyUserLogin(generics.GenericAPIView):
     authentication_classes = (SessionAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
-    # def get
+
 
 
