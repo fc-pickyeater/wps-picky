@@ -1,5 +1,9 @@
+from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 __all__ = (
     'PickyUser',
@@ -8,13 +12,17 @@ __all__ = (
 
 class PickyUserManager(BaseUserManager):
     # create Manager : 작업하면서 내용 확인 필요 - 8/1 Joe
-    def create_user(self, email, nickname, password=None, img_profile=None, content=None):
+    def create_user(self, email, nickname, password, img_profile=None, content=None):
         if not email:
             raise ValueError('email을 입력하세요.')
+        if not nickname:
+            raise ValueError('Nickname을 입력하세요.')
 
         user = self.model(
                 email=self.normalize_email(email),
                 nickname=nickname,
+                content=content,
+                img_profile=img_profile,
         )
         user.set_password(password)
         user.save()
@@ -38,6 +46,17 @@ class PickyUserManager(BaseUserManager):
 
 
 class PickyUser(AbstractBaseUser):
+    USER_TYPE_PICKY = 'd'
+    USER_TYPE_FACEBOOK = 'f'
+    USER_TYPE_KAKAO = 'k'
+    USER_TYPE_NAVER = 'n'
+    USER_TYPE_CHOICES = (
+        (USER_TYPE_PICKY, 'Picky'),
+        (USER_TYPE_FACEBOOK, 'Facebook'),
+        (USER_TYPE_KAKAO, 'Kakao'),
+        (USER_TYPE_NAVER, 'Naver'),
+    )
+
     # user id
     email = models.EmailField(
             verbose_name='email',
@@ -49,9 +68,14 @@ class PickyUser(AbstractBaseUser):
             max_length=100,
             unique=True
     )
+    # password
+    password = models.CharField(
+            max_length=16,
+    )
     # user 사진
     img_profile = models.ImageField(
             upload_to='user/%Y/%m/',
+            # upload_to=user_img_directory(),
             blank=True,
             null=True
     )
@@ -61,7 +85,11 @@ class PickyUser(AbstractBaseUser):
     # facebook user : f
     # naver user : n
     # kakao user : k
-    id_type = models.CharField(default='d', max_length=1)
+    id_type = models.CharField(
+            max_length=1,
+            choices=USER_TYPE_CHOICES,
+            default=USER_TYPE_PICKY,
+            )
     # 활성화된 유저인가? admin 페이지때문에 필수 : 8/1 Joe
     is_active = models.BooleanField(default=True)
     # 관리자인가? admin 페이지때문에 필수 : 8/1 Joe
@@ -99,3 +127,10 @@ class PickyUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
