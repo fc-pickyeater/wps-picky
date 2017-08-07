@@ -17,3 +17,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'description',
             'recipes',
         )
+        read_only_fields = (
+            'user',
+        )
+
