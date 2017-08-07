@@ -1,5 +1,13 @@
 from rest_framework import serializers
-from .models import PickyUser
+
+from member.models import PickyUser
+
+
+__all__ = (
+    'PickyUserSerializer',
+    'PickyUserDetailSerializer',
+    'PickyUserUpdateSerializer',
+)
 
 
 class PickyUserSerializer(serializers.ModelSerializer):
@@ -27,18 +35,15 @@ class PickyUserDetailSerializer(serializers.ModelSerializer):
         )
 
 
-# PickyUser 생성
-class PickyUserCreateSerializer(serializers.ModelSerializer):
+class PickyUserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = PickyUser
         fields = (
             'pk',
-            'email',
             'nickname',
             'content',
             'img_profile',
         )
-        # 전송되지만 JSON에 보이지않을 필드 지정
-        write_only_fields = (
-            'password',
+        read_only_fields = (
+            'email',
         )
