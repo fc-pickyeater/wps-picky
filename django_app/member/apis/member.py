@@ -32,7 +32,7 @@ class PickyUserDetailUpdate(generics.RetrieveUpdateAPIView):
 
 # postman, 배포환경에서 확인함. 데이터 생성은 되지만 password 저장되지않음 8/4 Joe
 class PickyUserCreate(generics.CreateAPIView):
-    # queryset = PickyUser.objects.all()
+    queryset = PickyUser.objects.all()
     serializer_class = PickyUserCreateSerializer
 
 

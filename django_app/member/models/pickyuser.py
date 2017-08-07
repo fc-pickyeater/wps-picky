@@ -21,6 +21,8 @@ class PickyUserManager(BaseUserManager):
         user = self.model(
                 email=self.normalize_email(email),
                 nickname=nickname,
+                content=content,
+                img_profile=img_profile,
         )
         user.set_password(password)
         user.save()
@@ -66,9 +68,14 @@ class PickyUser(AbstractBaseUser):
             max_length=100,
             unique=True
     )
+    # password
+    password = models.CharField(
+            max_length=16,
+    )
     # user 사진
     img_profile = models.ImageField(
             upload_to='user/%Y/%m/',
+            # upload_to=user_img_directory(),
             blank=True,
             null=True
     )
