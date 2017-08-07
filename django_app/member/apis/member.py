@@ -3,8 +3,9 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
 
-from member.serializers.other import PickyUserSerializer, PickyUserDetailSerializer
-from member.serializers.signup import PickyUserCreateSerializer
+from ..serializers import PickyAuthTokenSerializer
+from ..serializers import PickyUserSerializer, PickyUserDetailSerializer
+from ..serializers import PickyUserCreateSerializer
 from ..models import PickyUser
 
 __all__ = (
@@ -12,7 +13,7 @@ __all__ = (
     'PickyUserDetailUpdate',
     'PickyUserCreate',
     'PickyUserDelete',
-    'PickyUserLogin',
+    # 'PickyUserLogin',
 )
 
 
@@ -40,10 +41,13 @@ class PickyUserDelete(generics.DestroyAPIView):
     serializer_class = PickyUserSerializer
 
 
-# 작업중 8/4 joe
-class PickyUserLogin(generics.GenericAPIView):
-    authentication_classes = (SessionAuthentication, BasicAuthentication)
-    permission_classes = (IsAuthenticated,)
+
+# 필요없음... 8/7 Joe
+# class PickyUserLogin(generics.GenericAPIView):
+#     # authentication_classes = (SessionAuthentication, BasicAuthentication)
+#     # permission_classes = (IsAuthenticated,)
+#     serializer_class = PickyAuthTokenSerializer
+
 
 
 

@@ -10,6 +10,8 @@ __all__ = (
 )
 
 
+# PickyUser 생성
+# ImageField override -> 배포환경, 로컬에서 작동됨. 8/7 Joe
 class Base64ImageField(serializers.ImageField):
 
     def to_internal_value(self, data):
