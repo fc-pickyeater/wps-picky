@@ -7,6 +7,7 @@ __all__ = (
     'RecipeCreateSerializer',
     'RecipeStepListSerializer',
     'RecipeModifySerializer',
+    # 'RecipeStepDeleteSerializer',
 )
 
 
@@ -31,6 +32,7 @@ class RecipeStepListSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeStep
         fields = (
+            'pk',
             'step',
             'description',
             'is_timer',
@@ -49,7 +51,13 @@ class RecipeModifySerializer(serializers.ModelSerializer):
             'timer',
             'image_step',
         )
+
         read_only_fields = (
+
             'recipe',
             'step',
         )
+
+# class RecipeStepDeleteSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = RecipeStep

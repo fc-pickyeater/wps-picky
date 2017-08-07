@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^step/(?P<pk>\d+)/$', apis.RecipeStepModifyView.as_view()),
     url(r'^step/comment/$', apis.RecipeStep_CommentListView.as_view()),
     url(r'^step/comment/create/$', apis.RecipeStep_CommentCreateView.as_view()),
+    url(r'^step/(?P<pk>\d+)/$', apis.RecipeStepModifyDeleteView.as_view()),
+
 ]

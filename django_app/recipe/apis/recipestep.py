@@ -1,7 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
 
-from member.models import PickyUser
 from recipe.models import RecipeStep
 from recipe.serializers import RecipeCreateSerializer
 from recipe.serializers import RecipeModifySerializer
@@ -21,3 +20,11 @@ class RecipeStepModifyView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)
     serializer_class = RecipeModifySerializer
 
+
+class RecipeStepModifyDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = RecipeStep.objects.all()
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)
+
+    def get_serializer_class(self):
+        if self.request.method == "PATCH":
+            return RecipeModifySerializer
