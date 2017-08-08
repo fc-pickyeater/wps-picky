@@ -9,6 +9,7 @@ from rest_framework.authtoken.models import Token
 import datetime
 import os
 
+from rest_framework.response import Response
 
 __all__ = (
     'PickyUser',
@@ -31,6 +32,7 @@ class PickyUserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save()
+        # token = Token.objects.get(user_id=user.pk)
         return user
 
     # createsuperuser manager : 디버그모드에서 확인완료 - 8/1 Joe
