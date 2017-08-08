@@ -19,6 +19,8 @@ STATICFILES_LOCATION = 'static'
 MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
 STATICFILES_STORAGE = 'config.storages.StaticStorage'
+TEMPLATEFILES_LOCATION = 'templates'
+TEMPLATEFILES_STORAGE = 'config.storages.TemplateStorage'
 
 # Static URLs
 STATIC_URL = '/static/'
@@ -28,8 +30,11 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
+
 # 임시 배포 디버그 허용
 DEBUG = True
+TEMPLATE_DIR = '/templates/'
+
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 
 # Database

@@ -32,6 +32,7 @@ class PickyUserDetailSerializer(serializers.ModelSerializer):
             'nickname',
             'content',
             'img_profile',
+            'id_type',
         )
 
 
@@ -40,10 +41,11 @@ class PickyUserUpdateSerializer(serializers.ModelSerializer):
         model = PickyUser
         fields = (
             'pk',
+            'email',
             'nickname',
             'content',
             'img_profile',
         )
         read_only_fields = (
-            'email',
+            # 'email',
         )
