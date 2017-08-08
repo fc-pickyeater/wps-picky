@@ -3,7 +3,7 @@ from rest_framework import serializers
 from recipe.models import RecipeStep
 
 __all__ = (
-    'RecipeCreateSerializer',
+    'RecipeStepCreateSerializer',
     'RecipeStepListSerializer',
     'RecipeModifySerializer',
     # 'RecipeStepDeleteSerializer',
@@ -11,7 +11,7 @@ __all__ = (
 
 
 # recipestepserializer 생성 - hong 8/1
-class RecipeCreateSerializer(serializers.ModelSerializer):
+class RecipeStepCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeStep
         fields = (
@@ -32,6 +32,7 @@ class RecipeStepListSerializer(serializers.ModelSerializer):
             'step',
             'description',
             'is_timer',
+            'timer',
             'image_step',
         )
 

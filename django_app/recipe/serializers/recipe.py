@@ -26,3 +26,22 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'user',
         )
+
+
+class RecipeCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        # Recipe 모델 사용
+        model = Recipe
+        fields = (
+            'pk',
+            'title',
+            'user',
+            'img_recipe',
+            'description',
+            'recipes',
+        )
+        # user는 수정되서는 안되기때문에 read_only_fields에 정의
+        read_only_fields = (
+            'user',
+        )
