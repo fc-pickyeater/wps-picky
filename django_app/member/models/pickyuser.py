@@ -94,7 +94,7 @@ class PickyUser(AbstractBaseUser):
             null=True
     )
     # user 인삿말
-    content = models.TextField(blank=True)
+    content = models.TextField(blank=True, null=True)
     # django user : d
     # facebook user : f
     # naver user : n

@@ -44,6 +44,10 @@ class PickyUserCreate(generics.CreateAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserCreateSerializer
 
+    def perform_create(self, serializer):
+        serializer.save()
+
+
 
 class PickyUserDelete(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()

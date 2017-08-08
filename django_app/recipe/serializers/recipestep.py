@@ -9,6 +9,7 @@ __all__ = (
     # 'RecipeStepDeleteSerializer',
 )
 
+
 # recipestepserializer 생성 - hong 8/1
 class RecipeCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -44,10 +45,11 @@ class RecipeModifySerializer(serializers.ModelSerializer):
             'is_timer',
             'timer',
             'image_step',
+            'recipe',
+            'step',
         )
 
         read_only_fields = (
-
             'recipe',
             'step',
         )

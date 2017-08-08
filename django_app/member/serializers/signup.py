@@ -23,6 +23,10 @@ class PickyUserCreateSerializer(serializers.Serializer):
     nickname = serializers.CharField(max_length=100)
     content = serializers.CharField(max_length=200)
 
+    # def fields(self):
+    #     {'pk': self.instance.pk,
+    #      }
+
     def validate_username(self, username):
         if PickyUser.objects.filter(email=username).exists():
             raise serializers.ValidationError('다른 사용자가 사용 중인 email입니다.')

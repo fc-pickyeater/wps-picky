@@ -3,6 +3,7 @@ from rest_framework import serializers
 from recipe.models import Recipe
 from recipe.serializers import RecipeStepListSerializer
 
+
 # Recipe 조회, 수정, 삭제에 사용되는 Serializer
 class RecipeSerializer(serializers.ModelSerializer):
     # Recipe안에 RecipeStep들을 보여주기위해
@@ -16,6 +17,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'title',
+            'user',
             'img_recipe',
             'description',
             'recipes',
