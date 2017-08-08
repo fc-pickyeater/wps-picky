@@ -28,8 +28,8 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
-# 배포모드니까 DEBUG는 False
-DEBUG = False
+# 임시 배포 디버그 허용
+DEBUG = True
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 
 # Database
