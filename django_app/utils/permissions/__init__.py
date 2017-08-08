@@ -19,14 +19,3 @@ class ObjectIsRequestRecipeStep(permissions.BasePermission):
             if obj.recipe.user == request.user:
                 return True
 
-
-class ObjectIsRequestRecipe(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        print(obj.user)
-        # 읽기 전용 권한 검증
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        # 작성자인지 확인
-        if obj.user == request.user:
-            return True

@@ -5,7 +5,7 @@ from member.models import PickyUser
 from recipe.models import RecipeStep
 from recipe.serializers import RecipeCreateSerializer
 from recipe.serializers import RecipeModifySerializer
-from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipe, ObjectIsRequestRecipeStep
+from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipeStep
 
 
 # recipecreateview 생성 - hong 8/1
