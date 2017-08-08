@@ -63,6 +63,6 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
     # 퍼미션 클래스는 IsAuthenticated와 커스텀 퍼미션 ObjectsIsRequestRecipe 사용
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipe,)
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
     # RecipeSerializer 사용
     serializer_class = RecipeSerializer
