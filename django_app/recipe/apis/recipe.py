@@ -3,7 +3,7 @@ from rest_framework import permissions
 
 from recipe.models import Recipe
 from recipe.models import RecipeStep
-from recipe.serializers.recipe import RecipeSerializer
+from recipe.serializers.recipe import RecipeSerializer, RecipeCreateSerializer
 from recipe.serializers.recipestep import RecipeStepListSerializer
 from utils.permissions import ObjectIsRequestUser
 
@@ -12,6 +12,7 @@ __all__ = (
     'RecipeListView',
     'RecipeDetailView',
     'RecipeModifyDelete',
+    'RecipeCreateView',
 )
 
 
@@ -21,6 +22,14 @@ class RecipeListView(generics.ListAPIView):
     serializer_class = RecipeSerializer
     # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
+
+
+# 레시피 생성하는 API 테스트용으로 짠코드 - 8/7 hong
+class RecipeCreateView(generics.CreateAPIView):
+    serializer_class = RecipeCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 # 레시피에 달려있는 레시피 스탭들을 보기위한 시리얼라이저

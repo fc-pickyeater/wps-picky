@@ -38,7 +38,7 @@ class Recipe(models.Model):
 
 class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe)
-    # author = models.ForeignKey(PickyUser)
+    # user = models.ForeignKey(PickyUser)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -71,6 +71,6 @@ class RecipeStep(models.Model):
 
 class RecipeStepComment(models.Model):
     recipe_step = models.ForeignKey(RecipeStep, related_name='comments', on_delete=models.CASCADE)
-    author = models.ForeignKey(PickyUser)
+    user = models.ForeignKey(PickyUser)
     content = models.TextField(max_length=256)
     created_date = models.DateTimeField(auto_now_add=True)

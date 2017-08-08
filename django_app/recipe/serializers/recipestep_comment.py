@@ -5,6 +5,7 @@ from recipe.models.recipe import RecipeStepComment
 __all__ = (
     'RecipeStepCommentListSerializer',
     'RecipeStepCommentCreateSerializer',
+    'RecipeStepCommentModifySerializer',
 )
 
 
@@ -13,9 +14,14 @@ class RecipeStepCommentListSerializer(serializers.ModelSerializer):
         model = RecipeStepComment
 
         fields = (
-            'recipe_step_id',
-            'author_id',
+            'id',
+            'recipe_step',
+            'user',
             'content',
+        )
+        read_only_fields = (
+            'recipe_step',
+            'user',
         )
 
 
@@ -25,11 +31,31 @@ class RecipeStepCommentCreateSerializer(serializers.ModelSerializer):
 
         fields = (
             'pk',
+            'user',
+            'recipe_step',
             'content',
+            'created_date',
         )
 
         read_only_fields = (
-            'author_id',
+            'user',
             'recipe_step',
             'created_date',
+        )
+
+
+class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecipeStepComment
+
+        fields = (
+            'user',
+            'recipe_step',
+            'content',
+            'created_date',  # model에 modify_date 만들어서 교체해야할듯? - 8/7 hong
+        )
+        read_only_fields = (
+            'created_date',
+            'user',
+            'recipe_step',
         )

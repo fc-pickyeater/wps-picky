@@ -4,7 +4,7 @@ from recipe.models.recipe import RecipeStep
 from recipe.serializers.recipestep_comment import RecipeStepCommentListSerializer
 
 __all__ = (
-    'RecipeCreateSerializer',
+    'RecipeCreateStepSerializer',
     'RecipeStepListSerializer',
     'RecipeModifySerializer',
     # 'RecipeStepDeleteSerializer',
@@ -12,7 +12,7 @@ __all__ = (
 
 
 # recipestepserializer 생성 - hong 8/1
-class RecipeCreateSerializer(serializers.ModelSerializer):
+class RecipeCreateStepSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeStep
         fields = (
