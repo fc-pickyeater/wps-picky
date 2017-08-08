@@ -27,18 +27,19 @@ class PickyUserList(generics.ListAPIView):
     serializer_class = PickyUserSerializer
 
 
-# postman, 배포환경에서 GET만 정상작동 확인 8/4 Joe
+# postman, 배포환경에서 정상작동 확인 8/7 Joe
 class PickyUserDetail(generics.RetrieveAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserDetailSerializer
 
 
+# detail에서 분리. email 수정할 수 없게 바꿔야함 8/7 Joe
 class PickyUserUpdate(generics.UpdateAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserUpdateSerializer
 
 
-# postman, 배포환경에서 확인함. 데이터 생성은 되지만 password 저장되지않음 8/4 Joe
+# postman에서 img_profile 값이 null로 반환됨. DB에는 저장됨. 배포환경에서 500에러 8/7 Joe
 class PickyUserCreate(generics.CreateAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserCreateSerializer
