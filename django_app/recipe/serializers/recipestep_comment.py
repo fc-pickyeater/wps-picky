@@ -24,10 +24,12 @@ class RecipeStepCommentCreateSerializer(serializers.ModelSerializer):
         model = RecipeStepComment
 
         fields = (
+            'pk',
             'content',
         )
 
         read_only_fields = (
             'author_id',
+            'recipe_step',
             'created_date',
         )

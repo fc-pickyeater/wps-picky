@@ -56,5 +56,8 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     PATCH DELETE
     """
     queryset = Recipe.objects.all()
+    # 8/8 hong 주석추가
+    # 로그인한 유저만 수정 삭제가 가능
+    # 인증에 관련된 부분은 ObjectsIsRequestRecipeStep 참조
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)
     serializer_class = RecipeSerializer

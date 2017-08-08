@@ -14,13 +14,6 @@ class RecipeStepCreateView(generics.CreateAPIView):
     serializer_class = RecipeCreateSerializer
 
 
-# recipemodifyview 생성 - hong 8/2
-class RecipeStepModifyView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = RecipeStep.objects.all()
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)
-    serializer_class = RecipeModifySerializer
-
-
 class RecipeStepModifyDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = RecipeStep.objects.all()
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)

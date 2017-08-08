@@ -23,5 +23,8 @@ class RecipeStep_CommentCreateView(generics.CreateAPIView):
     permission_classes = (
         permissions.IsAuthenticated,
     )
+    serializer_class = RecipeStepCommentCreateSerializer
 
-
+    def perform_create(self, serializer):
+        recipe_step = get_object_or_404(RecipeStep, pk=self.request.data.get('recipe_step'))
+        serializer.save(author=self.request.user, recipe_step=recipe_step)
