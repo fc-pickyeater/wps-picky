@@ -1,3 +1,5 @@
+import re
+
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
@@ -40,9 +42,10 @@ class PickyUserManager(BaseUserManager):
         return user
 
 
-# user image 저장폴더이름 지정 (유저 pk가 발생하기전이라 작동되지않음) 8/3 joe
-# def user_img_directory(instance):
-#     return 'media/user/{}'.format(instance.user.id)
+# user image 저장폴더이름 지정 - user email의 특수문자를 제외한 폴더에 이미지 저장
+def user_img_directory(instance, filename):
+    plain_email = instance.email.replace("@", "_").replace(".", "_")
+    return 'user/{dir}/{filename}'.format(dir=plain_email, filename=filename)
 
 
 class PickyUser(AbstractBaseUser):
@@ -74,8 +77,9 @@ class PickyUser(AbstractBaseUser):
     )
     # user 사진
     img_profile = models.ImageField(
-            upload_to='user/%Y/%m/',
-            # upload_to=user_img_directory(),
+            # upload_to='user/%Y/%m/',
+            # 위의 user_img_directory 함수에서 정해진 폴더에 저장
+            upload_to=user_img_directory,
             blank=True,
             null=True
     )
