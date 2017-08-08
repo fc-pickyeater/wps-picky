@@ -19,6 +19,8 @@ STATICFILES_LOCATION = 'static'
 MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'config.storages.MediaStorage'
 STATICFILES_STORAGE = 'config.storages.StaticStorage'
+TEMPLATEFILES_LOCATION = 'templates'
+TEMPLATEFILES_STORAGE = 'config.storages.TemplateStorage'
 
 # Static URLs
 STATIC_URL = '/static/'
@@ -27,6 +29,8 @@ STATIC_URL = '/static/'
 # Media URL
 MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
+
+TEMPLATE_DIR = '/templates/'
 
 # 배포모드니까 DEBUG는 False
 DEBUG = False
