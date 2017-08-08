@@ -18,28 +18,36 @@ __all__ = (
 )
 
 
-# 8/1 승팔씀
+# 레시피 리스트 조회 ListViewAPIView 사용
 class RecipeListView(generics.ListAPIView):
+    # serializer는 RecipeSerializer 사용
     serializer_class = RecipeSerializer
+    # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
 
 
 # 레시피에 달려있는 레시피 스탭들을 보기위한 시리얼라이저
 class RecipeDetailView(generics.RetrieveAPIView):
+    # RecipeStep의 List를 출력하기위한 Serializer 사용
     serializer_class = RecipeStepListSerializer
 
+    # RecipeStep(Recipe에 ForeignKey)의 object들을
+    # queryset으로 가져와서 recipe에 할당 후 리턴
     def get_queryset(self):
         recipe = RecipeStep.objects.all()
-        print(recipe)
-        return recipe#RecipeStep.objects.filter(recipe_id=recipe)
+        # RecipeStep.objects.filter(recipe_id=recipe)
+        return recipe
 
 
-# 8/3 hong 로그인 한 유저가 자기가 쓴 레시피 리스트를 볼 수 있게 만들었음
+# 마이페이지에서 자신이 작성한 Recipe 목록 확인
 class MyRecipeListView(generics.ListAPIView):
+    # RecipeSerializer 사용
     serializer_class = RecipeSerializer
+    # IsAuthenticated 클래스와 커스텀 퍼미션 ObjectIsRequestUser 사용
     permission_classes = (
         permissions.IsAuthenticated, ObjectIsRequestUser,
     )
+
 
     def get_queryset(self):
         user = self.request.user
@@ -50,11 +58,11 @@ class MyRecipeListView(generics.ListAPIView):
             return RecipeSerializer
 
 
-# 8/1 승팔씀
+# Recipe 수정 삭제
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
-    """
-    PATCH DELETE
-    """
+    # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
+    # 퍼미션 클래스는 IsAuthenticated와 커스텀 퍼미션 ObjectsIsRequestRecipe 사용
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipe,)
+    # RecipeSerializer 사용
     serializer_class = RecipeSerializer
