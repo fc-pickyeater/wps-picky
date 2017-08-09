@@ -47,5 +47,5 @@ class PickyUserUpdateSerializer(serializers.ModelSerializer):
             'img_profile',
         )
         read_only_fields = (
-            # 'email',
+            'email',
         )
