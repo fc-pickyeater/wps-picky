@@ -1,7 +1,9 @@
+import os
 from django.db import models
 
 from ingredient.models import Ingredient
 from member.models import PickyUser
+import datetime
 
 __all__ = (
     'Recipe',
@@ -9,6 +11,25 @@ __all__ = (
     'RecipeStepComment',
     'RecipeStep',
 )
+
+
+def recipe_img_directory(instance, filename):
+    recipe_img_path = '{date}-{title}-{user}-{microsecond}'.format(
+            date=datetime.datetime.now().strftime('%Y-%m-%d'),
+            title=instance.title,
+            user=instance.user.pk,
+            microsecond=datetime.datetime.now().microsecond,
+    )
+    recipe_img_filename = '00-{title}-{microsecond}{extension}'.format(
+            title=instance.title,
+            microsecond=datetime.datetime.now().microsecond,
+            extension=os.path.splitext(filename)[1],
+    )
+    return 'recipe/{path}/{filename}'.format(
+            path=recipe_img_path,
+            filename=recipe_img_filename,
+    )
+
 
 
 class Recipe(models.Model):
@@ -20,7 +41,7 @@ class Recipe(models.Model):
     user = models.ForeignKey(PickyUser)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    # like_users = models.ManyToManyField(User)
+    # like_users = models.ManyToManyField(PickyUser)
     like_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)
     ingredient = models.ManyToManyField(
@@ -32,13 +53,16 @@ class Recipe(models.Model):
     # rate = models.ManyToManyField(Rate)
     # bookmark = models.ManyToManyField(Bookmark)
     rate_sum = models.PositiveIntegerField(default=0)
-    img_recipe = models.ImageField(blank=True)
+    img_recipe = models.ImageField(
+            upload_to=recipe_img_directory,
+            blank=True
+    )
     cal_sum = models.PositiveIntegerField(default=0)
 
 
 class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe)
-    # author = models.ForeignKey(PickyUser)
+    user = models.ForeignKey(PickyUser)
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -71,6 +95,6 @@ class RecipeStep(models.Model):
 
 class RecipeStepComment(models.Model):
     recipe_detail = models.ForeignKey(RecipeStep)
-    # author = models.ForeignKey(PickyUser)
+    user = models.ForeignKey(PickyUser)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)

@@ -3,14 +3,15 @@ from rest_framework import serializers
 from recipe.models import RecipeStep
 
 __all__ = (
-    'RecipeCreateSerializer',
+    'RecipeStepCreateSerializer',
     'RecipeStepListSerializer',
     'RecipeModifySerializer',
     # 'RecipeStepDeleteSerializer',
 )
 
+
 # recipestepserializer 생성 - hong 8/1
-class RecipeCreateSerializer(serializers.ModelSerializer):
+class RecipeStepCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeStep
         fields = (
@@ -31,6 +32,7 @@ class RecipeStepListSerializer(serializers.ModelSerializer):
             'step',
             'description',
             'is_timer',
+            'timer',
             'image_step',
         )
 
@@ -44,10 +46,11 @@ class RecipeModifySerializer(serializers.ModelSerializer):
             'is_timer',
             'timer',
             'image_step',
+            'recipe',
+            'step',
         )
 
         read_only_fields = (
-
             'recipe',
             'step',
         )
