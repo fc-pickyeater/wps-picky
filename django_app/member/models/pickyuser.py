@@ -6,6 +6,10 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+import datetime
+import os
+
+from rest_framework.response import Response
 
 __all__ = (
     'PickyUser',
@@ -28,6 +32,7 @@ class PickyUserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save()
+        # token = Token.objects.get(user_id=user.pk)
         return user
 
     # createsuperuser manager : 디버그모드에서 확인완료 - 8/1 Joe
@@ -43,8 +48,15 @@ class PickyUserManager(BaseUserManager):
 
 
 # user image 저장폴더이름 지정 - user email의 특수문자를 제외한 폴더에 이미지 저장
+# 저장되는 파일이름은 nickname-날짜-밀리세컨드.기존확장자
 def user_img_directory(instance, filename):
     plain_email = instance.email.replace("@", "_").replace(".", "_")
+    filename = '{nickname}-{date}-{microsecond}{extension}'.format(
+            nickname=instance.nickname,
+            date=datetime.datetime.now().strftime('%Y-%m-%d'),
+            microsecond=datetime.datetime.now().microsecond,
+            extension=os.path.splitext(filename)[1],
+    )
     return 'user/{dir}/{filename}'.format(dir=plain_email, filename=filename)
 
 
@@ -84,7 +96,7 @@ class PickyUser(AbstractBaseUser):
             null=True
     )
     # user 인삿말
-    content = models.TextField(blank=True)
+    content = models.TextField(blank=True, null=True)
     # django user : d
     # facebook user : f
     # naver user : n

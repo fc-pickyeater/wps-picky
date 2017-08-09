@@ -2,7 +2,7 @@ from rest_framework import generics
 from rest_framework import permissions
 
 from recipe.models import RecipeStep
-from recipe.serializers import RecipeCreateStepSerializer
+from recipe.serializers import RecipeStepCreateSerializer
 from recipe.serializers import RecipeModifySerializer
 from recipe.serializers import RecipeStepListSerializer
 from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipeStep
@@ -12,7 +12,7 @@ from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipeStep
 class RecipeStepCreateView(generics.CreateAPIView):
     queryset = RecipeStep.objects.all()
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
-    serializer_class = RecipeCreateStepSerializer
+    serializer_class = RecipeStepCreateSerializer
 
 
 # 승팔씀

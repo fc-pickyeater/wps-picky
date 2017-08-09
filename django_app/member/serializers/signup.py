@@ -1,9 +1,9 @@
 # 배포 후 이미지를 저장하기 위해 조사한 예시 8/4 Joe
 # 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 
 from ..models import PickyUser
-
 
 __all__ = (
     'PickyUserCreateSerializer',
@@ -13,20 +13,29 @@ __all__ = (
 # PickyUser 생성
 # ImageField 로컬에서 작동됨. 8/7 Joe
 class PickyUserCreateSerializer(serializers.Serializer):
+    # queryset = Token.objects.all()
+    # token = AuthTokenSerializer(queryset)
+    # token = PickyUserTokenSerializer(queryset)
+    # pk = serializers.IntegerField()
     img_profile = serializers.ImageField(
-            # max_length=None,
-            # use_url=True,
+            max_length=None,
+            use_url=True,
+            write_only=True,
+            allow_null=True,
+            required=False,
     )
-    username = serializers.CharField(max_length=100)
+    email = serializers.CharField(max_length=100)
     password1 = serializers.CharField(write_only=True)
     password2 = serializers.CharField(write_only=True)
     nickname = serializers.CharField(max_length=100)
-    content = serializers.CharField(max_length=200)
+    content = serializers.CharField(max_length=200, allow_null=True, required=False)
 
-    def validate_username(self, username):
-        if PickyUser.objects.filter(email=username).exists():
+    # token = serializers.CharField(max_length=100)
+
+    def validate_email(self, email):
+        if PickyUser.objects.filter(email=email).exists():
             raise serializers.ValidationError('다른 사용자가 사용 중인 email입니다.')
-        return username
+        return email
 
     def validate_nickname(self, nickname):
         if PickyUser.objects.filter(nickname=nickname).exists():
@@ -39,16 +48,26 @@ class PickyUserCreateSerializer(serializers.Serializer):
         return data
 
     def save(self, *args, **kwargs):
-        username = self.validated_data.get('username')
+        email = self.validated_data.get('email')
         password = self.validated_data.get('password1')
         nickname = self.validated_data.get('nickname')
         img_profile = self.validated_data.get('img_profile')
         content = self.validated_data.get('content')
         user = PickyUser.objects.create_user(
-                email=username,
+                email=email,
                 password=password,
                 nickname=nickname,
                 img_profile=img_profile,
                 content=content,
         )
-        return user
+        user_token = Token.objects.get(user_id=user.pk)
+        print(user_token)
+        return user_token
+
+        # def fields(self):
+
+
+
+        # print(token.data)
+        # print(Token.objects.get())
+        # print(queryset)

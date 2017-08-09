@@ -18,7 +18,7 @@ class IngredientSerializer(serializers.ModelSerializer):
             'description',
             'unit',
             'cal',
-
+            'user',
         )
         read_only_fields = (
             'user',

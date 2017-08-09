@@ -14,6 +14,23 @@ STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [TEMPLATE_DIR],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 # 디버그모드니까 DEBUG는 True
 DEBUG = True
 ALLOWED_HOSTS = config_secret_debug['django']['allowed_hosts']

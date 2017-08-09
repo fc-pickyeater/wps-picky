@@ -1,11 +1,11 @@
 from rest_framework import generics
 from rest_framework import permissions
-
-from recipe.models import Recipe
-from recipe.models import RecipeStep
-from recipe.serializers.recipe import RecipeSerializer, RecipeCreateSerializer
-from recipe.serializers.recipestep import RecipeStepListSerializer
-from utils.permissions import ObjectIsRequestUser
+from recipe.serializers import RecipeStepCreateSerializer
+from ..models import Recipe
+from ..models import RecipeStep
+from ..serializers import RecipeStepListSerializer
+from ..serializers.recipe import RecipeSerializer, RecipeCreateSerializer
+from utils.permissions import ObjectIsRequestRecipe, ObjectIsRequestUser
 
 __all__ = (
     'MyRecipeListView',
@@ -13,6 +13,8 @@ __all__ = (
     'RecipeDetailView',
     'RecipeModifyDelete',
     'RecipeCreateView',
+    'RecipeCreateForFDS',
+    'RecipeStepCreateForFDS',
 )
 
 
@@ -57,7 +59,9 @@ class MyRecipeListView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.recipe_set.filter(user_id=user)
+        # return user.recipe_set.all()
 
+    # method 확인, 필요한지... 8/9 joe
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return RecipeSerializer
@@ -73,3 +77,28 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
     # RecipeSerializer 사용
     serializer_class = RecipeSerializer
+
+
+class RecipeCreateForFDS(generics.CreateAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+class RecipeStepCreateForFDS(generics.CreateAPIView):
+    queryset = RecipeStep.objects.all()
+    serializer_class = RecipeStepCreateSerializer
+
+    # def get_queryset(self):
+    #     recipe = self.request.data['recipe']
+    #     return RecipeStep.objects.filter(recipe=recipe)
+
+    # def perform_create(self, serializer):
+    #     serializer.save(recipe=self.request.data['recipe'])
+
+
+
+
+

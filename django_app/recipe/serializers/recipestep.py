@@ -4,7 +4,7 @@ from recipe.models.recipe import RecipeStep
 from recipe.serializers.recipestep_comment import RecipeStepCommentListSerializer
 
 __all__ = (
-    'RecipeCreateStepSerializer',
+    'RecipeStepCreateSerializer',
     'RecipeStepListSerializer',
     'RecipeModifySerializer',
     # 'RecipeStepDeleteSerializer',
@@ -12,7 +12,7 @@ __all__ = (
 
 
 # recipestepserializer 생성 - hong 8/1
-class RecipeCreateStepSerializer(serializers.ModelSerializer):
+class RecipeStepCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = RecipeStep
         fields = (
@@ -36,6 +36,7 @@ class RecipeStepListSerializer(serializers.ModelSerializer):
             'step',
             'description',
             'is_timer',
+            'timer',
             'image_step',
             'comments',
         )
@@ -50,10 +51,11 @@ class RecipeModifySerializer(serializers.ModelSerializer):
             'is_timer',
             'timer',
             'image_step',
+            'recipe',
+            'step',
         )
 
         read_only_fields = (
-
             'recipe',
             'step',
         )
