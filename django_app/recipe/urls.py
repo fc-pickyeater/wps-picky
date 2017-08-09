@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/$', apis.RecipeModifyDelete.as_view()),
     url(r'^detail/(?P<pk>\d+)/$', apis.RecipeDetailView.as_view()),
     # recipe step
-    url(r'^step/$', apis.RecipeStepCreateView.as_view()),
+    # url(r'^step/$', apis.RecipeStepCreateView.as_view()),
     # recipestepcomment
     url(r'^step/comment/$', apis.RecipeStepCommentListView.as_view()),
     url(r'^step/(?P<pk>\d+)/comment/create/$', apis.RecipeStepCommentCreateView.as_view()),
@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^create/$', apis.RecipeCreateForFDS.as_view()),
 
     # recipe step
-    url(r'^step/$', apis.RecipeStepCreateView.as_view()),
+    # url(r'^step/$', apis.RecipeStepCreateView.as_view()),
     url(r'^step/create/$', apis.RecipeStepCreateForFDS.as_view()),
     url(r'^step/(?P<pk>\d+)/$', apis.RecipeStepModifyDeleteView.as_view()),
 ]
