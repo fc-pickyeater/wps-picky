@@ -4,7 +4,6 @@ from . import apis
 
 urlpatterns = [
     url(r'^$', apis.RecipeListView.as_view()),
-    url(r'^create/$', apis.RecipeCreateView.as_view()),
     url(r'^(?P<pk>\d+)/$', apis.RecipeModifyDelete.as_view()),
     url(r'^detail/(?P<pk>\d+)/$', apis.RecipeDetailView.as_view()),
     # recipe step
