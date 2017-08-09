@@ -1,9 +1,10 @@
+import datetime
 import os
+
 from django.db import models
 
 from ingredient.models import Ingredient
 from member.models import PickyUser
-import datetime
 
 __all__ = (
     'Recipe',
@@ -13,14 +14,14 @@ __all__ = (
 )
 
 
+# 레시피 사진이 저장되는 경로와 파일 이름을 바꿔주는 함수
 def recipe_img_directory(instance, filename):
-    recipe_img_path = '{date}-{title}-{user}-{microsecond}'.format(
+    recipe_img_path = u'{date}-{title}-{user}'.format(
             date=datetime.datetime.now().strftime('%Y-%m-%d'),
             title=instance.title,
             user=instance.user.pk,
-            microsecond=datetime.datetime.now().microsecond,
     )
-    recipe_img_filename = '00-{title}-{microsecond}{extension}'.format(
+    recipe_img_filename = u'00-{title}-{microsecond}{extension}'.format(
             title=instance.title,
             microsecond=datetime.datetime.now().microsecond,
             extension=os.path.splitext(filename)[1],
@@ -30,6 +31,24 @@ def recipe_img_directory(instance, filename):
             filename=recipe_img_filename,
     )
 
+
+# 레시피 스텝 사진이 저장되는 경로와 파일 이름을 바꿔주는 함수
+def recipe_step_img_directory(instance, filename):
+    recipe_img_path = u'{date}-{title}-{user}'.format(
+            date=datetime.datetime.now().strftime('%Y-%m-%d'),
+            title=instance.recipe.title,
+            user=instance.recipe.user.pk,
+    )
+    recipe_step_img_filename = u'{step}-{title}-{microsecond}{extension}'.format(
+            step=str(instance.step).rjust(2, 'd'),
+            title=instance.recipe.title,
+            microsecond=datetime.datetime.now().microsecond,
+            extension=os.path.splitext(filename)[1],
+    )
+    return 'recipe/{path}/{filename}'.format(
+            path=recipe_img_path,
+            filename=recipe_step_img_filename,
+    )
 
 
 class Recipe(models.Model):
@@ -45,9 +64,9 @@ class Recipe(models.Model):
     like_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)
     ingredient = models.ManyToManyField(
-        Ingredient,
-        related_name='RecipeIngredient',
-        through='RecipeIngredient',
+            Ingredient,
+            related_name='RecipeIngredient',
+            through='RecipeIngredient',
     )
     # tag = models.ManyToManyField(Tag)
     # rate = models.ManyToManyField(Rate)
@@ -55,6 +74,7 @@ class Recipe(models.Model):
     rate_sum = models.PositiveIntegerField(default=0)
     img_recipe = models.ImageField(
             upload_to=recipe_img_directory,
+            # upload_to='recipe/',
             blank=True
     )
     cal_sum = models.PositiveIntegerField(default=0)
@@ -85,7 +105,7 @@ class RecipeStep(models.Model):
     # 조리시간
     timer = models.PositiveIntegerField(default=0)
     # 사진
-    image_step = models.ImageField(blank=True)
+    image_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
 
     class Meta:
         unique_together = (
