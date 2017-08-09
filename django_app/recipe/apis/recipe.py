@@ -45,17 +45,18 @@ class RecipeCreateView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 
-# 레시피에 달려있는 레시피 스탭들을 보기위한 시리얼라이저
+# 레시피와 레시피에 달려있는 레시피 스탭들을 보기위한 시리얼라이저
 class RecipeDetailView(generics.RetrieveAPIView):
     # RecipeStep의 List를 출력하기위한 Serializer 사용
-    serializer_class = RecipeStepListSerializer
+    serializer_class = RecipeSerializer
+    queryset = Recipe.objects.all()
 
     # RecipeStep(Recipe에 ForeignKey)의 object들을
     # queryset으로 가져와서 recipe에 할당 후 리턴
-    def get_queryset(self):
-        recipe = RecipeStep.objects.all()
-        # RecipeStep.objects.filter(recipe_id=recipe)
-        return recipe
+    # def get_queryset(self):
+    #     recipe = RecipeStep.objects.all()
+    #     RecipeStep.objects.filter(recipe_id=recipe)
+        # return recipe
 
 
 # 마이페이지에서 자신이 작성한 Recipe 목록 확인
