@@ -1,6 +1,5 @@
 from rest_framework import generics
 from rest_framework import permissions
-
 from recipe.serializers import RecipeStepCreateSerializer
 from ..models import Recipe
 from ..models import RecipeStep
@@ -8,12 +7,12 @@ from ..serializers import RecipeStepListSerializer
 from ..serializers.recipe import RecipeSerializer, RecipeCreateSerializer
 from utils.permissions import ObjectIsRequestRecipe, ObjectIsRequestUser
 
-
 __all__ = (
     'MyRecipeListView',
     'RecipeListView',
     'RecipeDetailView',
     'RecipeModifyDelete',
+    'RecipeCreateView',
     'RecipeCreateForFDS',
     'RecipeStepCreateForFDS',
 )
@@ -25,6 +24,14 @@ class RecipeListView(generics.ListAPIView):
     serializer_class = RecipeSerializer
     # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
+
+
+# 레시피 생성하는 API 테스트용으로 짠코드 - 8/7 hong
+class RecipeCreateView(generics.CreateAPIView):
+    serializer_class = RecipeCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 # 레시피에 달려있는 레시피 스탭들을 보기위한 시리얼라이저
@@ -64,8 +71,10 @@ class MyRecipeListView(generics.ListAPIView):
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
-    # 퍼미션 클래스는 IsAuthenticated와 커스텀 퍼미션 ObjectsIsRequestRecipe 사용
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipe,)
+    # 8/8 hong 주석추가
+    # 로그인한 유저만 수정 삭제가 가능
+    # 퍼미션 클래스는 IsAuthenticated와 커스텀 퍼미션 ObjectsIsRequestUser 사용
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
     # RecipeSerializer 사용
     serializer_class = RecipeSerializer
 

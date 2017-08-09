@@ -73,7 +73,7 @@ class RecipeStep(models.Model):
     # 레시피
     recipe = models.ForeignKey(Recipe, related_name='recipes', on_delete=models.CASCADE)
     # 단계
-    step = models.PositiveIntegerField(default=0)
+    step = models.PositiveIntegerField(default=1)
     # 설명
     description = models.TextField(max_length=256)
     # 생성시간
@@ -94,7 +94,7 @@ class RecipeStep(models.Model):
 
 
 class RecipeStepComment(models.Model):
-    recipe_detail = models.ForeignKey(RecipeStep)
+    recipe_step = models.ForeignKey(RecipeStep, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(PickyUser)
-    content = models.TextField()
+    content = models.TextField(max_length=256)
     created_date = models.DateTimeField(auto_now_add=True)
