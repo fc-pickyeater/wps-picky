@@ -25,11 +25,18 @@ class RecipeSerializer(serializers.ModelSerializer):
             'user',
             'img_recipe',
             'description',
+            'rate_sum',
+            'cal_sum',
+            'like_count',
+
             'recipes',
         )
         # user는 수정되서는 안되기때문에 read_only_fields에 정의
         read_only_fields = (
             'user',
+            'rate_sum',
+            'cal_sum',
+            'like_count',
         )
 
 
@@ -45,6 +52,8 @@ class RecipeListSerializer(serializers.ModelSerializer):
             'user',
             'img_recipe',
             'description',
+            'rate_sum',
+            'cal_sum',
         )
 
 
@@ -56,15 +65,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'title',
-            # 'user',
             'img_recipe',
             'description',
-            # 'recipes',
         )
-        # user는 수정되서는 안되기때문에 read_only_fields에 정의
-        # read_only_fields = (
-        #     'user',
-        # )
 
 
 class RecipeSearchSerializer(serializers.ModelSerializer):
@@ -86,12 +89,3 @@ class RecipeSearchSerializer(serializers.ModelSerializer):
         #     'description',
         #
         # )
-
-# class RecipeCreateSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Recipe
-#         fields = (
-#             'pk',
-#             'title',
-#             'description',
-#         )
