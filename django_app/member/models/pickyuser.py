@@ -110,6 +110,8 @@ class PickyUser(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     # 관리자인가? admin 페이지때문에 필수 : 8/1 Joe
     is_admin = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
 
     objects = PickyUserManager()
 
