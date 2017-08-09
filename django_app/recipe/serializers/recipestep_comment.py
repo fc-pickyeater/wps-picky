@@ -14,7 +14,7 @@ class RecipeStepCommentListSerializer(serializers.ModelSerializer):
         model = RecipeStepComment
 
         fields = (
-            'id',
+            'pk',
             'recipe_step',
             'user',
             'content',

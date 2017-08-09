@@ -9,9 +9,12 @@ urlpatterns = [
     url(r'^detail/(?P<pk>\d+)/$', apis.RecipeDetailView.as_view()),
     # recipe step
     url(r'^step/$', apis.RecipeStepCreateView.as_view()),
+    # recipestepcomment
     url(r'^step/comment/$', apis.RecipeStepCommentListView.as_view()),
     url(r'^step/(?P<pk>\d+)/comment/create/$', apis.RecipeStepCommentCreateView.as_view()),
-    url(r'^step/comment/modify/(?P<pk>\d+)/$', apis.RecipeStepCommentModifyView.as_view()), # 수정삭제
+    url(r'^step/comment/modify/(?P<pk>\d+)/$', apis.RecipeStepCommentModifyView.as_view()),  # 수정삭제
     url(r'^step/(?P<pk>\d+)/$', apis.RecipeStepModifyDeleteView.as_view()),
+    # recipe search
+    url(r'^search/$', apis.RecipeSearchListView.as_view()),
 
 ]

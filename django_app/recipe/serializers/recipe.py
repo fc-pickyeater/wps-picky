@@ -21,6 +21,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'title',
+            'user',
             'img_recipe',
             'description',
             'recipes',
@@ -30,6 +31,26 @@ class RecipeSerializer(serializers.ModelSerializer):
             'user',
         )
 
+
+class RecipeSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Recipe
+        fields = (
+            'pk',
+            'title',
+            'user',
+            'img_recipe',
+            'description',
+        )
+
+        # read_only_fields = (
+        #     'pk',
+        #     'title',
+        #     'user',
+        #     'img_recipe',
+        #     'description',
+        #
+        # )
 
 class RecipeCreateSerializer(serializers.ModelSerializer):
     class Meta:
