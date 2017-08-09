@@ -85,7 +85,7 @@ class PickyUser(AbstractBaseUser):
     )
     # password
     password = models.CharField(
-            max_length=16,
+            max_length=200,
     )
     # user 사진
     img_profile = models.ImageField(
