@@ -1,26 +1,19 @@
 from rest_framework import serializers
 
-from ingredient.serializers import IngredientSerializer
-from recipe.models.recipe_ingredient import RecipeIngredient
-from recipe.serializers import RecipeSerializer
-from recipe.serializers.recipe import RecipeSearchSerializer
+from recipe.models import Recipe
 
 
 class RecipeSearchListSerializer(serializers.ModelSerializer):
-    recipe = RecipeSearchSerializer()
+    # recipe = RecipeSearchSerializer()
     # ingredient = IngredientSerializer()
 
     class Meta:
-        model = RecipeIngredient
+        model = Recipe
         fields = (
-            'recipe',
-            # 'ingredient',
-            'ingre_name',
-
-        )
-
-        read_only_fields = (
-            'recipe',
-            # 'ingredient',
-            'ingre_name',
+            'pk',
+            'title',
+            'user',
+            'description',
+            'img_recipe',
+            'cal_sum',
         )

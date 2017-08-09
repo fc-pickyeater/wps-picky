@@ -1,12 +1,13 @@
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework.response import Response
 
 from recipe.serializers import RecipeStepCreateSerializer
 from utils.permissions import ObjectIsRequestUser
 from ..models import Recipe
 from ..models import RecipeStep
 from ..serializers import RecipeStepListSerializer
-from ..serializers.recipe import RecipeSerializer, RecipeCreateSerializer
+from ..serializers.recipe import RecipeSerializer, RecipeCreateSerializer, RecipeListSerializer
 
 __all__ = (
     'MyRecipeListView',
@@ -15,16 +16,25 @@ __all__ = (
     'RecipeModifyDelete',
     'RecipeCreateView',
     'RecipeCreateForFDS',
-    'RecipeStepCreateForFDS',
+
+    # recipestep.py로 이동 8/9 joe
+    # 'RecipeStepCreateForFDS',
 )
 
 
 # 레시피 리스트 조회 ListViewAPIView 사용
 class RecipeListView(generics.ListAPIView):
     # serializer는 RecipeSerializer 사용
-    serializer_class = RecipeSerializer
+    serializer_class = RecipeListSerializer
     # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
+
+    # def get(self, request):
+    #     recipe = Recipe.objects.all()
+    #     for i in range(len(recipe)):
+    #         serializer = RecipeSerializer(recipe[i])
+    #         print(serializer.data['title'])
+    #     return Response(serializer.data['title'])
 
 
 # 레시피 생성하는 API 테스트용으로 짠코드 - 8/7 hong
@@ -80,21 +90,16 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RecipeSerializer
 
 
+# FDS용 레시피 생성 8/9 joe
 class RecipeCreateForFDS(generics.CreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeCreateSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(
+                user=self.request.user,
+        )
 
 
-class RecipeStepCreateForFDS(generics.CreateAPIView):
-    queryset = RecipeStep.objects.all()
-    serializer_class = RecipeStepCreateSerializer
-
-    # def get_queryset(self):
-    #     recipe = self.request.data['recipe']
-    #     return RecipeStep.objects.filter(recipe=recipe)
-
-    # def perform_create(self, serializer):
-    #     serializer.save(recipe=self.request.data['recipe'])
+# recipestep.py로 이동 8/9 joe
+# 'RecipeStepCreateForFDS',
