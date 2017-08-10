@@ -27,8 +27,9 @@ class PickyUserCreateSerializer(serializers.Serializer):
 
     def validated_email(self, email):
         # 이메일 중복 체크를 피하기위해 임시로 만든 코드
-        PickyUser.objects.filter(email=email).delete()
-
+        # PickyUser.objects.filter(email=email).delete()
+        # if not email:
+        #     raise serializers.ValidationError('dfgdfgdfg')
         if PickyUser.objects.filter(email=email).exists():
             raise serializers.ValidationError('다른 사용자가 사용 중인 email입니다.')
         elif validate_email(email):
@@ -46,6 +47,8 @@ class PickyUserCreateSerializer(serializers.Serializer):
         return data
 
     def create(self, *args, **kwargs):
+        # serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=False)
         email = self.validated_data.get('email')
         password = self.validated_data.get('password1')
         nickname = self.validated_data.get('nickname')
