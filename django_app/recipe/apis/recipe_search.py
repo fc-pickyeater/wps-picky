@@ -19,6 +19,8 @@ class RecipeSearchListView(generics.ListAPIView):
 
 
 
+
+
     # def get_queryset(self):
     #     queryset_list = RecipeIngredient.objects.all()
     #     query = self.request.GET.get("q")

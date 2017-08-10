@@ -7,6 +7,7 @@ class RecipeSearchListSerializer(serializers.ModelSerializer):
     # recipe = RecipeSearchSerializer()
     # ingredient = IngredientSerializer()
 
+
     class Meta:
         model = Recipe
         fields = (
@@ -16,4 +17,5 @@ class RecipeSearchListSerializer(serializers.ModelSerializer):
             'description',
             'img_recipe',
             'cal_sum',
+
         )

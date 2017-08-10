@@ -44,3 +44,5 @@ class RecipeStepModifyDeleteView(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == "PATCH":
             return RecipeModifySerializer
+
+

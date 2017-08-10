@@ -49,6 +49,7 @@ class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
         model = RecipeStepComment
 
         fields = (
+            'pk',
             'user',
             'recipe_step',
             'content',
