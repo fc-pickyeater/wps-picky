@@ -17,13 +17,8 @@ __all__ = (
 
 
 class PickyUserManager(BaseUserManager):
-    # create Manager : 작업하면서 내용 확인 필요 - 8/1 Joe
+    # 확인 완료 8/10 joe
     def create_user(self, email, nickname, password, img_profile=None, content=None):
-        if not email:
-            raise ValueError('email을 입력하세요.')
-        if not nickname:
-            raise ValueError('Nickname을 입력하세요.')
-
         user = self.model(
                 email=self.normalize_email(email),
                 nickname=nickname,
@@ -32,7 +27,6 @@ class PickyUserManager(BaseUserManager):
         )
         user.set_password(password)
         user.save()
-        # token = Token.objects.get(user_id=user.pk)
         return user
 
     # createsuperuser manager : 디버그모드에서 확인완료 - 8/1 Joe
@@ -89,7 +83,6 @@ class PickyUser(AbstractBaseUser):
     )
     # user 사진
     img_profile = models.ImageField(
-            # upload_to='user/%Y/%m/',
             # 위의 user_img_directory 함수에서 정해진 폴더에 저장
             upload_to=user_img_directory,
             blank=True,
@@ -147,8 +140,8 @@ class PickyUser(AbstractBaseUser):
         return self.is_admin
 
 
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
-def create_auth_token(sender, instance=None, created=False, **kwargs):
-    if created:
-        Token.objects.create(user=instance)
+# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+# def create_auth_token(sender, instance=None, created=False, **kwargs):
+#     if created:
+#         Token.objects.create(user=instance)
 

@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 from ..serializers import (PickyUserSerializer, PickyUserDetailSerializer, PickyUserTokenSerializer,
                            PickyUserUpdateSerializer)
-from ..serializers import PickyUserCreateSerializer
+from ..serializers import PickyUserCreateSerializer, PickyAuthTokenSerializer
 from ..models import PickyUser
 
 __all__ = (
@@ -18,7 +18,6 @@ __all__ = (
     'PickyUserDetail',
     'PickyUserCreate',
     'PickyUserDelete',
-    # 'PickyUserLogin',
     'PickyUserLogout',
     'PickyUserUpdate',
 )
@@ -38,26 +37,23 @@ class PickyUserDetail(generics.RetrieveAPIView):
 
 
 # detail에서 분리. email 수정할 수 없게 바꿔야함 8/7 Joe
-class PickyUserUpdate(generics.UpdateAPIView):
+class PickyUserUpdate(generics.RetrieveUpdateDestroyAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserUpdateSerializer
 
     def perform_create(self, serializer):
+        if serializer.email:
+            raise ValueError('email은 수정할 수 없습니다.')
         serializer.save()
 
 
-# postman에서 img_profile 값이 null로 반환됨. DB에는 저장됨. 배포환경에서 500에러 8/7 Joe
+# 정상 작동함 8/10 joe
 class PickyUserCreate(generics.CreateAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserCreateSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     serializer_class = AuthTokenSerializer
-    #     serializer = self.serializer_class(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     user = serializer.validated_data['user']
-    #     token, created = Token.objects.get_or_create(user=user)
-    #     return Response({'token': token.key})
+    def perform_create(self, serializer):
+        serializer.save()
 
 
 class PickyUserDelete(generics.DestroyAPIView):
@@ -69,15 +65,3 @@ class PickyUserDelete(generics.DestroyAPIView):
 class PickyUserLogout(generics.DestroyAPIView):
     queryset = Token.objects.all()
     serializer_class = PickyUserTokenSerializer
-
-
-# 필요없음... 8/7 Joe
-# class PickyUserLogin(generics.GenericAPIView):
-#     # authentication_classes = (SessionAuthentication, BasicAuthentication)
-#     # permission_classes = (IsAuthenticated,)
-#     serializer_class = PickyAuthTokenSerializer
-
-
-
-
-
