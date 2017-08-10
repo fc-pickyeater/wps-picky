@@ -3,8 +3,10 @@ from django.conf.urls import url
 from . import apis
 
 urlpatterns = [
+    # 레시피의 기본내용 리스트 조회
     url(r'^$', apis.RecipeListView.as_view()),
     url(r'^(?P<pk>\d+)/$', apis.RecipeModifyDelete.as_view()),
+    # 1개의 레시피와 레시피에 달려있는 레시피 스탭들을 보기위한
     url(r'^detail/(?P<pk>\d+)/$', apis.RecipeDetailView.as_view()),
     # recipe step
     # url(r'^step/$', apis.RecipeStepCreateView.as_view()),

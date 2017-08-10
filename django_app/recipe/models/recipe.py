@@ -40,7 +40,7 @@ def recipe_step_img_directory(instance, filename):
             user=instance.recipe.user.pk,
     )
     recipe_step_img_filename = u'{step}-{title}-{microsecond}{extension}'.format(
-            step=str(instance.step).rjust(2, 'd'),
+            step=str(instance.step).rjust(2, '0'),
             title=instance.recipe.title,
             microsecond=datetime.datetime.now().microsecond,
             extension=os.path.splitext(filename)[1],
