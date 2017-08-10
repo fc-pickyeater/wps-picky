@@ -3,7 +3,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from ..serializers.auth import PickyAuthTokenSerializer
+from ..serializers import PickyAuthTokenSerializer
 
 
 class ObtainAuthToken(APIView):

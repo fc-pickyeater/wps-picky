@@ -31,15 +31,6 @@ class RecipeListView(generics.ListAPIView):
     queryset = Recipe.objects.all()
 
 
-# 레시피 생성하는 API 테스트용으로 짠코드 - 8/7 hong
-# RecipeCreateForFDS로 변경하여 적용 8/9 joe
-# class RecipeCreateView(generics.CreateAPIView):
-#     serializer_class = RecipeCreateSerializer
-#
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-
-
 # 1개의 레시피와 레시피에 달려있는 레시피 스탭들을 보기위한 뷰
 class RecipeDetailView(generics.RetrieveAPIView):
     # RecipeStep의 List를 출력하기위한 Serializer 사용
@@ -68,11 +59,6 @@ class MyRecipeListView(generics.ListAPIView):
         return user.recipe_set.filter(user_id=user)
         # return user.recipe_set.all()
 
-    # method 확인, 필요한지... 8/9 joe
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return RecipeSerializer
-
 
 # Recipe 수정 삭제
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
@@ -99,3 +85,12 @@ class RecipeCreateForFDS(generics.CreateAPIView):
 
 # recipestep.py로 이동 8/9 joe
 # 'RecipeStepCreateForFDS',
+
+# 레시피 생성하는 API 테스트용으로 짠코드 - 8/7 hong
+# RecipeCreateForFDS로 변경하여 적용 8/9 joe
+# class RecipeCreateView(generics.CreateAPIView):
+#     serializer_class = RecipeCreateSerializer
+#
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request.user)
+

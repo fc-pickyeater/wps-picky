@@ -10,14 +10,8 @@ from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipeStep
 
 __all__ = (
     'RecipeStepCreateForFDS',
-    'RecipeStepModifyDeleteView',
+    'RecipeStepModifyDeleteView'
 )
-
-# recipecreateview 생성 - hong 8/1
-# class RecipeStepCreateView(generics.CreateAPIView):
-#     queryset = RecipeStep.objects.all()
-#     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
-#     serializer_class = RecipeStepCreateSerializer
 
 
 # FDS용 레시피 생성. http 요청에 recipe pk 같이 올 예정.
@@ -44,3 +38,12 @@ class RecipeStepModifyDeleteView(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == "PATCH":
             return RecipeModifySerializer
+
+
+# recipecreateview 생성 - hong 8/1
+# class RecipeStepCreateView(generics.CreateAPIView):
+#     queryset = RecipeStep.objects.all()
+#     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
+#     serializer_class = RecipeStepCreateSerializer
+
+

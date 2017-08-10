@@ -6,7 +6,7 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 
 
 __all__ = (
-    # 'PickyAuthTokenSerializer',
+    'PickyAuthTokenSerializer',
     'PickyUserTokenSerializer',
 )
 
@@ -20,7 +20,6 @@ class PickyUserTokenSerializer(serializers.ModelSerializer):
         )
 
 
-# 필요없음 8/7 Joe
 class PickyAuthTokenSerializer(serializers.Serializer):
     email = serializers.CharField()
     password = serializers.CharField(style={'input_type': 'password'})
@@ -33,9 +32,6 @@ class PickyAuthTokenSerializer(serializers.Serializer):
             user = authenticate(email=email, password=password)
 
             if user:
-                # From Django 1.10 onwards the `authenticate` call simply
-                # returns `None` for is_active=False users.
-                # (Assuming the default `ModelBackend` authentication backend.)
                 if not user.is_active:
                     msg = 'User account is disabled.'
                     raise serializers.ValidationError(msg, code='authorization')
