@@ -13,6 +13,8 @@ __all__ = (
 
 # recipestepserializer 생성 - hong 8/1
 class RecipeStepCreateSerializer(serializers.ModelSerializer):
+    # step = serializers.IntegerField(allow_null=True)
+
     class Meta:
         model = RecipeStep
         fields = (
@@ -24,6 +26,9 @@ class RecipeStepCreateSerializer(serializers.ModelSerializer):
             'timer',
             'image_step',
         )
+        # read_only_fields = (
+        #     'step',
+        # )
 
 
 class RecipeStepListSerializer(serializers.ModelSerializer):

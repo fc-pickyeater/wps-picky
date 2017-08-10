@@ -53,7 +53,7 @@ def recipe_step_img_directory(instance, filename):
 
 class Recipe(models.Model):
     """
-    중간자 모델이 필요한 테이플은 주석
+    중간자 모델이 필요한 테이블은 주석처리
     """
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -94,6 +94,7 @@ class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='recipes', on_delete=models.CASCADE)
     # 단계
     step = models.PositiveIntegerField(default=1)
+    # step = models.PositiveIntegerField()
     # 설명
     description = models.TextField(max_length=256)
     # 생성시간
@@ -111,6 +112,19 @@ class RecipeStep(models.Model):
         unique_together = (
             ('recipe', 'step'),
         )
+    # step 숫자 자동입력 관련한 작업 중 8/9 joe
+#     def save(self, *args, **kwargs):
+#         step = get_recipe_step_no(self.recipe)
+#         self.step = step
+#         super(RecipeStep, self).save(*args, **kwargs)
+#
+#
+# def get_recipe_step_no(recipe):
+#     cur_step = RecipeStep.objects.filter(recipe=recipe).order_by('-step').values_list('step', flat=True)
+#     if cur_step:
+#         return cur_step[0] + 1
+#     else:
+#         return 1
 
 
 class RecipeStepComment(models.Model):
