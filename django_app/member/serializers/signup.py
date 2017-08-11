@@ -17,12 +17,13 @@ class PickyUserCreateSerializer(serializers.Serializer):
     # token = AuthTokenSerializer(queryset)
     # token = PickyUserTokenSerializer(queryset)
     # pk = serializers.IntegerField()
+    result = serializers.IntegerField(default=1)
     img_profile = serializers.ImageField(
-            max_length=None,
-            use_url=True,
-            write_only=True,
-            allow_null=True,
-            required=False,
+        max_length=None,
+        use_url=True,
+        write_only=True,
+        allow_null=True,
+        required=False,
     )
     email = serializers.CharField(max_length=100)
     password1 = serializers.CharField(write_only=True)
@@ -54,11 +55,11 @@ class PickyUserCreateSerializer(serializers.Serializer):
         img_profile = self.validated_data.get('img_profile')
         content = self.validated_data.get('content')
         user = PickyUser.objects.create_user(
-                email=email,
-                password=password,
-                nickname=nickname,
-                img_profile=img_profile,
-                content=content,
+            email=email,
+            password=password,
+            nickname=nickname,
+            img_profile=img_profile,
+            content=content,
         )
         user_token = Token.objects.get(user_id=user.pk)
         print(user_token)

@@ -45,6 +45,8 @@ class RecipeStepCommentCreateSerializer(serializers.ModelSerializer):
 
 
 class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
+
+
     class Meta:
         model = RecipeStepComment
 

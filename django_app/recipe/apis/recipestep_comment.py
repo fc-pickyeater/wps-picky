@@ -59,6 +59,14 @@ class RecipeStepCommentModifyView(generics.RetrieveUpdateDestroyAPIView):
         comment = RecipeStepComment.objects.filter(user=self.request.user)
         return comment
 
+    # def patch(self, request, *args, **kwargs): 테스트코드 동작안함 8/11 hong
+    #     instance = self.get_queryset()
+    #     print(instance)
+    #     if instance == '':
+    #         return Response({"detail": "댓글을 찾을 수 없습니다"}, status=status.HTTP_404_NOT_FOUND)
+    #     else:
+    #         return RecipeStepCommentModifySerializer
+
     def get_serializer_class(self):
         if self.request.method == 'PATCH':
             return RecipeStepCommentModifySerializer

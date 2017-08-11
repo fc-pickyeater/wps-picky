@@ -2,16 +2,15 @@ from rest_framework import generics
 from rest_framework import permissions
 
 from recipe.models import RecipeStep
-from recipe.serializers import RecipeStepCreateSerializer
 from recipe.serializers import RecipeModifySerializer
-from recipe.serializers import RecipeStepListSerializer
-from utils.permissions import ObjectIsRequestUser, ObjectIsRequestRecipeStep
-
+from recipe.serializers import RecipeStepCreateSerializer
+from utils.permissions import ObjectIsRequestRecipeStep
 
 __all__ = (
     'RecipeStepCreateForFDS',
     'RecipeStepModifyDeleteView',
 )
+
 
 # recipecreateview 생성 - hong 8/1
 # class RecipeStepCreateView(generics.CreateAPIView):
@@ -24,8 +23,10 @@ __all__ = (
 # 이후 추가 작업 필요 8/9 joe
 class RecipeStepCreateForFDS(generics.CreateAPIView):
     queryset = RecipeStep.objects.all()
-    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
+    permission_classes = (permissions.IsAuthenticated, ObjectIsRequestRecipeStep,)
     serializer_class = RecipeStepCreateSerializer
+
+
 
     # def perform_create(self, serializer):
     #     serializer.save(
@@ -44,5 +45,3 @@ class RecipeStepModifyDeleteView(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == "PATCH":
             return RecipeModifySerializer
-
-
