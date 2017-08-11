@@ -70,7 +70,7 @@ class PickyUser(AbstractBaseUser):
     email = models.EmailField(
             verbose_name='email',
             max_length=100,
-            unique=True
+            unique=True,
     )
     # user nickname
     nickname = models.CharField(

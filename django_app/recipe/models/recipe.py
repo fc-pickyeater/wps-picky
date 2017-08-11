@@ -108,23 +108,19 @@ class RecipeStep(models.Model):
     # 사진
     image_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
 
-    class Meta:
-        unique_together = (
-            ('recipe', 'step'),
-        )
     # step 숫자 자동입력 관련한 작업 중 8/9 joe
-#     def save(self, *args, **kwargs):
-#         step = get_recipe_step_no(self.recipe)
-#         self.step = step
-#         super(RecipeStep, self).save(*args, **kwargs)
-#
-#
-# def get_recipe_step_no(recipe):
-#     cur_step = RecipeStep.objects.filter(recipe=recipe).order_by('-step').values_list('step', flat=True)
-#     if cur_step:
-#         return cur_step[0] + 1
-#     else:
-#         return 1
+    def save(self, *args, **kwargs):
+        step = get_recipe_step_no(self.recipe)
+        self.step = step
+        super(RecipeStep, self).save(*args, **kwargs)
+
+
+def get_recipe_step_no(recipe):
+    cur_step = RecipeStep.objects.filter(recipe=recipe).order_by('-step').values_list('step', flat=True)
+    if cur_step:
+        return cur_step[0] + 1
+    else:
+        return 1
 
 
 class RecipeStepComment(models.Model):
