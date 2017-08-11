@@ -13,17 +13,10 @@ __all__ = (
 
 
 # PickyUser 생성
-# ImageField 로컬에서 작동됨. 8/7 Joe
 class PickyUserCreateSerializer(serializers.Serializer):
-    # queryset = Token.objects.all()
-    # token = AuthTokenSerializer(queryset)
-    # token = PickyUserTokenSerializer(queryset)
-    # pk = serializers.IntegerField()
     img_profile = serializers.ImageField(
             max_length=None,
             use_url=True,
-            write_only=True,
-            allow_null=True,
             required=False,
     )
     email = serializers.CharField(max_length=100)
@@ -32,9 +25,11 @@ class PickyUserCreateSerializer(serializers.Serializer):
     nickname = serializers.CharField(max_length=100)
     content = serializers.CharField(max_length=200, allow_null=True, required=False)
 
-    # token = serializers.CharField(max_length=100)
-
-    def validate_email(self, email):
+    def validated_email(self, email):
+        # 이메일 중복 체크를 피하기위해 임시로 만든 코드
+        # PickyUser.objects.filter(email=email).delete()
+        # if not email:
+        #     raise serializers.ValidationError('dfgdfgdfg')
         if PickyUser.objects.filter(email=email).exists():
             raise serializers.ValidationError('다른 사용자가 사용 중인 email입니다.')
         elif validate_email(email):
@@ -51,7 +46,9 @@ class PickyUserCreateSerializer(serializers.Serializer):
             raise serializers.ValidationError('입력된 패스워드가 일치하지 않습니다.')
         return data
 
-    def save(self, *args, **kwargs):
+    def create(self, *args, **kwargs):
+        # serializer = self.get_serializer(data=request.data)
+        # serializer.is_valid(raise_exception=False)
         email = self.validated_data.get('email')
         password = self.validated_data.get('password1')
         nickname = self.validated_data.get('nickname')
@@ -64,14 +61,11 @@ class PickyUserCreateSerializer(serializers.Serializer):
                 img_profile=img_profile,
                 content=content,
         )
-        user_token = Token.objects.get(user_id=user.pk)
-        print(user_token)
-        return user_token
+        return user
 
-        # def fields(self):
-
-
-
-        # print(token.data)
-        # print(Token.objects.get())
-        # print(queryset)
+    # API 리턴에 키, 값을 추가해주는 함수
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        token, _ = Token.objects.get_or_create(user=instance)
+        ret['token'] = token.key
+        return ret
