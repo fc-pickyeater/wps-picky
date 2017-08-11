@@ -11,6 +11,7 @@ __all__ = (
     'RecipeReview',
     'RecipeStepComment',
     'RecipeStep',
+    'BookMark',
 )
 
 
@@ -53,7 +54,7 @@ def recipe_step_img_directory(instance, filename):
 
 class Recipe(models.Model):
     """
-    중간자 모델이 필요한 테이플은 주석
+    중간자 모델이 필요한 테이블은 주석
     """
     title = models.CharField(max_length=100)
     description = models.TextField()
@@ -70,7 +71,11 @@ class Recipe(models.Model):
     )
     # tag = models.ManyToManyField(Tag)
     # rate = models.ManyToManyField(Rate)
-    # bookmark = models.ManyToManyField(Bookmark)
+    bookmarks = models.ManyToManyField(
+        PickyUser,
+        related_name='bookmark_user_set',
+        through='BookMark',
+    )
     rate_sum = models.PositiveIntegerField(default=0)
     img_recipe = models.ImageField(
         upload_to=recipe_img_directory,
@@ -119,3 +124,15 @@ class RecipeStepComment(models.Model):
     content = models.TextField(max_length=256)
     created_date = models.DateTimeField(auto_now_add=True)
     # update_date = models.DateTimeField(auto_now=True)
+
+
+class BookMark(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    user = models.ForeignKey(PickyUser)
+    created_date = models.DateTimeField(auto_now_add=True)
+    memo = models.TextField(max_length=256)
+
+    class Meta:
+        unique_together = (
+            ('recipe', 'user'),
+        )
