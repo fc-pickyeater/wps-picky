@@ -64,6 +64,7 @@ class MyRecipeListView(generics.ListAPIView):
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     # Recipe의 object 가져옴
     queryset = Recipe.objects.all()
+    # 퍼미션 클래스는 IsAuthenticated와 커스텀 퍼미션 ObjectsIsRequestRecipe 사용
     # 8/8 hong 주석추가
     # 로그인한 유저만 수정 삭제가 가능
     # 퍼미션 클래스는 IsAuthenticated와 커스텀 퍼미션 ObjectsIsRequestUser 사용

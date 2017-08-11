@@ -79,13 +79,20 @@ class Recipe(models.Model):
     )
     cal_sum = models.PositiveIntegerField(default=0)
 
-
+# Recipe 후기 작성
 class RecipeReview(models.Model):
+    # 후기를 작성할 Recipe
     recipe = models.ForeignKey(Recipe)
+    # 후기 작성자
+    # author = models.ForeignKey(PickyUser)
+    # 후기 내용
     user = models.ForeignKey(PickyUser)
     content = models.TextField()
+    # 후기 생성시간
     created = models.DateTimeField(auto_now_add=True)
+    # 후기 수정시간
     modified = models.DateTimeField(auto_now=True)
+    # 후기 이미지
     img_review = models.ImageField()
 
 

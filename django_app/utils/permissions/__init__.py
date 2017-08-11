@@ -20,3 +20,4 @@ class ObjectIsRequestRecipeStep(permissions.BasePermission):
         if RecipeStep.objects.filter(recipe=obj.recipe_id):
             if obj.recipe.user == request.user:
                 return True
+
