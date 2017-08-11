@@ -25,10 +25,8 @@ class RecipeStepCreateSerializer(serializers.ModelSerializer):
             'timer',
             'image_step',
         )
+        # 위에서 가져온 step 필드를 override하여 키, 값이 없어도 통과하게함 8/10 joe
         step = serializers.IntegerField(required=False, allow_null=True)
-        # read_only_fields = (
-        #     'step',
-        # )
 
 
 class RecipeStepListSerializer(serializers.ModelSerializer):

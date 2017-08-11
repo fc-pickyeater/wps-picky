@@ -21,11 +21,6 @@ class RecipeStepCreateForFDS(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
     serializer_class = RecipeStepCreateSerializer
 
-    # def perform_create(self, serializer):
-    #     serializer.save(
-    #             user=self.request.user,
-    #     )
-
 
 # 승팔씀
 class RecipeStepModifyDeleteView(generics.RetrieveUpdateDestroyAPIView):

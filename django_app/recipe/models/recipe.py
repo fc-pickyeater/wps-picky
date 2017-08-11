@@ -108,17 +108,23 @@ class RecipeStep(models.Model):
     # 사진
     image_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
 
-    # step 숫자 자동입력 관련한 작업 중 8/9 joe
+    # step 숫자 자동입력 8/10 joe
     def save(self, *args, **kwargs):
+        # 현재 레시피로 레시피스텝에 넣을 번호를 생성
         step = get_recipe_step_no(self.recipe)
+        # step 필드에 위 번호를 넣어준다.
         self.step = step
         super(RecipeStep, self).save(*args, **kwargs)
 
 
+# 레시피 스텝에 넣을 번호를 정해주는 함수 8/10 joe
 def get_recipe_step_no(recipe):
+    # 현재 레시피스텝에 있는 스텝번호를 리스트로 가져와 내림차순으로 정렬
     cur_step = RecipeStep.objects.filter(recipe=recipe).order_by('-step').values_list('step', flat=True)
+    # 리스트 값이 있으면 가장 처음 값에 1을 더해 리턴
     if cur_step:
         return cur_step[0] + 1
+    # 리스트 값이 없으면 1을 리턴
     else:
         return 1
 
