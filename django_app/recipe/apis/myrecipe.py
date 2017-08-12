@@ -59,7 +59,10 @@ class BookMarkView(APIView):
         recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         serializer = BookMarkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(user=user_, recipe=recipe_)
+        if BookMark.objects.filter(user=user_, recipe=recipe_).exists():
+            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer.save(user=user_, recipe=recipe_)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     # patch 요청시
@@ -76,7 +79,8 @@ class BookMarkView(APIView):
     # delete 요청시
     def delete(self, request, **kwargs):
         # 북마크를 가져온다
-        instance = get_object_or_404(BookMark, pk=kwargs.get('recipe_pk'))
+        bookmark_pk = kwargs.get('recipe_pk')
+        instance = get_object_or_404(BookMark, pk=kwargs.get(bookmark_pk))
         # 북마크 유저와 현재 유저가 다르다면
         if instance.user != request.user:
             # 찾을수 없음

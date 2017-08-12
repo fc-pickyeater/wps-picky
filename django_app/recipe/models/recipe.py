@@ -61,7 +61,10 @@ class Recipe(models.Model):
     user = models.ForeignKey(PickyUser)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    # like_users = models.ManyToManyField(PickyUser)
+    like_users = models.ManyToManyField(
+        PickyUser,
+        related_name='recipe_user_set',
+    )
     like_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)
     ingredient = models.ManyToManyField(
@@ -132,7 +135,7 @@ class BookMark(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     memo = models.TextField(max_length=256)
 
-    class Meta:
-        unique_together = (
-            ('recipe', 'user'),
-        )
+    # class Meta:
+    #     unique_together = (
+    #         ('recipe', 'user'),
+    #     )

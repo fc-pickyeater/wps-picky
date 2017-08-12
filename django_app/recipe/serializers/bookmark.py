@@ -19,3 +19,6 @@ class BookMarkSerializer(serializers.ModelSerializer):
             'recipe',
             'created_date',
         )
+        unique_together = (
+            'user', 'recipe'
+        )
