@@ -64,6 +64,7 @@ class Recipe(models.Model):
     like_users = models.ManyToManyField(
         PickyUser,
         related_name='recipe_user_set',
+        through='RecipeLike',
     )
     like_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)
@@ -139,3 +140,9 @@ class BookMark(models.Model):
     #     unique_together = (
     #         ('recipe', 'user'),
     #     )
+
+
+class RecipeLike(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    user = models.ForeignKey(PickyUser)
+    created_date = models.DateTimeField(auto_now_add=True)
