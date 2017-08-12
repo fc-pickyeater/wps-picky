@@ -1,6 +1,21 @@
 from rest_framework import serializers
 
+from recipe.models.recipe import RecipeLike
 
-class RecipeLikeSerializer(serializers.Serializer):
-    user = serializers.CharField(max_length=100, required=False)
-    recipe = serializers.CharField(max_length=100, required=False)
+
+class RecipeLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecipeLike
+
+        fields = (
+            'pk',
+            'user',
+            'recipe',
+            'created_date',
+        )
+
+        read_only_fields = (
+            'user',
+            'recipe',
+            'created_date',
+        )

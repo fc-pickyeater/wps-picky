@@ -17,6 +17,7 @@ __all__ = (
     'MyRecipeListView',
     'BookMarkListView',
     'BookMarkView',
+    'RecipeLikeView',
 
 )
 
@@ -87,14 +88,26 @@ class BookMarkView(APIView):
         return Response({"detail": "asdasd"}, status=status.HTTP_204_NO_CONTENT)
 
 
-# class RecipeLikeView(APIView):
-#     permission_classes = (
-#         permissions.IsAuthenticated,
-#     )
-#
-#     def post(self, request, **kwargs):
-#         user_ = request.user
-#         recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
-#         serializer = RecipeLikeSerializer(data=request.data)
-#
-#         return Response(serializer.data, status=status.HTTP_200_OK)
+class RecipeLikeView(APIView):
+    permission_classes = (
+        permissions.IsAuthenticated,
+    )
+
+    def post(self, request, **kwargs):
+        user_ = request.user
+        recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        serializer = RecipeLikeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if BookMark.objects.filter(user=user_, recipe=recipe_).exists():
+            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer.save(user=user_, recipe=recipe_)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        # delete 요청시
+    def delete(self, request, **kwargs):
+        # 북마크를 가져온다
+        recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        instance = get_object_or_404(recipe_instance.recipelike_set, user=request.user)
+        instance.delete()
+        return Response({"detail": "asdasd"}, status=status.HTTP_204_NO_CONTENT)

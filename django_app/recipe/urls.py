@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^bookmark/$', apis.BookMarkListView.as_view()),
     url(r'^bookmark/(?P<recipe_pk>\d+)/$', apis.BookMarkView.as_view()),
     # 좋아요
-    # url(r'^like/(?P<recipe_pk>\d+)/$', apis.RecipeLikeView.as_view()),
+    url(r'^like/(?P<recipe_pk>\d+)/$', apis.RecipeLikeView.as_view()),
     # recipe step
     # url(r'^step/$', apis.RecipeStepCreateView.as_view()),
     # recipestepcomment
