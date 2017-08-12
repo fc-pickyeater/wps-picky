@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^detail/(?P<pk>\d+)/$', apis.RecipeDetailView.as_view()),
 
     url(r'^mylist/', apis.MyRecipeListView.as_view()),
+    url(r'^bookmark/', apis.BookMarkListView.as_view()),
     url(r'^bookmark/(?P<recipe_pk>\d+)/$', apis.BookMarkView.as_view()),
 
     # recipe step
