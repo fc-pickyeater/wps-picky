@@ -1,13 +1,8 @@
-# 배포 후 이미지를 저장하기 위해 조사한 예시 8/4 Joe
-# 배포후 테스트필요. 로컬에서 작동됨. 8/4 Joe
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
 
-from utils.exceptions import EmailExistError
 from ..models import PickyUser
 
 __all__ = (
@@ -28,35 +23,29 @@ class PickyUserCreateSerializer(serializers.Serializer):
     nickname = serializers.CharField(max_length=100)
     content = serializers.CharField(max_length=200, allow_null=True, required=False)
 
-    # result_code = serializers.IntegerField(allow_null=True, required=False)
-
     # validate_[필드 이름] <- 함수 이름을 꼭! 이렇게지정해야 해당 필드를 검사함.
     def validate_email(self, email):
-        # 이메일 중복 체크를 피하기위해 임시로 만든 코드
-        # PickyUser.objects.filter(email=email).delete()
-        # if not email:
-        #     raise serializers.ValidationError('dfgdfgdfg')
-
         if PickyUser.objects.filter(email=email).exists():
-
-            # raise serializers.ValidationError('{a}result_code: {result_code}, email: {email}{b}'.format(result_code=1, email=email, a="\{", b='\}'))
-            # return 'result_code: {result_code}, email: {email}'.format(result_code=1, email=email)
-            raise serializers.ValidationError('다른 사용자가 사용 중인 email입니다.')
-            # raise EmailExistError('tertertertert')
-
-        # try:
-        #     PickyUser.objects.filter(email=email)
-        # except IntegrityError:
-        #     raise serializers.ValidationError('다른 사용자가 사용 중인 email입니다.')
-
-        elif validate_email(email):
-            raise serializers.ValidationError('유효한 이메일 주소를 입력하십시오.')
-        # return Response('\{result_code: {result_code},\n\{email: {email}'.format(result_code=0, email=email))
+            d = {}
+            d['result_code'] = 11
+            d['error_msg'] = '다른 사용자가 사용 중인 email입니다.'
+            raise serializers.ValidationError(d)
+        else:
+            try:
+                validate_email(email)
+            except ValidationError:
+                d = {}
+                d['result_code'] = 12
+                d['error_msg'] = '유효한 이메일을 입력하세요.'
+                raise serializers.ValidationError(d)
         return email
 
     def validate_nickname(self, nickname):
         if PickyUser.objects.filter(nickname=nickname).exists():
-            raise serializers.ValidationError('다른 사용자가 사용 중인 Nickname입니다.')
+            d = {}
+            d['result_code'] = 21
+            d['error_msg'] = '다른 사용자가 사용 중인 Nickname입니다.'
+            raise serializers.ValidationError(d)
         return nickname
 
     def validate(self, data):
@@ -65,8 +54,6 @@ class PickyUserCreateSerializer(serializers.Serializer):
         return data
 
     def create(self, *args, **kwargs):
-        # serializer = self.get_serializer(data=request.data)
-        # serializer.is_valid(raise_exception=False)
         email = self.validated_data.get('email')
         password = self.validated_data.get('password1')
         nickname = self.validated_data.get('nickname')
@@ -84,8 +71,6 @@ class PickyUserCreateSerializer(serializers.Serializer):
     # API 리턴에 키, 값을 추가해주는 함수
     def to_representation(self, instance):
         ret = super().to_representation(instance)
-        # email = instance.email
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
-        # ret['result_code'] = email
         return ret
