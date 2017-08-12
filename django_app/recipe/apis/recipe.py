@@ -10,6 +10,7 @@ from ..serializers import RecipeStepListSerializer
 from ..serializers.recipe import RecipeSerializer, RecipeCreateSerializer, RecipeListSerializer
 
 __all__ = (
+    'MyRecipeListView',
     'RecipeListView',
     'RecipeDetailView',
     'RecipeModifyDelete',
@@ -55,6 +56,26 @@ class RecipeDetailView(generics.RetrieveAPIView):
         recipe = RecipeStep.objects.all()
         # RecipeStep.objects.filter(recipe_id=recipe)
         return recipe
+
+
+# 마이페이지에서 자신이 작성한 Recipe 목록 확인
+class MyRecipeListView(generics.ListAPIView):
+    # RecipeSerializer 사용
+    serializer_class = RecipeSerializer
+    # IsAuthenticated 클래스와 커스텀 퍼미션 ObjectIsRequestUser 사용
+    permission_classes = (
+        permissions.IsAuthenticated, ObjectIsRequestUser,
+    )
+
+    def get_queryset(self):
+        user = self.request.user
+        return user.recipe_set.filter(user_id=user)
+        # return user.recipe_set.all()
+
+    # method 확인, 필요한지... 8/9 joe
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return RecipeSerializer
 
 
 # Recipe 수정 삭제
