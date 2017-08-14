@@ -4,6 +4,7 @@ from django.utils import six
 
 from rest_framework.views import exception_handler
 
+# 정상 작동하게 하는것을 포기함. 삭제해도 되는 파일.... 8/14 joe
 # 작동확인 필요 8/11 joe
 class EmailExistError(APIException):
     status_code = status.HTTP_409_CONFLICT

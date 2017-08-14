@@ -25,6 +25,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'user',
             'img_recipe',
             'description',
+            'ingredient',
             'rate_sum',
             'cal_sum',
             'like_count',

@@ -12,6 +12,11 @@ __all__ = (
     'RecipeStepComment',
     'RecipeStep',
     'BookMark',
+    'RecipeLike',
+    'RecipeRate',
+
+    'Tag',
+    'RecipeTag'
 )
 
 
@@ -73,8 +78,11 @@ class Recipe(models.Model):
         related_name='RecipeIngredient',
         through='RecipeIngredient',
     )
-    # tag = models.ManyToManyField(Tag)
-    # rate = models.ManyToManyField(Rate)
+    tag = models.ManyToManyField(
+        'Tag',
+        through='RecipeTag',
+        related_name='RecipeTag'
+    )
     bookmarks = models.ManyToManyField(
         PickyUser,
         related_name='bookmark_user_set',
@@ -83,7 +91,6 @@ class Recipe(models.Model):
     rate_sum = models.FloatField(default=0)
     img_recipe = models.ImageField(
         upload_to=recipe_img_directory,
-        # upload_to='recipe/',
         blank=True
     )
     cal_sum = models.PositiveIntegerField(default=0)
@@ -154,6 +161,7 @@ class RecipeStepComment(models.Model):
     content = models.TextField(max_length=256)
     created_date = models.DateTimeField(auto_now_add=True)
 
+
 class BookMark(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
@@ -187,3 +195,18 @@ class RecipeRate(models.Model):
             ('user', 'recipe'),
         )
 
+
+# 일단 여기 써봄... 8/14 joe -> migrate 성공 8/14 joe
+class Tag(models.Model):
+    content = models.CharField(max_length=20)
+    url = models.CharField(max_length=200, default='tag_search_url')
+
+    def tag_search_url(self):
+        tag_url = 'http://pickycook.co.kr/recipe/?search=' + self.content
+        return tag_url
+
+
+class RecipeTag(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    tag = models.ForeignKey(Tag)
+    created = models.DateTimeField(auto_now_add=True)
