@@ -15,12 +15,6 @@ class RecipeSearchListView(generics.ListAPIView):
     # 검색옵션과 검색할 대상 '='는 완전일치
     # 자세한 옵션은 SearchFilter 참고
     search_fields = ('=title', '=ingredient__name')
-
-
-
-
-
-
     # def get_queryset(self):
     #     queryset_list = RecipeIngredient.objects.all()
     #     query = self.request.GET.get("q")

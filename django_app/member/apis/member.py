@@ -1,15 +1,11 @@
-from rest_framework import generics, status
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework import generics
 from rest_framework.authtoken.models import Token
-from rest_framework.authtoken.serializers import AuthTokenSerializer
-from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
 
-# from ..serializers import PickyAuthTokenSerializer
-from rest_framework.response import Response
-
-from ..serializers import (PickyUserSerializer, PickyUserDetailSerializer, PickyUserTokenSerializer,
-                           PickyUserUpdateSerializer)
+from ..serializers.update import PickyUserUpdateSerializer
+from ..serializers import (
+    PickyUserSerializer,
+    PickyUserTokenSerializer,
+)
 from ..serializers import PickyUserCreateSerializer
 from ..models import PickyUser
 
@@ -18,7 +14,6 @@ __all__ = (
     'PickyUserDetail',
     'PickyUserCreate',
     'PickyUserDelete',
-    # 'PickyUserLogin',
     'PickyUserLogout',
     'PickyUserUpdate',
 )
@@ -34,50 +29,36 @@ class PickyUserList(generics.ListAPIView):
 # postman, 배포환경에서 정상작동 확인 8/7 Joe
 class PickyUserDetail(generics.RetrieveAPIView):
     queryset = PickyUser.objects.all()
-    serializer_class = PickyUserDetailSerializer
+    serializer_class = PickyUserSerializer
 
 
-# detail에서 분리. email 수정할 수 없게 바꿔야함 8/7 Joe
+# 회원정보 부분 업데이트 8/12 joe / user permission 만들어야할것 같음.
 class PickyUserUpdate(generics.UpdateAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserUpdateSerializer
+    # authentication_classes = (authentication.TokenAuthentication,)
+    # permission_classes = (permissions.IsAuthenticated, ObjectIsRequestUser,)
 
-    def perform_create(self, serializer):
-        serializer.save()
+    # 회원정보 부분 업데이트하는 함수 8/12 joe
+    # 키 조차 없는 값이 있어도 키에러 나지 않음. (partial_update)
+    # 입력된 데이터 검증은 시리얼라이져에서 해줌
+    def put(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
 
 
-# postman에서 img_profile 값이 null로 반환됨. DB에는 저장됨. 배포환경에서 500에러 8/7 Joe
+# 유저 생성(회원가입) 정상 작동함 8/10 joe
 class PickyUserCreate(generics.CreateAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserCreateSerializer
 
-    # def post(self, request, *args, **kwargs):
-    #     serializer_class = AuthTokenSerializer
-    #     serializer = self.serializer_class(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     user = serializer.validated_data['user']
-    #     token, created = Token.objects.get_or_create(user=user)
-    #     return Response({'token': token.key})
 
-
+# 확인해야함. 8/13 joe
 class PickyUserDelete(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserSerializer
 
 
-# 쿼리셋을 get으로 수정
+# 쿼리셋을 get으로 수정해야할지? 확인해야함. 8/13 joe
 class PickyUserLogout(generics.DestroyAPIView):
     queryset = Token.objects.all()
     serializer_class = PickyUserTokenSerializer
-
-
-# 필요없음... 8/7 Joe
-# class PickyUserLogin(generics.GenericAPIView):
-#     # authentication_classes = (SessionAuthentication, BasicAuthentication)
-#     # permission_classes = (IsAuthenticated,)
-#     serializer_class = PickyAuthTokenSerializer
-
-
-
-
-

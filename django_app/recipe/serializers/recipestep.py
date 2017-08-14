@@ -13,6 +13,7 @@ __all__ = (
 
 # recipestepserializer 생성 - hong 8/1
 class RecipeStepCreateSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = RecipeStep
         fields = (
@@ -24,13 +25,8 @@ class RecipeStepCreateSerializer(serializers.ModelSerializer):
             'timer',
             'image_step',
         )
-        validators = [
-            serializers.UniqueTogetherValidator(
-                queryset=RecipeStep.objects.all(),
-                fields=('recipe', 'step'),
-                message=("레시피에 이미 스탭이 존재합니다.")
-            )
-        ]
+        # 위에서 가져온 step 필드를 override하여 키, 값이 없어도 통과하게함 8/10 joe
+        step = serializers.IntegerField(required=False, allow_null=True)
 
 
 class RecipeStepListSerializer(serializers.ModelSerializer):

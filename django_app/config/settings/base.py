@@ -60,7 +60,8 @@ REST_FRAMEWORK = {
     # token 기반인증을 위해 추가 8/7 joe
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
-    )
+    ),
+    # 'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
 }
 
 MIDDLEWARE = [
