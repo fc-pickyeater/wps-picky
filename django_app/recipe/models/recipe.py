@@ -88,6 +88,10 @@ class Recipe(models.Model):
     )
     cal_sum = models.PositiveIntegerField(default=0)
 
+    # def like_counts(self):
+    #     self.like_count = self.recipelike_set.count()
+    #     # return self.like_count
+
 
 class RecipeReview(models.Model):
     recipe = models.ForeignKey(Recipe)
@@ -136,13 +140,18 @@ class BookMark(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     memo = models.TextField(max_length=256)
 
-    # class Meta:
-    #     unique_together = (
-    #         ('recipe', 'user'),
-    #     )
+    class Meta:
+        unique_together = (
+            ('user', 'recipe'),
+        )
 
 
 class RecipeLike(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
     created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (
+            ('user', 'recipe'),
+        )

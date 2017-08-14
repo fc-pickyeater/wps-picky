@@ -11,7 +11,6 @@ class RecipeLikeSerializer(serializers.ModelSerializer):
             'pk',
             'user',
             'recipe',
-            'created_date',
         )
 
         read_only_fields = (

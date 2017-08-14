@@ -58,12 +58,13 @@ class BookMarkView(APIView):
     def post(self, request, **kwargs):
         # 접속한 유저
         user_ = request.user
+
         # pk로 받은 recipe
         recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         serializer = BookMarkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if BookMark.objects.filter(user=user_, recipe=recipe_).exists():
-            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "이미 북마크 되었습니다."}, status=status.HTTP_404_NOT_FOUND)
         else:
             serializer.save(user=user_, recipe=recipe_)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -74,9 +75,10 @@ class BookMarkView(APIView):
         user_ = request.user
         # pk로 받은 recipe
         recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
-        serializer = BookMarkSerializer(data=request.data)
+        instace = get_object_or_404(BookMark,user=user_,recipe=recipe_)
+        serializer = BookMarkSerializer(instace, data=request.data )
         serializer.is_valid(raise_exception=True)
-        serializer.save(user=user_, recipe=recipe_)
+        serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # delete 요청시
@@ -85,7 +87,7 @@ class BookMarkView(APIView):
         recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         instance = get_object_or_404(recipe_instance.bookmark_set, user=request.user)
         instance.delete()
-        return Response({"detail": "asdasd"}, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class RecipeLikeView(APIView):
@@ -94,20 +96,31 @@ class RecipeLikeView(APIView):
     )
 
     def post(self, request, **kwargs):
+
         user_ = request.user
         recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         serializer = RecipeLikeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if BookMark.objects.filter(user=user_, recipe=recipe_).exists():
-            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "이미 좋아요를 눌렀습니다."}, status=status.HTTP_404_NOT_FOUND)
         else:
             serializer.save(user=user_, recipe=recipe_)
+            recipe_.like_count = recipe_.recipelike_set.count()
+            recipe_.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         # delete 요청시
+
     def delete(self, request, **kwargs):
-        # 북마크를 가져온다
+        # 레시피를 가져온다
         recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         instance = get_object_or_404(recipe_instance.recipelike_set, user=request.user)
         instance.delete()
+        recipe_instance.like_count = recipe_instance.recipelike_set.count()
+        recipe_instance.save()
         return Response({"detail": "asdasd"}, status=status.HTTP_204_NO_CONTENT)
+
+# if hasattr(request.data, '_mutable'):
+#            request.data._mutable = True
+#        request.data['user'] = user_.pk
+#        request.data['recipe'] = recipe_.pk
