@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework.generics import get_object_or_404
 
 from recipe.models import RecipeStep
 from recipe.models import RecipeStepComment
@@ -37,9 +38,10 @@ class RecipeStepCommentCreateView(generics.CreateAPIView):
     # step_pk 레시피 스탭의 pk
     def perform_create(self, serializer):
         step_pk = self.kwargs['pk']
+        # if RecipeStep.objects.filter(pk=step_pk):
         serializer.save(
             user=self.request.user,
-            recipe_step=RecipeStep.objects.get(pk=step_pk),
+            recipe_step=get_object_or_404(RecipeStep, pk=step_pk)
         )
 
 
@@ -56,6 +58,14 @@ class RecipeStepCommentModifyView(generics.RetrieveUpdateDestroyAPIView):
     def get_queryset(self):
         comment = RecipeStepComment.objects.filter(user=self.request.user)
         return comment
+
+    # def patch(self, request, *args, **kwargs): 테스트코드 동작안함 8/11 hong
+    #     instance = self.get_queryset()
+    #     print(instance)
+    #     if instance == '':
+    #         return Response({"detail": "댓글을 찾을 수 없습니다"}, status=status.HTTP_404_NOT_FOUND)
+    #     else:
+    #         return RecipeStepCommentModifySerializer
 
     def get_serializer_class(self):
         if self.request.method == 'PATCH':
