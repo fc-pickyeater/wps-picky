@@ -80,7 +80,7 @@ class Recipe(models.Model):
         related_name='bookmark_user_set',
         through='BookMark',
     )
-    rate_sum = models.PositiveIntegerField(default=0)
+    rate_sum = models.FloatField(default=0)
     img_recipe = models.ImageField(
         upload_to=recipe_img_directory,
         # upload_to='recipe/',
@@ -150,6 +150,17 @@ class RecipeLike(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
     created_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = (
+            ('user', 'recipe'),
+        )
+
+
+class RecipeRate(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    user = models.ForeignKey(PickyUser)
+    rate = models.FloatField(default=0)
 
     class Meta:
         unique_together = (
