@@ -33,8 +33,6 @@ urlpatterns = [
     url(r'^update/(?P<pk>\d+)/$', apis.RecipeModifyDelete.as_view()),
 
     # RecipeReview
-    # 레시피 리뷰 조회
-    url(r'^(?P<pk>\d+)/review/$', apis.RecipeReviewListView.as_view()),
     # 레시피 리뷰 생성
     url(r'^(?P<pk>\d+)/review/create/$', apis.RecipeReviewCreateView.as_view()),
     # 레시피 리뷰 수정, 삭제
