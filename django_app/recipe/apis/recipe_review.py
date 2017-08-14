@@ -13,13 +13,6 @@ __all__ = (
     'RecipeReviewModifyView',
 )
 
-
-# 레시피에 달리는 후기(Review) 목록을 출력하는 API
-class RecipeReviewListView(generics.ListAPIView):
-    queryset = RecipeReview.objects.all()
-    serializer_class = RecipeReviewListSerializer
-
-
 # 레시피에 달리는 후기를 작성하는 API
 class RecipeReviewCreateView(generics.CreateAPIView):
     """
