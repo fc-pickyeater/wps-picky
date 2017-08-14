@@ -84,14 +84,13 @@ class RecipeReview(models.Model):
     # 후기를 작성할 Recipe
     recipe = models.ForeignKey(Recipe)
     # 후기 작성자
-    # author = models.ForeignKey(PickyUser)
-    # 후기 내용
     user = models.ForeignKey(PickyUser)
+    # 리뷰 내용
     content = models.TextField()
     # 후기 생성시간
-    created = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True)
     # 후기 수정시간
-    modified = models.DateTimeField(auto_now=True)
+    modified_date = models.DateTimeField(auto_now=True)
     # 후기 이미지
     img_review = models.ImageField()
 
