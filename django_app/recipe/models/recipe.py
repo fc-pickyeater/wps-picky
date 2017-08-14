@@ -41,10 +41,10 @@ def recipe_step_img_directory(instance, filename):
         user=instance.recipe.user.pk,
     )
     recipe_step_img_filename = u'{step}-{title}-{microsecond}{extension}'.format(
-            step=str(instance.step).rjust(2, '0'),
-            title=instance.recipe.title,
-            microsecond=datetime.datetime.now().microsecond,
-            extension=os.path.splitext(filename)[1],
+        step=str(instance.step).rjust(2, '0'),
+        title=instance.recipe.title,
+        microsecond=datetime.datetime.now().microsecond,
+        extension=os.path.splitext(filename)[1],
     )
     return 'recipe/{path}/{filename}'.format(
         path=recipe_img_path,
@@ -74,7 +74,6 @@ class Recipe(models.Model):
         through='RecipeIngredient',
     )
     # tag = models.ManyToManyField(Tag)
-    # rate = models.ManyToManyField(Rate)
     bookmarks = models.ManyToManyField(
         PickyUser,
         related_name='bookmark_user_set',
@@ -147,6 +146,7 @@ class RecipeStepComment(models.Model):
     content = models.TextField(max_length=256)
     created_date = models.DateTimeField(auto_now_add=True)
 
+
 class BookMark(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
@@ -173,10 +173,9 @@ class RecipeLike(models.Model):
 class RecipeRate(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
-    rate = models.FloatField(default=0)
+    rate = models.DecimalField(default=0, decimal_places=1)
 
     class Meta:
         unique_together = (
             ('user', 'recipe'),
         )
-
