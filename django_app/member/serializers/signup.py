@@ -12,12 +12,6 @@ __all__ = (
 
 # PickyUser 생성
 class PickyUserCreateSerializer(serializers.Serializer):
-    # queryset = Token.objects.all()
-    # token = AuthTokenSerializer(queryset)
-    # token = PickyUserTokenSerializer(queryset)
-    # pk = serializers.IntegerField()
-    result = serializers.IntegerField(default=1)
-
     img_profile = serializers.ImageField(
             max_length=None,
             use_url=True,
@@ -73,11 +67,6 @@ class PickyUserCreateSerializer(serializers.Serializer):
             content=content,
         )
         return user
-
-
-        # print(token.data)
-        # print(Token.objects.get())
-        # print(queryset)
 
     # API 리턴에 키, 값을 추가해주는 함수
     def to_representation(self, instance):
