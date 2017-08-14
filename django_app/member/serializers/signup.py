@@ -26,7 +26,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
     # validate_[필드 이름] <- 함수 이름을 꼭! 이렇게지정해야 해당 필드를 검사함.
     def validate_email(self, email):
         if PickyUser.objects.filter(email=email).exists():
-            d = {}
+            d = dict()
             d['result_code'] = 11
             d['error_msg'] = '다른 사용자가 사용 중인 email입니다.'
             raise serializers.ValidationError(d)
@@ -34,7 +34,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
             try:
                 validate_email(email)
             except ValidationError:
-                d = {}
+                d = dict()
                 d['result_code'] = 12
                 d['error_msg'] = '유효한 이메일을 입력하세요.'
                 raise serializers.ValidationError(d)
@@ -42,7 +42,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
 
     def validate_nickname(self, nickname):
         if PickyUser.objects.filter(nickname=nickname).exists():
-            d = {}
+            d = dict()
             d['result_code'] = 21
             d['error_msg'] = '다른 사용자가 사용 중인 Nickname입니다.'
             raise serializers.ValidationError(d)
