@@ -23,6 +23,11 @@ CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
 CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
 CONFIG_SECRET_DEBUG_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_debug.json')
 CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.json')
+CORS_ORIGIN_WHITELIST = (
+    'pickycookbook.co.kr',
+    'localhost:8000',
+    'localhost:8080',
+)
 
 # CONFIG_SECRET_FILE 경로의 파일을 읽은값 할당
 config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
@@ -53,6 +58,7 @@ INSTALLED_APPS = [
     'recipe',
     'ingredient',
     'member',
+    'corsheaders',
 ]
 # 8/1 hong 추가 search filter html보여주는듯? -hong 8/1
 REST_FRAMEWORK = {
@@ -65,6 +71,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
