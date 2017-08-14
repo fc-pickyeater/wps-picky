@@ -72,8 +72,6 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RecipeSerializer
 
 
-
-
 # FDS용 레시피 생성 8/9 joe
 class RecipeCreateForFDS(generics.CreateAPIView):
     queryset = Recipe.objects.all()
