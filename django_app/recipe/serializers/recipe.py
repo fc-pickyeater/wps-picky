@@ -70,6 +70,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         )
 
 
+
+
 class RecipeSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe

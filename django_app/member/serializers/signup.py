@@ -60,11 +60,11 @@ class PickyUserCreateSerializer(serializers.Serializer):
         img_profile = self.validated_data.get('img_profile')
         content = self.validated_data.get('content')
         user = PickyUser.objects.create_user(
-                email=email,
-                password=password,
-                nickname=nickname,
-                img_profile=img_profile,
-                content=content,
+            email=email,
+            password=password,
+            nickname=nickname,
+            img_profile=img_profile,
+            content=content,
         )
         return user
 
@@ -74,3 +74,4 @@ class PickyUserCreateSerializer(serializers.Serializer):
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
         return ret
+

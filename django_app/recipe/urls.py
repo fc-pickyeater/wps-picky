@@ -8,6 +8,25 @@ urlpatterns = [
     url(r'^$', apis.RecipeListView.as_view()),
     # 레시피 상세 조회 + 레시피 스텝
     url(r'^detail/(?P<pk>\d+)/$', apis.RecipeDetailView.as_view()),
+    # 마이페이지
+    url(r'^mylist/', apis.MyRecipeListView.as_view()),
+    # 북마크
+    url(r'^bookmark/$', apis.BookMarkListView.as_view()),
+    url(r'^bookmark/(?P<recipe_pk>\d+)/$', apis.BookMarkView.as_view()),
+    # 좋아요
+    url(r'^like/(?P<recipe_pk>\d+)/$', apis.RecipeLikeView.as_view()),
+    # 평점
+    url(r'^rate/(?P<recipe_pk>\d+)/$',apis.RecipeRateView.as_view()),
+    # recipe step
+    # url(r'^step/$', apis.RecipeStepCreateView.as_view()),
+    # recipestepcomment
+    url(r'^step/comment/$', apis.RecipeStepCommentListView.as_view()),
+    url(r'^step/(?P<pk>\d+)/comment/create/$', apis.RecipeStepCommentCreateView.as_view()),
+    url(r'^step/comment/modify/(?P<pk>\d+)/$', apis.RecipeStepCommentModifyView.as_view()),  # 수정삭제
+    url(r'^step/(?P<pk>\d+)/$', apis.RecipeStepModifyDeleteView.as_view()),
+    # recipe search
+    url(r'^search/$', apis.RecipeSearchListView.as_view()),
+
     # 레시피 생성
     url(r'^create/$', apis.RecipeCreateForFDS.as_view()),
     # 레시피 수정, 삭제. 테스트 필요 8/10 joe
