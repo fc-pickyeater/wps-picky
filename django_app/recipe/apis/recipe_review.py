@@ -8,7 +8,6 @@ from ..models import RecipeReview, Recipe
 
 
 __all__ = (
-    'RecipeReviewListView',
     'RecipeReviewCreateView',
     'RecipeReviewModifyView',
 )
