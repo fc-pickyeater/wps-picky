@@ -83,13 +83,26 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'title',
-            'img_recipe',
             'description',
+            'created_date',
             'tag',
         )
         write_only_fields = (
             'tag',
         )
+
+        read_only_fields = (
+            'created_date',
+        )
+
+
+    # API 리턴에 키, 값을 추가해주는 함수
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        user = instance.user
+        ret['user'] = user.pk
+        return ret
+
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):
