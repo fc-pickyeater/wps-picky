@@ -6,4 +6,3 @@ from .recipelike import *
 from .recipestep import *
 from .recipestep_comment import *
 from .recipe_review import *
-from .recipe_tag import *
