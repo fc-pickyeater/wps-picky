@@ -12,6 +12,7 @@ __all__ = (
     'RecipeReviewModifyView',
 )
 
+
 # 레시피에 달리는 후기를 작성하는 API
 class RecipeReviewCreateView(generics.CreateAPIView):
     """
