@@ -42,7 +42,6 @@ class MyRecipeListView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return user.recipe_set.filter(user_id=user)
-        # return user.recipe_set.all()
 
 
 # Recipe 수정 삭제
@@ -74,7 +73,9 @@ class RecipeCreateForFDS(generics.CreateAPIView):
         tag_list = tag.split(',')
         # 리스트를 순회하며
         for tag in tag_list:
+            # 리스트에 있는 값의 앞뒤 공백제거한 뒤, 내부의 공백은 '_'로 치환
+            cleaned_tag = tag.strip().replace(' ', '_')
             # Tag 테이블에 기존데이터가 있는지 확인하여 없으면 생성(이때 빈칸이 있으면 삭제-strip)
-            tags, _ = Tag.objects.get_or_create(content=tag.strip())
+            tags, _ = Tag.objects.get_or_create(content='#' + cleaned_tag)
             # RecipeTag 데이블에 기존데이터가 있는지 확인하여 없으면 생성(위에서 만들어진 Tag object 사용)
             recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=serializer.instance, tag=tags)
