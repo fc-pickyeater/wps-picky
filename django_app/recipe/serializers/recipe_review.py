@@ -17,6 +17,7 @@ class RecipeReviewCreateSerializer(serializers.ModelSerializer):
             'user',
             'recipe',
             'content',
+            'img_review',
             'created_date',
         )
 
@@ -36,6 +37,7 @@ class RecipeReviewModifySerializer(serializers.ModelSerializer):
             'user',
             'recipe',
             'content',
+            'img_review',
             'modified_date',
         )
 
