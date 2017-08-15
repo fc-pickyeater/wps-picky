@@ -123,12 +123,15 @@ class Recipe(models.Model):
 
 # 레시피 후기
 class RecipeReview(models.Model):
-    recipe = models.ForeignKey(Recipe)
+    recipe = models.ForeignKey(
+            Recipe,
+            related_name='reviews',
+            on_delete=models.CASCADE
+    )
     user = models.ForeignKey(PickyUser)
     content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    # 후기 이미지
     img_review = models.ImageField(
         upload_to=recipe_review_img_directory,
         blank=True,
