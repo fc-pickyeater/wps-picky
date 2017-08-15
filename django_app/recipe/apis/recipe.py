@@ -1,6 +1,5 @@
-from rest_framework import generics, status
+from rest_framework import generics
 from rest_framework import permissions
-from rest_framework.response import Response
 
 from utils.permissions import ObjectIsRequestUser
 from ..models import Recipe, RecipeTag, Tag
@@ -11,11 +10,7 @@ __all__ = (
     'RecipeListView',
     'RecipeDetailView',
     'RecipeModifyDelete',
-    # 'RecipeCreateView',
     'RecipeCreateForFDS',
-
-    # recipestep.py로 이동 8/9 joe
-    # 'RecipeStepCreateForFDS',
 )
 
 
@@ -33,13 +28,6 @@ class RecipeDetailView(generics.RetrieveAPIView):
     # RecipeStep의 List를 출력하기위한 Serializer 사용
     serializer_class = RecipeSerializer
     queryset = Recipe.objects.all()
-
-    # RecipeStep(Recipe에 ForeignKey)의 object들을
-    # queryset으로 가져와서 recipe에 할당 후 리턴
-    # def get_queryset(self):
-    #     recipe = RecipeStep.objects.all()
-    #     RecipeStep.objects.filter(recipe_id=recipe)
-        # return recipe
 
 
 # 마이페이지에서 자신이 작성한 Recipe 목록 확인
@@ -90,16 +78,3 @@ class RecipeCreateForFDS(generics.CreateAPIView):
             tags, _ = Tag.objects.get_or_create(content=tag.strip())
             # RecipeTag 데이블에 기존데이터가 있는지 확인하여 없으면 생성(위에서 만들어진 Tag object 사용)
             recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=serializer.instance, tag=tags)
-
-
-# recipestep.py로 이동 8/9 joe
-# 'RecipeStepCreateForFDS',
-
-# 레시피 생성하는 API 테스트용으로 짠코드 - 8/7 hong
-# RecipeCreateForFDS로 변경하여 적용 8/9 joe
-# class RecipeCreateView(generics.CreateAPIView):
-#     serializer_class = RecipeCreateSerializer
-#
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-
