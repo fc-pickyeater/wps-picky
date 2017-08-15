@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from recipe.models import Recipe, Tag
-from recipe.serializers.recipestep import RecipeStepListSerializer
+from ..serializers import RecipeStepListSerializer, RecipeReviewListSerializer
+
 
 __all__ = (
     'RecipeSerializer',
@@ -15,6 +16,8 @@ class RecipeSerializer(serializers.ModelSerializer):
     # RecipeStepListSerializer 사용
     # 여러 객체들을 가져오기위해 many=True옵션 설정(필수)
     recipes = RecipeStepListSerializer(many=True)
+    reviews = RecipeReviewListSerializer(many=True, required=False, )
+
 
     class Meta:
         # Recipe 모델 사용
@@ -31,6 +34,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'cal_sum',
             'like_count',
 
+            'reviews',
             'recipes',
         )
 
@@ -40,7 +44,10 @@ class RecipeSerializer(serializers.ModelSerializer):
             'rate_sum',
             'cal_sum',
             'like_count',
+
         )
+
+
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):
