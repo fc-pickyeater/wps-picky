@@ -12,6 +12,11 @@ __all__ = (
     'RecipeStepComment',
     'RecipeStep',
     'BookMark',
+    'RecipeLike',
+    'RecipeRate',
+
+    'Tag',
+    'RecipeTag'
 )
 
 
@@ -59,8 +64,8 @@ class Recipe(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     user = models.ForeignKey(PickyUser)
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
     like_users = models.ManyToManyField(
         PickyUser,
         related_name='recipe_user_set',
@@ -73,7 +78,13 @@ class Recipe(models.Model):
         related_name='RecipeIngredient',
         through='RecipeIngredient',
     )
-    # tag = models.ManyToManyField(Tag)
+
+    tag = models.ManyToManyField(
+        'Tag',
+        through='RecipeTag',
+        related_name='RecipeTag'
+    )
+
     bookmarks = models.ManyToManyField(
         PickyUser,
         related_name='bookmark_user_set',
@@ -82,22 +93,28 @@ class Recipe(models.Model):
     rate_sum = models.FloatField(default=0)
     img_recipe = models.ImageField(
         upload_to=recipe_img_directory,
-        # upload_to='recipe/',
         blank=True
     )
     cal_sum = models.PositiveIntegerField(default=0)
 
+# Recipe 후기 작성
     # def like_counts(self):
     #     self.like_count = self.recipelike_set.count()
     #     # return self.like_count
 
-
+    
 class RecipeReview(models.Model):
+    # 후기를 작성할 Recipe
     recipe = models.ForeignKey(Recipe)
+    # 후기 작성자
     user = models.ForeignKey(PickyUser)
+    # 리뷰 내용
     content = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
+    # 후기 생성시간
+    created_date = models.DateTimeField(auto_now_add=True)
+    # 후기 수정시간
+    modified_date = models.DateTimeField(auto_now=True)
+    # 후기 이미지
     img_review = models.ImageField()
 
 
@@ -179,3 +196,20 @@ class RecipeRate(models.Model):
         unique_together = (
             ('user', 'recipe'),
         )
+
+
+# 일단 여기 써봄... 8/14 joe -> migrate 성공 8/14 joe
+class Tag(models.Model):
+    content = models.CharField(max_length=20, unique=True)
+    url = models.CharField(max_length=200)
+
+    # def tag_search_url(self):
+    #     tag_url = 'http://pickycook.co.kr/recipe/?search=' + self.content
+    #     return tag_url
+
+
+class RecipeTag(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    tag = models.ForeignKey(Tag)
+    created = models.DateTimeField(auto_now_add=True)
+

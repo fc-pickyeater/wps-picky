@@ -32,6 +32,12 @@ urlpatterns = [
     # 레시피 수정, 삭제. 테스트 필요 8/10 joe
     url(r'^update/(?P<pk>\d+)/$', apis.RecipeModifyDelete.as_view()),
 
+    # RecipeReview
+    # 레시피 리뷰 생성
+    url(r'^(?P<pk>\d+)/review/create/$', apis.RecipeReviewCreateView.as_view()),
+    # 레시피 리뷰 수정, 삭제
+    url(r'^review/modify/(?P<pk>\d+)/$', apis.RecipeReviewModifyView.as_view()),
+
     # Recipe Step
     # 레시피 스텝 생성 (레시피 pk 필요)
     url(r'^step/create/$', apis.RecipeStepCreateForFDS.as_view()),

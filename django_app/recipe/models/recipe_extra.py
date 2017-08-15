@@ -1,8 +1,7 @@
 from django.db import models
 
 from ingredient.models import Ingredient
-from recipe.models import Recipe
-
+from ..models import Recipe
 
 __all__ = (
     'RecipeIngredient',

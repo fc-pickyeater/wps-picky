@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from recipe.models import Recipe
+from recipe.models import Recipe, Tag
 from recipe.serializers.recipestep import RecipeStepListSerializer
 
 __all__ = (
@@ -25,11 +25,13 @@ class RecipeSerializer(serializers.ModelSerializer):
             'user',
             'img_recipe',
             'description',
+            'ingredient',
             'rate_sum',
             'cal_sum',
             'like_count',
 
             'recipes',
+            'tag',
         )
         # user는 수정되서는 안되기때문에 read_only_fields에 정의
         read_only_fields = (
@@ -38,6 +40,22 @@ class RecipeSerializer(serializers.ModelSerializer):
             'cal_sum',
             'like_count',
         )
+
+    # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        tag_contents = []
+        # 기존 tag 값(tag id)을 순회하며
+        for tag_id in ret['tag']:
+            # Tag 테이블에서 값을 찾아
+            tag_content = Tag.objects.get(pk=tag_id)
+            # tag_contents 리스트에 추가
+            tag_contents.append(tag_content.content)
+        # 순회가 끝나면 ', '로 조인하여 합침
+        tag_list = ', '.join(tag_contents)
+        # 'tag' 키로 반환
+        ret['tag'] = tag_list
+        return ret
 
 
 # Recipe 리스트 조회에 사용되는 Serializer
@@ -65,11 +83,39 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         fields = (
             'pk',
             'title',
-            'img_recipe',
             'description',
+            'created_date',
+            'tag',
+        )
+
+        read_only_fields = (
+            'created_date',
         )
 
 
+    # API 리턴에 키, 값을 추가해주는 함수
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        user = instance.user
+        ret['user'] = user.pk
+        return ret
+
+
+    # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        tag_contents = []
+        # 기존 tag 값(tag id)을 순회하며
+        for tag_id in ret['tag']:
+            # Tag 테이블에서 값을 찾아
+            tag_content = Tag.objects.get(pk=tag_id)
+            # tag_contents 리스트에 추가
+            tag_contents.append(tag_content.content)
+        # 순회가 끝나면 ', '로 조인하여 합침
+        tag_list = ', '.join(tag_contents)
+        # 'tag' 키 값에 override
+        ret['tag'] = tag_list
+        return ret
 
 
 class RecipeSearchSerializer(serializers.ModelSerializer):
@@ -82,12 +128,3 @@ class RecipeSearchSerializer(serializers.ModelSerializer):
             'img_recipe',
             'description',
         )
-
-        # read_only_fields = (
-        #     'pk',
-        #     'title',
-        #     'user',
-        #     'img_recipe',
-        #     'description',
-        #
-        # )

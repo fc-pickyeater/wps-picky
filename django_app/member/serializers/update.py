@@ -46,13 +46,13 @@ class PickyUserUpdateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('기존 패스워드가 맞지 않습니다.')
         # 비번이 4글자보다 적으면 에러 발생
         if len(self.initial_data['password1']) < 4:
-            d = {}
+            d = dict()
             d['error_msg'] = '패스워드는 최소 4글자 이상이어야 합니다.'
             d['result_code'] = 31
             raise serializers.ValidationError(d)
         # 입력된 비번이 다르면 에러 발생
         if password1 != password2:
-            d = {}
+            d = dict()
             d['error_msg'] = '입력된 패스워드가 일치하지 않습니다'
             d['result_code'] = 33
             raise serializers.ValidationError(d)

@@ -52,13 +52,13 @@ class PickyUserCreate(generics.CreateAPIView):
     serializer_class = PickyUserCreateSerializer
 
 
-# 확인해야함. 8/13 joe
+# 정상작동 되는데 반환되는 값이 없음. 8/13 joe
 class PickyUserDelete(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserSerializer
 
 
-# 쿼리셋을 get으로 수정해야할지? 확인해야함. 8/13 joe
+# 안됨.... 8/13 joe
 class PickyUserLogout(generics.DestroyAPIView):
     queryset = Token.objects.all()
     serializer_class = PickyUserTokenSerializer
