@@ -5,7 +5,26 @@ from ..models.recipe import RecipeReview
 __all__ = (
     'RecipeReviewCreateSerializer',
     'RecipeReviewModifySerializer',
+    'RecipeReviewListSerializer',
 )
+
+
+class RecipeReviewListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RecipeReview
+
+        fields = (
+            'pk',
+            'recipe',
+            'user',
+            'content',
+            'img_review',
+        )
+
+        read_only_fields = (
+            'recipe',
+            'user',
+        )
 
 
 class RecipeReviewCreateSerializer(serializers.ModelSerializer):
@@ -24,7 +43,7 @@ class RecipeReviewCreateSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'user',
             'recipe',
-            'created_date'
+            'created_date',
         )
 
 
