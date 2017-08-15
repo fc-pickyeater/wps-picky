@@ -123,7 +123,8 @@ class Recipe(models.Model):
 
 class RecipeReview(models.Model):
     # 후기를 작성할 Recipe
-    recipe = models.ForeignKey(Recipe)
+    recipe = models.ForeignKey(Recipe, related_name='reviews',on_delete=models.CASCADE)
+
     # 후기 작성자
     user = models.ForeignKey(PickyUser)
     # 리뷰 내용
