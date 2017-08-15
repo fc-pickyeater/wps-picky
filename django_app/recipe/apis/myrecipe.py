@@ -195,7 +195,7 @@ class RecipeRateView(APIView):
         cnt = RecipeRate.objects.filter(recipe=recipe_instance).count()
         avg = recipe_instance.rate_sum
         current_rate = float(RecipeRate.objects.get(user=request.user).rate)
-        new_avg = float((avg * cnt) - current_rate) / (cnt-1)
+        new_avg = float(((avg * cnt) - current_rate) / (cnt-1))
         recipe_instance.rate_sum = new_avg
         recipe_instance.save()
         instance.delete()
