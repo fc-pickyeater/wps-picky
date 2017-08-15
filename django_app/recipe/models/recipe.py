@@ -204,10 +204,6 @@ class Tag(models.Model):
     content = models.CharField(max_length=20, unique=True)
     url = models.CharField(max_length=200)
 
-    # def tag_search_url(self):
-    #     tag_url = 'http://pickycook.co.kr/recipe/?search=' + self.content
-    #     return tag_url
-
 
 class RecipeTag(models.Model):
     recipe = models.ForeignKey(Recipe)
