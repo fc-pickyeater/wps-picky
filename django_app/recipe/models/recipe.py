@@ -46,10 +46,10 @@ def recipe_step_img_directory(instance, filename):
         user=instance.recipe.user.pk,
     )
     recipe_step_img_filename = u'{step}-{title}-{microsecond}{extension}'.format(
-            step=str(instance.step).rjust(2, '0'),
-            title=instance.recipe.title,
-            microsecond=datetime.datetime.now().microsecond,
-            extension=os.path.splitext(filename)[1],
+        step=str(instance.step).rjust(2, '0'),
+        title=instance.recipe.title,
+        microsecond=datetime.datetime.now().microsecond,
+        extension=os.path.splitext(filename)[1],
     )
     return 'recipe/{path}/{filename}'.format(
         path=recipe_img_path,
@@ -96,11 +96,13 @@ class Recipe(models.Model):
         related_name='RecipeIngredient',
         through='RecipeIngredient',
     )
+
     tag = models.ManyToManyField(
         'Tag',
         through='RecipeTag',
         related_name='RecipeTag'
     )
+
     bookmarks = models.ManyToManyField(
         PickyUser,
         related_name='bookmark_user_set',
@@ -114,11 +116,11 @@ class Recipe(models.Model):
     cal_sum = models.PositiveIntegerField(default=0)
 
 # Recipe 후기 작성
-    # def like_counts(self):
-    #     self.like_count = self.recipelike_set.count()
-    #     # return self.like_count
+# def like_counts(self):
+#     self.like_count = self.recipelike_set.count()
+#     # return self.like_count
 
-    
+
 class RecipeReview(models.Model):
     # 후기를 작성할 Recipe
     recipe = models.ForeignKey(Recipe)
@@ -209,7 +211,8 @@ class RecipeLike(models.Model):
 class RecipeRate(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
-    rate = models.FloatField(default=0)
+    # 소수점 사용을 위한 필드 - hong 8/15
+    rate = models.DecimalField(default=0, max_digits=3, decimal_places=1)
 
     class Meta:
         unique_together = (
@@ -221,10 +224,6 @@ class RecipeRate(models.Model):
 class Tag(models.Model):
     content = models.CharField(max_length=20, unique=True)
     url = models.CharField(max_length=200)
-
-    # def tag_search_url(self):
-    #     tag_url = 'http://pickycook.co.kr/recipe/?search=' + self.content
-    #     return tag_url
 
 
 class RecipeTag(models.Model):
