@@ -70,33 +70,26 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RecipeSerializer
 
 
-# FDS용 레시피 생성 8/9 joe
+# FDS용 레시피 생성 8/9 joe, 태그 추가 기능 8/15 joe
 class RecipeCreateForFDS(generics.CreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeCreateSerializer
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        # tag = serializer.initial_data['tag']
-        # tag_list = tag.split(', ')
-        # recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=)
-
+    # tag 추가 8/15 joe
     def perform_create(self, serializer):
         serializer.save(
                 user=self.request.user,
         )
+        # 사용자가 tag 필드에 입력한 값을 가지고 옴
         tag = serializer.initial_data['tag']
-        tag_list = tag.split(', ')
+        # ','로 구분하여 리스트를 만듬
+        tag_list = tag.split(',')
+        # 리스트를 순회하며
         for tag in tag_list:
-            tags, _ = Tag.objects.get_or_create(content=tag)
+            # Tag 테이블에 기존데이터가 있는지 확인하여 없으면 생성(이때 빈칸이 있으면 삭제-strip)
+            tags, _ = Tag.objects.get_or_create(content=tag.strip())
+            # RecipeTag 데이블에 기존데이터가 있는지 확인하여 없으면 생성(위에서 만들어진 Tag object 사용)
             recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=serializer.instance, tag=tags)
-
-
-
 
 
 # recipestep.py로 이동 8/9 joe
