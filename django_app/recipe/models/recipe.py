@@ -41,7 +41,7 @@ def recipe_img_directory(instance, filename):
 # 레시피 스텝 사진이 저장되는 경로와 파일 이름을 바꿔주는 함수
 def recipe_step_img_directory(instance, filename):
     recipe_img_path = u'{date}-{title}-{user}'.format(
-        date=datetime.datetime.now().strftime('%Y-%m-%d'),
+        date=instance.recipe.created_date.strftime('%Y-%m-%d'),
         title=instance.recipe.title,
         user=instance.recipe.user.pk,
     )
@@ -54,6 +54,24 @@ def recipe_step_img_directory(instance, filename):
     return 'recipe/{path}/{filename}'.format(
         path=recipe_img_path,
         filename=recipe_step_img_filename,
+    )
+
+
+# 레시피 후기 사진이 저장되는 경로와 파일 이름을 바꿔주는 함수
+def recipe_review_img_directory(instance, filename):
+    recipe_img_path = u'{date}-{title}-{user}'.format(
+        date=instance.recipe.created_date.strftime('%Y-%m-%d'),
+        title=instance.recipe.title,
+        user=instance.recipe.user.pk,
+    )
+    recipe_review_img_filename = u'review-{title}-{microsecond}{extension}'.format(
+            title=instance.recipe.title,
+            microsecond=datetime.datetime.now().microsecond,
+            extension=os.path.splitext(filename)[1],
+    )
+    return 'recipe/{path}/{filename}'.format(
+        path=recipe_img_path,
+        filename=recipe_review_img_filename,
     )
 
 
@@ -113,7 +131,10 @@ class RecipeReview(models.Model):
     # 후기 수정시간
     modified_date = models.DateTimeField(auto_now=True)
     # 후기 이미지
-    img_review = models.ImageField()
+    img_review = models.ImageField(
+        upload_to=recipe_review_img_directory,
+        blank=True,
+        )
 
 
 class RecipeStep(models.Model):
@@ -132,7 +153,7 @@ class RecipeStep(models.Model):
     # 조리시간
     timer = models.PositiveIntegerField(default=0)
     # 사진
-    image_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
+    img_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
 
     # step 숫자 자동입력 8/10 joe
     def save(self, *args, **kwargs):
