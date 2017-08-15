@@ -98,11 +98,11 @@ class Recipe(models.Model):
     cal_sum = models.PositiveIntegerField(default=0)
 
 # Recipe 후기 작성
-    # def like_counts(self):
-    #     self.like_count = self.recipelike_set.count()
-    #     # return self.like_count
+# def like_counts(self):
+#     self.like_count = self.recipelike_set.count()
+#     # return self.like_count
 
-    
+
 class RecipeReview(models.Model):
     # 후기를 작성할 Recipe
     recipe = models.ForeignKey(Recipe)
@@ -190,7 +190,7 @@ class RecipeLike(models.Model):
 class RecipeRate(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
-    rate = models.DecimalField(default=0, decimal_places=1)
+    rate = models.DecimalField(default=0, max_digits=1, decimal_places=1)
 
     class Meta:
         unique_together = (
@@ -212,4 +212,3 @@ class RecipeTag(models.Model):
     recipe = models.ForeignKey(Recipe)
     tag = models.ForeignKey(Tag)
     created = models.DateTimeField(auto_now_add=True)
-
