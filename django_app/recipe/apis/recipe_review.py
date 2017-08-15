@@ -3,7 +3,7 @@ from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 
 from utils.permissions import ObjectIsRequestUser
-from ..serializers import RecipeReviewListSerializer, RecipeReviewModifySerializer, RecipeReviewCreateSerializer
+from ..serializers import RecipeReviewModifySerializer, RecipeReviewCreateSerializer
 from ..models import RecipeReview, Recipe
 
 
