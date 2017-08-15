@@ -178,7 +178,7 @@ class RecipeRateView(APIView):
         serializer = RecipeRateSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        # 공식에 관한설명은 post부분 참
+        # 공식에 관한설명은 post부분 참조
         cnt = RecipeRate.objects.filter(recipe=recipe_).count()
         avg = recipe_.rate_sum
         current_rate = float(serializer.data.get('rate'))
@@ -191,6 +191,7 @@ class RecipeRateView(APIView):
         # 레시피를 가져온다
         recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         instance = get_object_or_404(recipe_instance.reciperate_set, user=request.user)
+        # 공식 관련 부분은 post참조
         cnt = RecipeRate.objects.filter(recipe=recipe_instance).count()
         avg = recipe_instance.rate_sum
         current_rate = float(RecipeRate.objects.get(user=request.user).rate)
@@ -198,4 +199,4 @@ class RecipeRateView(APIView):
         recipe_instance.rate_sum = new_avg
         recipe_instance.save()
         instance.delete()
-        return Response({"detail": "asdasd"}, status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
