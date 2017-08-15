@@ -190,7 +190,7 @@ class RecipeLike(models.Model):
 class RecipeRate(models.Model):
     recipe = models.ForeignKey(Recipe)
     user = models.ForeignKey(PickyUser)
-    rate = models.DecimalField(default=0, max_digits=1, decimal_places=1)
+    rate = models.DecimalField(default=0, max_digits=3, decimal_places=1)
 
     class Meta:
         unique_together = (
