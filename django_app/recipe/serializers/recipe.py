@@ -87,6 +87,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'description',
             'tag',
         )
+        write_only_fields = (
+            'tag',
+        )
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):

@@ -69,7 +69,7 @@ class RecipeCreateForFDS(generics.CreateAPIView):
                 user=self.request.user,
         )
         # 사용자가 tag 필드에 입력한 값을 가지고 옴
-        tag = serializer.initial_data['tag']
+        tag = serializer.initial_data.get('tag', '')
         # ','로 구분하여 리스트를 만듬
         tag_list = tag.split(',')
         # 리스트를 순회하며
