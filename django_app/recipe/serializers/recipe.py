@@ -26,13 +26,15 @@ class RecipeSerializer(serializers.ModelSerializer):
             'img_recipe',
             'description',
             'ingredient',
+            'tag',
             'rate_sum',
             'cal_sum',
             'like_count',
 
             'recipes',
-            'tag',
+
         )
+
         # user는 수정되서는 안되기때문에 read_only_fields에 정의
         read_only_fields = (
             'user',
@@ -50,7 +52,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             # Tag 테이블에서 값을 찾아
             tag_content = Tag.objects.get(pk=tag_id)
             # tag_contents 리스트에 추가
-            tag_contents.append(tag_content.content)
+            tag_contents.append('#' + tag_content.content)
         # 순회가 끝나면 ', '로 조인하여 합침
         tag_list = ', '.join(tag_contents)
         # 'tag' 키로 반환
@@ -99,8 +101,8 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         for tag_id in ret['tag']:
             # Tag 테이블에서 값을 찾아
             tag_content = Tag.objects.get(pk=tag_id)
-            # tag_contents 리스트에 추가
-            tag_contents.append(tag_content.content)
+            # tag_contents 리스트에 추가, 각 태그앞에 '#' 추가
+            tag_contents.append('#' + tag_content.content)
         # 순회가 끝나면 ', '로 조인하여 합침
         tag_list = ', '.join(tag_contents)
         # 'tag' 키 값에 override
