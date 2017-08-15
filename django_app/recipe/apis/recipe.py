@@ -1,12 +1,9 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework import permissions
 from rest_framework.response import Response
 
-from recipe.serializers import RecipeStepCreateSerializer
 from utils.permissions import ObjectIsRequestUser
-from ..models import Recipe
-from ..models import RecipeStep
-from ..serializers import RecipeStepListSerializer
+from ..models import Recipe, RecipeTag, Tag
 from ..serializers.recipe import RecipeSerializer, RecipeCreateSerializer, RecipeListSerializer
 
 __all__ = (
@@ -78,10 +75,28 @@ class RecipeCreateForFDS(generics.CreateAPIView):
     queryset = Recipe.objects.all()
     serializer_class = RecipeCreateSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        # tag = serializer.initial_data['tag']
+        # tag_list = tag.split(', ')
+        # recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=)
+
     def perform_create(self, serializer):
         serializer.save(
                 user=self.request.user,
         )
+        tag = serializer.initial_data['tag']
+        tag_list = tag.split(', ')
+        for tag in tag_list:
+            tags, _ = Tag.objects.get_or_create(content=tag)
+            recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=serializer.instance, tag=tags)
+
+
+
 
 
 # recipestep.py로 이동 8/9 joe

@@ -54,4 +54,7 @@ urlpatterns = [
 
     # Recipe Search
     url(r'^search/$', apis.RecipeSearchListView.as_view()),
+
+    # Recipe Tag
+    # url(r'^(?P<pk>\d+)/tag/create/', apis.RecipeTagCreate.as_view()),
 ]

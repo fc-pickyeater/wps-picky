@@ -68,8 +68,10 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'title',
             'img_recipe',
             'description',
+            'tag',
         )
-
+        # recipe 작성시 tag를 입력받기 위한 시리얼라이져 필드
+        # tag = serializers.CharField()
 
 
 
