@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from member.models import PickyUser
+from django.contrib.auth import get_user_model
 
+PickyUser = get_user_model()
 
 __all__ = (
     'PickyUserSerializer',
@@ -31,17 +32,3 @@ class PickyUserSerializer(serializers.ModelSerializer):
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
         return ret
-
-
-# PickyUserSerializer로 통합함. 삭제 예정 8/13 joe
-# class PickyUserDetailSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = PickyUser
-#         fields = (
-#             'pk',
-#             'email',
-#             'nickname',
-#             'content',
-#             'img_profile',
-#             'id_type',
-#         )

@@ -1,7 +1,8 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from member.models import PickyUser
+PickyUser = get_user_model()
 
 
 class PickyUserUpdateSerializer(serializers.ModelSerializer):
