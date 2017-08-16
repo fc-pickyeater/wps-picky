@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from utils.exceptions import CustomValidationError
+
 PickyUser = get_user_model()
 
 
@@ -29,34 +31,42 @@ class PickyUserUpdateSerializer(serializers.ModelSerializer):
 
     # nickname 필드를 검사하는 함수 8/12 joe
     # 특정 필드만 검사하려면 validate_[특정필드이름] 으로 함수를 정의하면 됨
-    def validate_nickname(self, nickname):
-        if PickyUser.objects.filter(nickname=nickname).exists():
-            raise serializers.ValidationError('이미 사용 중인 Nickname입니다.')
-        return nickname
+    # def validate_nickname(self, nickname):
+    #     if PickyUser.objects.filter(nickname=nickname).exists():
+    #         raise serializers.ValidationError('이미 사용 중인 Nickname입니다.')
+    #     return nickname
 
     # 비번은 2개의 필드를 검사해야되므로 따로 함수를 만들 수 없음 8/12 joe
+    # iOS 요청대로 error 메세지 출력 형태 수정 8/16 joe
     def validate(self, data):
+        d = dict()
+        nickname = self.initial_data.get('nickname', None)
         password1 = self.initial_data.get('password1', None)
         password2 = self.initial_data.get('password2', None)
         old_password = self.initial_data.get('password', None)
+
+        # nickname 중복 체크
+        if nickname:
+            if PickyUser.objects.filter(nickname=nickname).exists():
+                d['nickname_exists'] = '이미 사용 중인 Nickname입니다.'
+                raise CustomValidationError(d)
+
+        # 비번 체크
         # 비번 키가 없을 경우 data 리턴하고 종료 (비번을 안바꾸는 경우)
         if password1 is None and password2 is None:
             return data
         # 기존 비번을 받아서 체크
         if not self.instance.check_password(old_password):
-            raise serializers.ValidationError('기존 패스워드가 맞지 않습니다.')
+            d['old_password_error'] = '기존 패스워드가 맞지 않습니다.'
+            raise CustomValidationError(d)
         # 비번이 4글자보다 적으면 에러 발생
         if len(self.initial_data['password1']) < 4:
-            d = dict()
-            d['error_msg'] = '패스워드는 최소 4글자 이상이어야 합니다.'
-            d['result_code'] = 31
-            raise serializers.ValidationError(d)
+            d['too_short_password'] = '패스워드는 최소 4글자 이상이어야 합니다.'
+            raise CustomValidationError(d)
         # 입력된 비번이 다르면 에러 발생
         if password1 != password2:
-            d = dict()
-            d['error_msg'] = '입력된 패스워드가 일치하지 않습니다'
-            d['result_code'] = 33
-            raise serializers.ValidationError(d)
+            d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다'
+            raise CustomValidationError(d)
         # 위 조건들을 통과하면 입력된 비번을 해시해서 저장
         self.instance.set_password(password1)
         return data

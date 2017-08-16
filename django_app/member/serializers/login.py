@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, serializers
+from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 PickyUser = get_user_model()

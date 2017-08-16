@@ -1,15 +1,8 @@
-import re
-
-from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from rest_framework.authtoken.models import Token
+
 import datetime
 import os
-
-from rest_framework.response import Response
 
 __all__ = (
     'PickyUser',
@@ -40,7 +33,7 @@ class PickyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    # facebook 유저 생성
+    # facebook 유저 생성 8/16 joe
     def create_facebook_user(self, user_info):
         user = self.model(
                 fb_id=user_info['id'],
@@ -78,22 +71,18 @@ class PickyUser(AbstractBaseUser):
         (USER_TYPE_NAVER, 'Naver'),
     )
 
-    # user id
     email = models.EmailField(
             verbose_name='email',
             max_length=100,
             unique=True,
     )
-    # user nickname
     nickname = models.CharField(
             max_length=100,
             unique=True
     )
-    # password
     password = models.CharField(
             max_length=200,
     )
-    # user 사진
     img_profile = models.ImageField(
             # 위의 user_img_directory 함수에서 정해진 폴더에 저장
             upload_to=user_img_directory,
@@ -102,16 +91,12 @@ class PickyUser(AbstractBaseUser):
     )
     # user 인삿말
     content = models.TextField(blank=True, null=True)
-    # django user : d
-    # facebook user : f
-    # naver user : n
-    # kakao user : k
     id_type = models.CharField(
             max_length=1,
             choices=USER_TYPE_CHOICES,
             default=USER_TYPE_PICKY,
             )
-    # facebook user_id
+    # facebook user_id 8/16 joe
     fb_id = models.CharField(max_length=100, blank=True, null=True)
     # 활성화된 유저인가? admin 페이지때문에 필수 : 8/1 Joe
     is_active = models.BooleanField(default=True)
@@ -152,10 +137,3 @@ class PickyUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-
-
-# @receiver(post_save, sender=settings.AUTH_USER_MODEL)
-# def create_auth_token(sender, instance=None, created=False, **kwargs):
-#     if created:
-#         Token.objects.create(user=instance)
-
