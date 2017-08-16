@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from ..models.recipe import RecipeReview
 
+from utils.exceptions import CustomValidationError
+from ..models.recipe import RecipeReview
 
 __all__ = (
     'RecipeReviewCreateSerializer',
@@ -45,6 +46,16 @@ class RecipeReviewCreateSerializer(serializers.ModelSerializer):
             'recipe',
             'created_date',
         )
+
+    recipe = serializers.CharField(required=False)
+    content = serializers.CharField(required=False)
+
+    def validate(self, data):
+        content = self.initial_data.get('content', '')
+        if content == '':
+            raise CustomValidationError({"content": "후기 내용을 채워주세요."})
+        else:
+            return data
 
 
 class RecipeReviewModifySerializer(serializers.ModelSerializer):

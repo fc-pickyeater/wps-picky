@@ -143,7 +143,7 @@ class RecipeReview(models.Model):
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='recipes', on_delete=models.CASCADE)
     step = models.PositiveIntegerField(default=1)
-    description = models.TextField(max_length=256)
+    description = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     is_timer = models.BooleanField(default=False)
