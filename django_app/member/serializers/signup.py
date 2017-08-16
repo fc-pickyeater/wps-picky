@@ -26,31 +26,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
     nickname = serializers.CharField(max_length=100)
     content = serializers.CharField(max_length=200, allow_null=True, required=False)
 
-    # validate_[필드 이름] <- 함수 이름을 꼭! 이렇게지정해야 해당 필드를 검사함.
-    # def validate_email(self, email):
-    #     if PickyUser.objects.filter(email=email).exists():
-    #         d = dict()
-    #         d['result_code'] = 11
-    #         d['error_msg'] = '다른 사용자가 사용 중인 email입니다.'
-    #         raise serializers.ValidationError(d)
-    #     else:
-    #         try:
-    #             validate_email(email)
-    #         except ValidationError:
-    #             d = dict()
-    #             d['result_code'] = 12
-    #             d['error_msg'] = '유효한 이메일을 입력하세요.'
-    #             raise serializers.ValidationError(d)
-    #     return email
-
-    # def validate_nickname(self, nickname):
-    #     if PickyUser.objects.filter(nickname=nickname).exists():
-    #         d = dict()
-    #         d['result_code'] = 21
-    #         d['error_msg'] = '다른 사용자가 사용 중인 Nickname입니다.'
-    #         raise serializers.ValidationError(d)
-    #     return nickname
-
+    # iOS 요청대로 error 메세지 출력 형태 수정 8/16 joe
     def validate(self, data):
         d = dict()
         # email 필드 검증
