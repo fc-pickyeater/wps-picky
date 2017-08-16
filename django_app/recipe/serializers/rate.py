@@ -27,6 +27,6 @@ class RecipeRateSerializer(serializers.ModelSerializer):
         if data['rate'] < 0:
             raise CustomValidationError({"rate_detail_less": "평점의 범위를 벗어났습니다."})
         elif data['rate'] > 10:
-            raise CustomValidationError({"rate_detail_grate": "평점의 범위를 벗어났습니다."})
+            raise CustomValidationError({"rate_detail_greater": "평점의 범위를 벗어났습니다."})
         else:
             return data
