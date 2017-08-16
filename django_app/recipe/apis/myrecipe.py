@@ -221,7 +221,6 @@ class RecipeRateView(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
-        print(request.data)
         serializer = RecipeRateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         # 평점을 주었는지 판단

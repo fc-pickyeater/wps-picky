@@ -29,9 +29,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'ingredient',
             'tag',
             'rate_sum',
-            'cal_sum',
             'like_count',
-
             'reviews',
             'recipes',
         )
@@ -40,7 +38,6 @@ class RecipeSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'user',
             'rate_sum',
-            'cal_sum',
             'like_count',
 
         )
@@ -74,7 +71,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
             'img_recipe',
             'description',
             'rate_sum',
-            'cal_sum',
+            'like_count',
         )
 
 

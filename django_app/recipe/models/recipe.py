@@ -174,7 +174,7 @@ def get_recipe_step_no(recipe):
 class RecipeStepComment(models.Model):
     recipe_step = models.ForeignKey(RecipeStep, related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(PickyUser)
-    content = models.TextField(max_length=256)
+    content = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
 
 
