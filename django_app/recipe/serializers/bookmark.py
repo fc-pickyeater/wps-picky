@@ -23,6 +23,8 @@ class BookMarkSerializer(serializers.ModelSerializer):
             'created_date'
         )
 
+    memo = serializers.CharField(required=False)
+
 
 class BookMarkUpdateSeriailizer(serializers.ModelSerializer):
     class Meta:
