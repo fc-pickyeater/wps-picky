@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from recipe.models.recipe import RecipeStepComment
+from utils.exceptions import CustomValidationError
 
 __all__ = (
     'RecipeStepCommentListSerializer',
@@ -43,10 +44,20 @@ class RecipeStepCommentCreateSerializer(serializers.ModelSerializer):
             'created_date',
         )
 
+    content = serializers.CharField(required=False)
+
+    def validate(self, data):
+        content = self.initial_data.get('content', '')
+        print(123)
+        if content == '':
+            raise CustomValidationError({"content": "댓글의 내용을 적어주세요"})
+        if len(data['content']) > 256:
+            raise CustomValidationError({"content": "댓글의 내용이 256자를 초과합니다."})
+        else:
+            return data
+
 
 class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
-
-
     class Meta:
         model = RecipeStepComment
 
@@ -62,3 +73,15 @@ class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
             'user',
             'recipe_step',
         )
+
+    content = serializers.CharField(required=False)
+
+    def validate(self, data):
+        content = self.initial_data.get('content', '')
+        print(123)
+        if content == '':
+            raise CustomValidationError({"content": "댓글의 내용을 적어주세요"})
+        if len(data['content']) > 256:
+            raise CustomValidationError({"content": "댓글의 내용이 256자를 초과합니다."})
+        else:
+            return data

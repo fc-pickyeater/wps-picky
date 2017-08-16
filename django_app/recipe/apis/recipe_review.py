@@ -1,5 +1,6 @@
 from rest_framework import generics
 from rest_framework import permissions
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from utils.permissions import ObjectIsRequestUser
@@ -31,7 +32,7 @@ class RecipeReviewCreateView(generics.CreateAPIView):
         recipe_pk = self.kwargs['pk']
         serializer.save(
             user=self.request.user,
-            recipe=Recipe.objects.get(pk=recipe_pk)
+            recipe= get_object_or_404(Recipe,pk=recipe_pk)
         )
 
 
