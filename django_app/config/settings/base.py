@@ -23,6 +23,8 @@ CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
 CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
 CONFIG_SECRET_DEBUG_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_debug.json')
 CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.json')
+
+# CORS setting
 CORS_ORIGIN_WHITELIST = (
     'pickycookbook.co.kr',
     'localhost:8000',
@@ -37,6 +39,10 @@ SECRET_KEY = config_secret_common['django']['secret_key']
 
 # User model
 AUTH_USER_MODEL = 'member.PickyUser'
+
+# Facebook
+FACEBOOK_APP_ID = config_secret_common['facebook']['app_id']
+FACEBOOK_SECRET_CODE = config_secret_common['facebook']['secret_code']
 
 # Application definition
 INSTALLED_APPS = [
@@ -67,7 +73,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
-    # 'EXCEPTION_HANDLER': 'utils.exceptions.custom_exception_handler',
+    # 반환되는 JSON에 status_code를 같이 보내줌.
+    'EXCEPTION_HANDLER': 'utils.exception_handler.custom_exception_handler',
 }
 
 MIDDLEWARE = [

@@ -122,41 +122,32 @@ class Recipe(models.Model):
 #     # return self.like_count
 
 
+# 레시피 후기
 class RecipeReview(models.Model):
-    # 후기를 작성할 Recipe
-    recipe = models.ForeignKey(Recipe, related_name='reviews', on_delete=models.CASCADE)
-
-    # 후기 작성자
+    recipe = models.ForeignKey(
+            Recipe,
+            related_name='reviews',
+            on_delete=models.CASCADE
+    )
     user = models.ForeignKey(PickyUser)
-    # 리뷰 내용
     content = models.TextField()
-    # 후기 생성시간
     created_date = models.DateTimeField(auto_now_add=True)
-    # 후기 수정시간
     modified_date = models.DateTimeField(auto_now=True)
-    # 후기 이미지
     img_review = models.ImageField(
         upload_to=recipe_review_img_directory,
         blank=True,
     )
 
 
+# 레시피 스텝
 class RecipeStep(models.Model):
-    # 레시피
     recipe = models.ForeignKey(Recipe, related_name='recipes', on_delete=models.CASCADE)
-    # 단계
     step = models.PositiveIntegerField(default=1)
-    # 설명
     description = models.TextField(max_length=256)
-    # 생성시간
     created_date = models.DateTimeField(auto_now_add=True)
-    # 수정시간
     modified_date = models.DateTimeField(auto_now=True)
-    # 타이머 필요
     is_timer = models.BooleanField(default=False)
-    # 조리시간
     timer = models.PositiveIntegerField(default=0)
-    # 사진
     img_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
 
     # step 숫자 자동입력 8/10 joe

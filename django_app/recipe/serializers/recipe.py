@@ -34,7 +34,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
             'reviews',
             'recipes',
-
         )
 
         # user는 수정되서는 안되기때문에 read_only_fields에 정의
