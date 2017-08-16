@@ -8,7 +8,6 @@ class RecipeSearchListSerializer(serializers.ModelSerializer):
     # recipe = RecipeSearchSerializer()
     # ingredient = IngredientSerializer()
 
-
     class Meta:
         model = Recipe
         fields = (
@@ -19,7 +18,6 @@ class RecipeSearchListSerializer(serializers.ModelSerializer):
             'img_recipe',
             'cal_sum',
             'tag',
-
         )
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)

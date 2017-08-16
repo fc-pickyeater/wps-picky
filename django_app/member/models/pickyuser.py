@@ -40,6 +40,18 @@ class PickyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+    # facebook 유저 생성
+    def create_facebook_user(self, user_info):
+        user = self.model(
+                fb_id=user_info['id'],
+                nickname=user_info.get('name', ''),
+                email=user_info.get('email', ''),
+                id_type=PickyUser.USER_TYPE_FACEBOOK,
+                img_profile=user_info['picture']['data'].get('url', ''),
+        )
+        user.save()
+        return user
+
 
 # user image 저장폴더이름 지정 - user email의 특수문자를 제외한 폴더에 이미지 저장
 # 저장되는 파일이름은 nickname-날짜-밀리세컨드.기존확장자
@@ -99,6 +111,8 @@ class PickyUser(AbstractBaseUser):
             choices=USER_TYPE_CHOICES,
             default=USER_TYPE_PICKY,
             )
+    # facebook user_id
+    fb_id = models.CharField(max_length=100, blank=True, null=True)
     # 활성화된 유저인가? admin 페이지때문에 필수 : 8/1 Joe
     is_active = models.BooleanField(default=True)
     # 관리자인가? admin 페이지때문에 필수 : 8/1 Joe
