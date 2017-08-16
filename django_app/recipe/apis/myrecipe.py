@@ -67,11 +67,23 @@ class BookMarkView(APIView):
         try:
             recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         serializer = BookMarkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if BookMark.objects.filter(user=user_, recipe=recipe_).exists():
-            return Response({"detail": "이미 북마크 되었습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "이미 북마크 되었습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         else:
             serializer.save(user=user_, recipe=recipe_)
             recipe_.bookmark_count = recipe_.bookmark_set.count()
@@ -87,7 +99,13 @@ class BookMarkView(APIView):
         try:
             recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         instance = get_object_or_404(BookMark, user=user_, recipe=recipe_)
         serializer = BookMarkSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -101,7 +119,13 @@ class BookMarkView(APIView):
         try:
             recipe_instance = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         instance = get_object_or_404(recipe_instance.bookmark_set, user=request.user)
         instance.delete()
         recipe_instance.bookmark_count = recipe_instance.bookmark_set.count()
@@ -122,12 +146,25 @@ class RecipeLikeView(APIView):
         try:
             recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except AttributeError:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+
         serializer = RecipeLikeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         # 레시피에 이미 좋아요를 눌렀는지 판단
         if RecipeLike.objects.filter(user=user_, recipe=recipe_).exists():
-            return Response({"detail": "이미 좋아요를 눌렀습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "이미 좋아요를 눌렀습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         else:
             # 좋아요 생성
             serializer.save(user=user_, recipe=recipe_)
@@ -144,7 +181,13 @@ class RecipeLikeView(APIView):
         try:
             recipe_instance = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND},
+
+                status=status.HTTP_404_NOT_FOUND
+            )
         instance = get_object_or_404(recipe_instance.recipelike_set, user=request.user)
         # 삭제
         instance.delete()
@@ -171,13 +214,25 @@ class RecipeRateView(APIView):
         try:
             recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         print(request.data)
         serializer = RecipeRateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         # 평점을 주었는지 판단
         if RecipeRate.objects.filter(user=user_, recipe=recipe_).exists():
-            return Response({"detail": "이미 평점을 주었습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "이미 평점을 주었습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         else:
             # 평점을 저장
             serializer.save(user=user_, recipe=recipe_)
@@ -202,7 +257,13 @@ class RecipeRateView(APIView):
         try:
             recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         instance = get_object_or_404(RecipeRate, user=user_, recipe=recipe_)
         serializer = RecipeRateSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -222,7 +283,13 @@ class RecipeRateView(APIView):
         try:
             recipe_instance = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
-            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {
+                    "detail": "레시피를 찾을 수 없습니다.",
+                    "status_code": status.HTTP_404_NOT_FOUND
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
         instance = get_object_or_404(recipe_instance.reciperate_set, user=request.user)
         # 공식 관련 부분은 post참조
         cnt = RecipeRate.objects.filter(recipe=recipe_instance).count()
