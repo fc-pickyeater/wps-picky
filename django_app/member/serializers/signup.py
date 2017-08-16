@@ -1,9 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from ..models import PickyUser
+PickyUser = get_user_model()
 
 __all__ = (
     'PickyUserCreateSerializer',

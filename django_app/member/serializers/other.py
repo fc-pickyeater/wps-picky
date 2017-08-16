@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from member.models import PickyUser
+from django.contrib.auth import get_user_model
 
+PickyUser = get_user_model()
 
 __all__ = (
     'PickyUserSerializer',

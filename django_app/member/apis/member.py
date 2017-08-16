@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from rest_framework import generics, status, authentication, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -9,7 +10,9 @@ from ..serializers import (
     PickyUserTokenSerializer,
 )
 from ..serializers import PickyUserCreateSerializer
-from ..models import PickyUser
+
+PickyUser = get_user_model()
+
 
 __all__ = (
     'PickyUserList',
