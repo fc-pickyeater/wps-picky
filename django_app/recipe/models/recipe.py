@@ -76,9 +76,6 @@ def recipe_review_img_directory(instance, filename):
 
 
 class Recipe(models.Model):
-    """
-    중간자 모델이 필요한 테이블은 주석처리
-    """
     title = models.CharField(max_length=100)
     description = models.TextField()
     user = models.ForeignKey(PickyUser)
@@ -91,18 +88,17 @@ class Recipe(models.Model):
     )
     like_count = models.PositiveIntegerField(default=0)
     bookmark_count = models.PositiveIntegerField(default=0)
-    ingredient = models.ManyToManyField(
-        Ingredient,
-        related_name='RecipeIngredient',
-        through='RecipeIngredient',
-    )
-
+    # ingredient = models.ManyToManyField(
+    #     Ingredient,
+    #     related_name='RecipeIngredient',
+    #     through='RecipeIngredient',
+    # )
+    ingredient = models.TextField(null=True)
     tag = models.ManyToManyField(
         'Tag',
         through='RecipeTag',
         related_name='RecipeTag'
     )
-
     bookmarks = models.ManyToManyField(
         PickyUser,
         related_name='bookmark_user_set',
@@ -114,12 +110,6 @@ class Recipe(models.Model):
         blank=True
     )
     cal_sum = models.PositiveIntegerField(default=0)
-
-
-# Recipe 후기 작성
-# def like_counts(self):
-#     self.like_count = self.recipelike_set.count()
-#     # return self.like_count
 
 
 # 레시피 후기

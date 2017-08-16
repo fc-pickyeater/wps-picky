@@ -7,7 +7,7 @@ from rest_framework.exceptions import _get_error_details, APIException
 # 오류 메시지에 리스트 형식을 빼달라고 하여 오버라이딩 후 수정 - hong 8/16
 class CustomValidationError(APIException):
     status_code = status.HTTP_400_BAD_REQUEST
-    default_detail = ('찾을수 없습니다.')
+    default_detail = '찾을수 없습니다.'
     default_code = 'invalid'
 
     def __init__(self, detail, code=None):

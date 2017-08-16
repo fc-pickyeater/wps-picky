@@ -4,6 +4,8 @@ from django.core.validators import validate_email
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from utils.exceptions import CustomValidationError
+
 PickyUser = get_user_model()
 
 __all__ = (
@@ -25,33 +27,50 @@ class PickyUserCreateSerializer(serializers.Serializer):
     content = serializers.CharField(max_length=200, allow_null=True, required=False)
 
     # validate_[필드 이름] <- 함수 이름을 꼭! 이렇게지정해야 해당 필드를 검사함.
-    def validate_email(self, email):
-        if PickyUser.objects.filter(email=email).exists():
-            d = dict()
-            d['result_code'] = 11
-            d['error_msg'] = '다른 사용자가 사용 중인 email입니다.'
-            raise serializers.ValidationError(d)
-        else:
-            try:
-                validate_email(email)
-            except ValidationError:
-                d = dict()
-                d['result_code'] = 12
-                d['error_msg'] = '유효한 이메일을 입력하세요.'
-                raise serializers.ValidationError(d)
-        return email
+    # def validate_email(self, email):
+    #     if PickyUser.objects.filter(email=email).exists():
+    #         d = dict()
+    #         d['result_code'] = 11
+    #         d['error_msg'] = '다른 사용자가 사용 중인 email입니다.'
+    #         raise serializers.ValidationError(d)
+    #     else:
+    #         try:
+    #             validate_email(email)
+    #         except ValidationError:
+    #             d = dict()
+    #             d['result_code'] = 12
+    #             d['error_msg'] = '유효한 이메일을 입력하세요.'
+    #             raise serializers.ValidationError(d)
+    #     return email
 
-    def validate_nickname(self, nickname):
-        if PickyUser.objects.filter(nickname=nickname).exists():
-            d = dict()
-            d['result_code'] = 21
-            d['error_msg'] = '다른 사용자가 사용 중인 Nickname입니다.'
-            raise serializers.ValidationError(d)
-        return nickname
+    # def validate_nickname(self, nickname):
+    #     if PickyUser.objects.filter(nickname=nickname).exists():
+    #         d = dict()
+    #         d['result_code'] = 21
+    #         d['error_msg'] = '다른 사용자가 사용 중인 Nickname입니다.'
+    #         raise serializers.ValidationError(d)
+    #     return nickname
 
     def validate(self, data):
+        d = dict()
+        # email 필드 검증
+        if PickyUser.objects.filter(email=data['email']).exists():
+            d['email_error'] = '다른 사용자가 사용 중인 email입니다.'
+            raise CustomValidationError(d)
+        else:
+            try:
+                validate_email(data['email'])
+            except ValidationError:
+                d['email_invalid'] = '유효한 이메일을 입력하세요.'
+                raise CustomValidationError(d)
+        # nickname 필드 검증
+        if PickyUser.objects.filter(nickname=data['nickname']).exists():
+            d['nickname_error'] = '다른 사용자가 사용 중인 Nickname입니다.'
+            raise CustomValidationError(d)
+        # 입력된 password 필드 검증
         if data['password1'] != data['password2']:
-            raise serializers.ValidationError('입력된 패스워드가 일치하지 않습니다.')
+            d['password_not_match'] = '입력된 패스워드가 일치하지 않습니다.'
+            raise CustomValidationError(d)
         return data
 
     def create(self, *args, **kwargs):
