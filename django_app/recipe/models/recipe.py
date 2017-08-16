@@ -65,9 +65,9 @@ def recipe_review_img_directory(instance, filename):
         user=instance.recipe.user.pk,
     )
     recipe_review_img_filename = u'review-{title}-{microsecond}{extension}'.format(
-            title=instance.recipe.title,
-            microsecond=datetime.datetime.now().microsecond,
-            extension=os.path.splitext(filename)[1],
+        title=instance.recipe.title,
+        microsecond=datetime.datetime.now().microsecond,
+        extension=os.path.splitext(filename)[1],
     )
     return 'recipe/{path}/{filename}'.format(
         path=recipe_img_path,
@@ -115,6 +115,7 @@ class Recipe(models.Model):
     )
     cal_sum = models.PositiveIntegerField(default=0)
 
+
 # Recipe 후기 작성
 # def like_counts(self):
 #     self.like_count = self.recipelike_set.count()
@@ -123,7 +124,7 @@ class Recipe(models.Model):
 
 class RecipeReview(models.Model):
     # 후기를 작성할 Recipe
-    recipe = models.ForeignKey(Recipe, related_name='reviews',on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name='reviews', on_delete=models.CASCADE)
 
     # 후기 작성자
     user = models.ForeignKey(PickyUser)
@@ -137,7 +138,7 @@ class RecipeReview(models.Model):
     img_review = models.ImageField(
         upload_to=recipe_review_img_directory,
         blank=True,
-        )
+    )
 
 
 class RecipeStep(models.Model):

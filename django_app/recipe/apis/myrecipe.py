@@ -63,7 +63,11 @@ class BookMarkView(APIView):
         user_ = request.user
 
         # pk로 받은 recipe
-        recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         serializer = BookMarkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         if BookMark.objects.filter(user=user_, recipe=recipe_).exists():
@@ -79,7 +83,11 @@ class BookMarkView(APIView):
         # 접속한 유저
         user_ = request.user
         # pk로 받은 recipe
-        recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         instance = get_object_or_404(BookMark, user=user_, recipe=recipe_)
         serializer = BookMarkSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -89,7 +97,11 @@ class BookMarkView(APIView):
     # delete 요청시
     def delete(self, request, **kwargs):
         # 북마크를 가져온다
-        recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_instance = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         instance = get_object_or_404(recipe_instance.bookmark_set, user=request.user)
         instance.delete()
         recipe_instance.bookmark_count = recipe_instance.bookmark_set.count()
@@ -106,7 +118,11 @@ class RecipeLikeView(APIView):
     def post(self, request, **kwargs):
 
         user_ = request.user
-        recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except AttributeError:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         serializer = RecipeLikeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         # 레시피에 이미 좋아요를 눌렀는지 판단
@@ -124,7 +140,11 @@ class RecipeLikeView(APIView):
 
     def delete(self, request, **kwargs):
         # 레시피를 가져온다
-        recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_instance = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         instance = get_object_or_404(recipe_instance.recipelike_set, user=request.user)
         # 삭제
         instance.delete()
@@ -147,7 +167,12 @@ class RecipeRateView(APIView):
 
     def post(self, request, **kwargs):
         user_ = request.user
-        recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
+        print(request.data)
         serializer = RecipeRateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         # 평점을 주었는지 판단
@@ -173,7 +198,11 @@ class RecipeRateView(APIView):
         # 접속한 유저
         user_ = request.user
         # pk로 받은 recipe
-        recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         instance = get_object_or_404(RecipeRate, user=user_, recipe=recipe_)
         serializer = RecipeRateSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -189,13 +218,22 @@ class RecipeRateView(APIView):
 
     def delete(self, request, **kwargs):
         # 레시피를 가져온다
-        recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        # recipe_instance = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
+        try:
+            recipe_instance = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
+        except:
+            return Response({"detail": "레시피를 찾을 수 없습니다."}, status=status.HTTP_404_NOT_FOUND)
         instance = get_object_or_404(recipe_instance.reciperate_set, user=request.user)
         # 공식 관련 부분은 post참조
         cnt = RecipeRate.objects.filter(recipe=recipe_instance).count()
         avg = recipe_instance.rate_sum
         current_rate = float(RecipeRate.objects.get(user=request.user).rate)
-        new_avg = float(((avg * cnt) - current_rate) / (cnt-1))
+        # 평점이 하나만 있을때 나누기 오류가 남
+        # 그부분을 잡기위한 try-except문
+        try:
+            new_avg = float(((avg * cnt) - current_rate) / (cnt - 1))
+        except:
+            new_avg = 0
         recipe_instance.rate_sum = new_avg
         recipe_instance.save()
         instance.delete()

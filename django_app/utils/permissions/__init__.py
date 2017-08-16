@@ -26,8 +26,7 @@ class ObjectIsRequestRecipeStep(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True
-        if RecipeStep.objects.filter(recipe=obj.recipe_id):
-
+        if RecipeStep.objects.filter(recipe=obj.recipe_id).exists():
             if obj.recipe.user == request.user:
                 return True
 
