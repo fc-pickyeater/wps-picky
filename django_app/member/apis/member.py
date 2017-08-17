@@ -1,18 +1,17 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, status, authentication, permissions
+from rest_framework import generics, status, permissions
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 
-from utils.permissions import ObjectIsRequestUser
-from ..serializers.update import PickyUserUpdateSerializer
+from utils.permissions import ObjectIsMe
+from ..serializers import PickyUserCreateSerializer
 from ..serializers import (
     PickyUserSerializer,
     PickyUserTokenSerializer,
 )
-from ..serializers import PickyUserCreateSerializer
+from ..serializers.update import PickyUserUpdateSerializer
 
 PickyUser = get_user_model()
-
 
 __all__ = (
     'PickyUserList',
@@ -33,9 +32,9 @@ class PickyUserList(generics.ListAPIView):
 
 # postman, 배포환경에서 정상작동 확인 8/7 Joe
 class PickyUserDetail(generics.RetrieveAPIView):
-    queryset = PickyUser.objects.all()
     serializer_class = PickyUserSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
+    queryset = PickyUser.objects.all()
 
 
 # 회원정보 부분 업데이트 8/12 joe / user permission 만들어야할것 같음.
@@ -46,7 +45,7 @@ class PickyUserUpdate(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserUpdateSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
 
     # 회원정보 부분 업데이트하는 함수 8/12 joe
     # 키 조차 없는 값이 있어도 키에러 나지 않음. (partial_update)
