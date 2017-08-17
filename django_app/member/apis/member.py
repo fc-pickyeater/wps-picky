@@ -1,14 +1,13 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, status, permissions
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-
 from utils.permissions import ObjectIsMe
-from ..serializers import PickyUserCreateSerializer
+
+from rest_framework import generics, permissions
+from rest_framework.response import Response
 from ..serializers import (
     PickyUserSerializer,
+    PickyUserCreateSerializer,
+    PickyUserUpdateSerializer
 )
-from ..serializers.update import PickyUserUpdateSerializer
 
 PickyUser = get_user_model()
 
@@ -16,7 +15,6 @@ __all__ = (
     'PickyUserList',
     'PickyUserDetail',
     'PickyUserCreate',
-    # 'PickyUserDelete',
     'PickyUserLogout',
     'PickyUserUpdate',
 )
@@ -41,24 +39,18 @@ class PickyUserDetail(generics.RetrieveAPIView):
 # permissions ObjectIsMe 추가 8/17 hong
 class PickyUserUpdate(generics.RetrieveUpdateDestroyAPIView):
     """
-    PUT : 수정
+    PATCH : 수정
     DELETE : 삭제
     """
     queryset = PickyUser.objects.all()
     serializer_class = PickyUserUpdateSerializer
     permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
 
-    # 회원정보 부분 업데이트하는 함수 8/12 joe
-    # 키 조차 없는 값이 있어도 키에러 나지 않음. (partial_update)
-    # 입력된 데이터 검증은 시리얼라이져에서 해줌
-    def put(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
-
     def delete(self, request, *args, **kwargs):
         d = dict()
         d['result'] = '탈되되었습니다.'
         self.destroy(request, *args, **kwargs)
-        return Response(d, status=status.HTTP_202_ACCEPTED)
+        return Response(d)
 
 
 # 유저 생성(회원가입) 정상 작동함 8/10 joe
@@ -67,11 +59,12 @@ class PickyUserCreate(generics.CreateAPIView):
     serializer_class = PickyUserCreateSerializer
 
 
-# 안됨.... 8/13 joe
 class PickyUserLogout(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
 
     def delete(self, request, *args, **kwargs):
+        d = dict()
+        d['result'] = '로그아웃 되었습니다.'
         request.user.auth_token.delete()
-        return Response("로그아웃 되었습니다.")
+        return Response(d)

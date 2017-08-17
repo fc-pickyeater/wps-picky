@@ -64,7 +64,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
             d['empty_password1'] = 'password1을 입력해주세요.'
             raise CustomValidationError(d)
         if password1 != password2:
-            d['password_not_match'] = '입력된 패스워드가 일치하지 않습니다.'
+            d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다.'
             raise CustomValidationError(d)
         return data
 

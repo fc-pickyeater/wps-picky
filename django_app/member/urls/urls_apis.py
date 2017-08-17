@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from .apis.auth import obtain_auth_token, FacebookLoginAPIView
-from . import apis
+from member.apis.auth import obtain_auth_token, FacebookLoginAPIView
+from member import apis
 
 urlpatterns = [
     url(r'^$', apis.PickyUserList.as_view()),
