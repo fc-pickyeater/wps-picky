@@ -22,7 +22,9 @@ class IngredientSearchListCreateView(generics.ListCreateAPIView):
     # 인증 관련부분
     # 인증이 통과 되지 못하면 readonly(get요청)
     # 인증을 하는 부분은 ObjectsIsRequestUser을 참조
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, ObjectIsRequestUser,)
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        ObjectIsRequestUser,)
     # url에 ingredient/?name= 검색할거 입력
     filter_backends = (filters.DjangoFilterBackend,)
     # url parameter붙는 부분을 여기서 정함

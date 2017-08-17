@@ -21,7 +21,7 @@ class ObjectIsRequestUser(permissions.BasePermission):
 # ObjectsIsRequestRecipe에서 ObjectIsRequestRecipeStep로 수정
 
 class ObjectIsRequestRecipeStep(permissions.BasePermission):
-    message = '유저가 다릅니다'
+    message = '유저가 다릅니다.'
 
     def has_object_permission(self, request, view, obj):
         if request.method in permissions.SAFE_METHODS:
@@ -30,3 +30,18 @@ class ObjectIsRequestRecipeStep(permissions.BasePermission):
             if obj.recipe.user == request.user:
                 return True
 
+
+class ObjectIsMe(permissions.BasePermission):
+    message = '유저가 다릅니다.'
+
+    def has_object_permission(self, request, view, obj):
+        if obj == request.user:
+            return True
+
+
+class ObjectIsUserLogout(permissions.BasePermission):
+    message = '유저가 다릅니다.'
+
+    def has_object_permission(self, request, view, obj):
+        if obj == request.user.auth_token:
+            return True
