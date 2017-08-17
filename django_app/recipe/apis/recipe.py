@@ -30,20 +30,6 @@ class RecipeDetailView(generics.RetrieveAPIView):
     queryset = Recipe.objects.all()
 
 
-# 마이페이지에서 자신이 작성한 Recipe 목록 확인
-class MyRecipeListView(generics.ListAPIView):
-    # RecipeSerializer 사용
-    serializer_class = RecipeSerializer
-    # IsAuthenticated 클래스와 커스텀 퍼미션 ObjectIsRequestUser 사용
-    permission_classes = (
-        permissions.IsAuthenticated, ObjectIsRequestUser,
-    )
-
-    def get_queryset(self):
-        user = self.request.user
-        return user.recipe_set.filter(user_id=user)
-
-
 # Recipe 수정 삭제
 class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     # Recipe의 object 가져옴
@@ -65,7 +51,7 @@ class RecipeCreateForFDS(generics.CreateAPIView):
     # tag 추가 8/15 joe
     def perform_create(self, serializer):
         serializer.save(
-                user=self.request.user,
+            user=self.request.user,
         )
         # 사용자가 tag 필드에 입력한 값을 가지고 옴
         tag = serializer.initial_data.get('tag', '')
