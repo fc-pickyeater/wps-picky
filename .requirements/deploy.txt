@@ -10,3 +10,4 @@ boto3<1.5
 keyring==10.4.0
 keyrings.alt==2.2
 django-cors-headers==2.1.0
+requests==2.9.1
