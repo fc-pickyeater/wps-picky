@@ -1,8 +1,8 @@
 from django.contrib.auth import get_user_model
-from utils.permissions import ObjectIsMe
-
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+
+from utils.permissions import ObjectIsMe
 from ..serializers import (
     PickyUserSerializer,
     PickyUserCreateSerializer,

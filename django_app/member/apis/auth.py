@@ -38,12 +38,13 @@ class FacebookLoginAPIView(APIView):
     # get_access_token은 생략됨(JavaScript SDK를 사용)
     # access token을 받은 이후 처리만 하면 됨
     app_access_token = '{}|{}'.format(
-            settings.FACEBOOK_APP_ID,
-            settings.FACEBOOK_SECRET_CODE,
+        settings.FACEBOOK_APP_ID,
+        settings.FACEBOOK_SECRET_CODE,
     )
 
     def post(self, request):
         token = request.data.get('token')
+
         if not token:
             raise APIException('token required')
 
@@ -84,5 +85,3 @@ class FacebookLoginAPIView(APIView):
         response = requests.get(url_user_info, params=url_user_info_params)
         result = response.json()
         return result
-
-
