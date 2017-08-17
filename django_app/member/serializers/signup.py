@@ -20,31 +20,50 @@ class PickyUserCreateSerializer(serializers.Serializer):
             use_url=True,
             required=False,
     )
-    email = serializers.CharField(max_length=100)
-    password1 = serializers.CharField(write_only=True)
-    password2 = serializers.CharField(write_only=True)
-    nickname = serializers.CharField(max_length=100)
+    email = serializers.CharField(max_length=100, allow_null=True, required=False)
+    password1 = serializers.CharField(write_only=True, allow_null=True, required=False)
+    password2 = serializers.CharField(write_only=True, allow_null=True, required=False)
+    nickname = serializers.CharField(max_length=100, allow_null=True, required=False)
     content = serializers.CharField(max_length=200, allow_null=True, required=False)
 
     # iOS 요청대로 error 메세지 출력 형태 수정 8/16 joe
     def validate(self, data):
         d = dict()
+        email = data.get('email', None)
+        nickname = data.get('nickname', None)
+        password1 = data.get('password1', None)
+        password2 = data.get('password2', None)
         # email 필드 검증
-        if PickyUser.objects.filter(email=data['email']).exists():
+        if email is None:
+            d['email_empty'] = 'email을 입력해주세요.'
+            raise CustomValidationError(d)
+        if PickyUser.objects.filter(email=email).exists():
             d['email_error'] = '다른 사용자가 사용 중인 email입니다.'
             raise CustomValidationError(d)
         else:
             try:
-                validate_email(data['email'])
+                validate_email(email)
             except ValidationError:
                 d['email_invalid'] = '유효한 이메일을 입력하세요.'
                 raise CustomValidationError(d)
         # nickname 필드 검증
-        if PickyUser.objects.filter(nickname=data['nickname']).exists():
+        if nickname is None:
+            d['nickname_empty'] = 'nickname을 입력해주세요.'
+            raise CustomValidationError(d)
+        if PickyUser.objects.filter(nickname=nickname).exists():
             d['nickname_error'] = '다른 사용자가 사용 중인 Nickname입니다.'
             raise CustomValidationError(d)
         # 입력된 password 필드 검증
-        if data['password1'] != data['password2']:
+        if (not password1 and not password2) or (password2 is None and password1 is None):
+            d['empty_passwords'] = 'password1과 password2를 입력해주세요.'
+            raise CustomValidationError(d)
+        elif (password1 and not password2) or password2 is None:
+            d['empty_password2'] = 'password2를 입력해주세요.'
+            raise CustomValidationError(d)
+        elif (not password1 and password2) or password1 is None:
+            d['empty_password1'] = 'password1을 입력해주세요.'
+            raise CustomValidationError(d)
+        if password1 != password2:
             d['password_not_match'] = '입력된 패스워드가 일치하지 않습니다.'
             raise CustomValidationError(d)
         return data

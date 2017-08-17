@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from member.serializers.login import FacebookLoginSerializer
-from ..serializers import PickyAuthTokenSerializer, PickyUserSerializer
+from ..serializers import PickyAuthTokenSerializer
 
 PickyUser = get_user_model()
 
@@ -38,7 +38,6 @@ class FacebookLoginAPIView(APIView):
             settings.FACEBOOK_APP_ID,
             settings.FACEBOOK_SECRET_CODE,
     )
-    # serializer_class = PickyUserSerializer
 
     def post(self, request):
         token = request.data.get('token')
