@@ -32,13 +32,9 @@ class RecipeStepCreateSerializer(serializers.ModelSerializer):
         )
 
     description = serializers.CharField(required=False)
-    recipe = serializers.CharField(required=False)
 
     def validate(self, data):
-        recipe = self.initial_data.get('recipe', '')
         description = self.initial_data.get('description', '')
-        if recipe == '':
-            raise CustomValidationError({"recipe": "레시피를 입력하세요."})
         if description == '':
             raise CustomValidationError({"description": "설명을 입력하세요."})
         elif len(data['description']) > 256:
