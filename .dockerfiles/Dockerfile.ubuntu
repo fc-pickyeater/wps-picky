@@ -3,7 +3,7 @@ FROM        ubuntu:16.04
 MAINTAINER  seungyun0914@gmail.com
 
 ## apt-get packages
-RUN         apt-get -y update
+RUN         apt-get -y update  --fix-missing
 #&& apt-get install -y apt-transport-https
 #RUN         apt-get upgrade -y --fix-missing
 RUN         apt-get install -y python-pip
