@@ -47,7 +47,6 @@ class RecipeReviewCreateSerializer(serializers.ModelSerializer):
             'created_date',
         )
 
-    recipe = serializers.CharField(required=False)
     content = serializers.CharField(required=False)
 
     def validate(self, data):

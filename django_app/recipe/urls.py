@@ -16,7 +16,7 @@ urlpatterns = [
     # 좋아요
     url(r'^like/(?P<recipe_pk>\d+)/$', apis.RecipeLikeView.as_view()),
     # 평점
-    url(r'^rate/(?P<recipe_pk>\d+)/$',apis.RecipeRateView.as_view()),
+    url(r'^rate/(?P<recipe_pk>\d+)/$', apis.RecipeRateView.as_view()),
     # recipe step
     # url(r'^step/$', apis.RecipeStepCreateView.as_view()),
     # recipestepcomment
@@ -54,4 +54,5 @@ urlpatterns = [
 
     # Recipe Search
     url(r'^search/$', apis.RecipeSearchListView.as_view()),
+    url(r'^search-tag/$', apis.RecipeTagSearchView.as_view())
 ]
