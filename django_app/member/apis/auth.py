@@ -21,11 +21,14 @@ class ObtainAuthToken(APIView):
     serializer_class = PickyAuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
+        d = dict()
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        d['token'] = token.key
+        d['pk'] = user.pk
+        return Response(d)
 
 
 obtain_auth_token = ObtainAuthToken.as_view()
