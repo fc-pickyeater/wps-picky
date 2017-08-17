@@ -7,7 +7,6 @@ from utils.permissions import ObjectIsMe
 from ..serializers import PickyUserCreateSerializer
 from ..serializers import (
     PickyUserSerializer,
-    PickyUserTokenSerializer,
 )
 from ..serializers.update import PickyUserUpdateSerializer
 
@@ -31,6 +30,7 @@ class PickyUserList(generics.ListAPIView):
 
 
 # postman, 배포환경에서 정상작동 확인 8/7 Joe
+# permissions ObjectIsMe 추가 8/17 hong
 class PickyUserDetail(generics.RetrieveAPIView):
     serializer_class = PickyUserSerializer
     permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
@@ -38,6 +38,7 @@ class PickyUserDetail(generics.RetrieveAPIView):
 
 
 # 회원정보 부분 업데이트 8/12 joe / user permission 만들어야할것 같음.
+# permissions ObjectIsMe 추가 8/17 hong
 class PickyUserUpdate(generics.RetrieveUpdateDestroyAPIView):
     """
     PUT : 수정
@@ -68,5 +69,9 @@ class PickyUserCreate(generics.CreateAPIView):
 
 # 안됨.... 8/13 joe
 class PickyUserLogout(generics.DestroyAPIView):
-    queryset = Token.objects.all()
-    serializer_class = PickyUserTokenSerializer
+    queryset = PickyUser.objects.all()
+    permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
+
+    def delete(self, request, *args, **kwargs):
+        request.user.auth_token.delete()
+        return Response("로그아웃 되었습니다.")

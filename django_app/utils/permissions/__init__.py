@@ -37,3 +37,11 @@ class ObjectIsMe(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if obj == request.user:
             return True
+
+
+class ObjectIsUserLogout(permissions.BasePermission):
+    message = '유저가 다릅니다.'
+
+    def has_object_permission(self, request, view, obj):
+        if obj == request.user.auth_token:
+            return True
