@@ -1,0 +1,10 @@
+{% extends 'include/base.html' %}
+
+{% block content %}
+    <div class="container">
+    <h1>User List</h1>
+    {% for object in pickyuser_list %}
+        <p class="user-list">{{ object }}</p>
+    {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'include/base.html' %}
+
+{% block content %}
+<div class="container">
+      <div class="jumbotron">
+        <h2>{{ object.nickname }}</h2>
+        <p>{{ object.email }}</p>
+      </div>
+            <div class="jumbotron">
+              <h3>내가 쓴 레시피</h3>
+                {% for recipe in object.recipe_set.all %}
+                    <div class="inline-group">
+            {% if recipe.img_recipe %}
+                <img src="{{ recipe.img_recipe }}" alt="">
+            {% endif %}
+                        {{ recipe.title }}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+
+            <div class="jumbotron">
+              <h4>Subheading</h4>
+              <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+              <h4>Subheading</h4>
+              <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
+
+              <h4>Subheading</h4>
+              <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+            </div>
+
+
+</div>
+
+{% endblock %}

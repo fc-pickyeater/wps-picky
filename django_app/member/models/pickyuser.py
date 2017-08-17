@@ -73,7 +73,7 @@ class PickyUser(AbstractBaseUser):
 
     email = models.EmailField(
             verbose_name='email',
-            max_length=100,
+            max_length=250,
             unique=True,
     )
     nickname = models.CharField(
@@ -87,7 +87,8 @@ class PickyUser(AbstractBaseUser):
             # 위의 user_img_directory 함수에서 정해진 폴더에 저장
             upload_to=user_img_directory,
             blank=True,
-            null=True
+            null=True,
+            max_length=250,
     )
     # user 인삿말
     content = models.TextField(blank=True, null=True)
