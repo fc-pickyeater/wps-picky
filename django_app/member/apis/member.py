@@ -1,4 +1,6 @@
 from django.contrib.auth import get_user_model
+from rest_framework import generics, status, permissions
+from rest_framework.response import Response
 from utils.permissions import ObjectIsMe
 
 from rest_framework import generics, permissions
@@ -63,7 +65,8 @@ class PickyUserLogout(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
 
-    def delete(self, request, *args, **kwargs):
+
+    def post(self, request, *args, **kwargs):
         d = dict()
         d['result'] = '로그아웃 되었습니다.'
         request.user.auth_token.delete()
