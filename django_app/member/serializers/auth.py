@@ -46,7 +46,7 @@ class PickyAuthTokenSerializer(serializers.Serializer):
         elif (email and not password) or password is None:
             d['empty_password'] = 'password를 입력해주세요.'
             raise CustomValidationError(d, code='authorization')
-        elif (not email and password) or email in None:
+        elif (not email and password) or email is None:
             d['empty_email'] = 'email을 입력해주세요.'
             raise CustomValidationError(d, code='authorization')
 
