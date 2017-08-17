@@ -1,10 +1,8 @@
 from django.contrib.auth import get_user_model
-from rest_framework import generics, status, permissions
-from rest_framework.response import Response
-from utils.permissions import ObjectIsMe
-
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+
+from utils.permissions import ObjectIsMe
 from ..serializers import (
     PickyUserSerializer,
     PickyUserCreateSerializer,
@@ -64,7 +62,6 @@ class PickyUserCreate(generics.CreateAPIView):
 class PickyUserLogout(generics.DestroyAPIView):
     queryset = PickyUser.objects.all()
     permission_classes = (permissions.IsAuthenticated, ObjectIsMe)
-
 
     def post(self, request, *args, **kwargs):
         d = dict()

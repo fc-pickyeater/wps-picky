@@ -3,14 +3,14 @@ from django.conf.urls import url, include
 from django.conf.urls.static import static
 
 from member import views
-from . import urls_apis, urls_views
+from . import urls_apis
 from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^$', views.index, name='index'),
     url(r'^api/', include(urls_apis)),
-    url(r'^views/', include(urls_views)),
+    # url(r'^views/', include(urls_views)),
 ]
 urlpatterns += static(
     prefix=settings.MEDIA_URL,
