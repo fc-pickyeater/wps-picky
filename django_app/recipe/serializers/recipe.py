@@ -111,14 +111,3 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         ret['user'] = user.pk
         return ret
 
-
-class RecipeSearchSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recipe
-        fields = (
-            'pk',
-            'title',
-            'user',
-            'img_recipe',
-            'description',
-        )
