@@ -101,6 +101,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
             'pk',
             'title',
             'description',
+            'ingredient',
             'img_recipe',
             'created_date',
             'tag',

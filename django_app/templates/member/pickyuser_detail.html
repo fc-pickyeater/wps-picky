@@ -8,27 +8,66 @@
       </div>
             <div class="jumbotron">
               <h3>내가 쓴 레시피</h3>
+                <table class="table table-bordered">
+                    <tr class="text-center">
+                        <th>Photo</th>
+                        <th>Title</th>
+                        <th>Created_date</th>
+                        <th>Like</th>
+                        <th>Bookmark</th>
+                        <th>Rate</th>
+                    </tr>
+
                 {% for recipe in object.recipe_set.all %}
-                    <div class="inline-group">
-            {% if recipe.img_recipe %}
-                <img src="{{ recipe.img_recipe }}" alt="">
-            {% endif %}
-                        {{ recipe.title }}
-                    </div>
+                    <tr>
+                        <td class="col-md-2">
+                            {% if recipe.img_recipe %}
+                                <img src="{{ recipe.img_recipe.url }}" width="100" alt="">
+                            {% endif %}
+                        </td>
+                        <td class="col-md-5">
+                            <h4>{{ recipe.title }}</h4>
+                        </td>
+                        <td class="col-md-3">
+                            {{ recipe.created_date }}
+                        </td>
+                        <td>
+                        {{ recipe.like_count }}
+                        </td>
+                        <td>
+                        {{ recipe.bookmark_count }}
+                        </td>
+                        <td>
+                        {{ recipe.rate_sum }}
+                        </td>
+                    </tr>
                 {% endfor %}
+                </table>
             </div>
 
-
-
             <div class="jumbotron">
-              <h4>Subheading</h4>
-              <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+              <h3>내가 북마크한 레시피</h3>
+                {% for recipe in object.bookmark_set.all %}
+                    <div class="container-fluid inline-group row">
+                        <div class="col-md-2">
 
-              <h4>Subheading</h4>
-              <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum.</p>
-
-              <h4>Subheading</h4>
-              <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+                            {% if recipe.img_recipe %}
+                                <img src="{{ recipe.img_recipe.url }}" width="100" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="col-md-5">
+                        <h4>{{ recipe.title }}</h4>
+                        </div>
+                        <div class="col-md-3">
+                        {{ recipe.created_date }}
+                        </div>
+                        <div class="col-md-2">
+                        {{ recipe.like_count }}
+                        {{ recipe.bookmark_count }}
+                        {{ recipe.rate_sum }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
 
 

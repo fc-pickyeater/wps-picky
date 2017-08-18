@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from . import apis
+from recipe import apis
 
 urlpatterns = [
     # Recipe
