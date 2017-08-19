@@ -21,7 +21,7 @@ class RecipeSearchListView(generics.ListAPIView):
     filter_backends = (filters.SearchFilter,)
     # 검색옵션과 검색할 대상 '='는 완전일치
     # 자세한 옵션은 SearchFilter 참고
-    search_fields = ('=title', '=ingredient__name', '=tag__content')
+    search_fields = ('=title', 'ingredient', '=tag__content')
 
 
 # 전체 레시피 검색

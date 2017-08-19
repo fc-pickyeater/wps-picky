@@ -71,6 +71,7 @@ class RecipeListSerializer(serializers.ModelSerializer):
             'user',
             'img_recipe',
             'description',
+            'ingredient',
             'rate_sum',
             'like_count',
             'tag',

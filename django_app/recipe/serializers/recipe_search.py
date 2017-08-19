@@ -13,8 +13,9 @@ class RecipeSearchListSerializer(serializers.ModelSerializer):
             'title',
             'user',
             'description',
-            'ingredient',
             'img_recipe',
+            'ingredient',
+            'cal_sum',
             'tag',
         )
 
