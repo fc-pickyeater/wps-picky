@@ -1,0 +1,15 @@
+.main-image-block {
+  width: 110%;
+  margin-left: 0;
+  margin-right: 0;
+  overflow: hidden;
+  position: relative; }
+  .main-image-block img {
+    width: 100%; }
+
+.list-body {
+  display: block;
+  position: absolute;
+  top: 100px; }
+
+/*# sourceMappingURL=base.css.map */

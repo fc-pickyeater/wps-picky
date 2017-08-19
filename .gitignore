@@ -14,6 +14,7 @@ django_app/ingredient/migrations
 django_app/member/migrations
 django_app/recipe/migrations
 .media/
+.sass-cache/
 
 ### gitignore.io ###
 

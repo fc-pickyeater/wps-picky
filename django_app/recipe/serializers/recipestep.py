@@ -89,7 +89,3 @@ class RecipeModifySerializer(serializers.ModelSerializer):
             raise CustomValidationError({"description": "설명이 256자를 초과했습니다."})
         else:
             return data
-
-# cass RecipeStepDeleteSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = RecipeStep

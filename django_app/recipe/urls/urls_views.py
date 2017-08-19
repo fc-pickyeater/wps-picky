@@ -1,11 +1,11 @@
 from django.conf.urls import url
 
-from member import views
+from recipe import views
 
-app_name = 'member'
+app_name = 'recipe'
 urlpatterns = [
-    url(r'^$', views.PickyUserListView.as_view(), name='user_list'),
-    url(r'^detail/(?P<pk>\d+)/$', views.PickyUserDetailView.as_view(), name='user_detail'),
+    url(r'^$', views.RecipeListView.as_view(), name='recipe_list'),
+    url(r'^detail/(?P<pk>\d+)/$', views.RecipeDetailView.as_view(), name='recipe_detail'),
 
     # url(r'^create/$', apis.PickyUserCreate.as_view()),
     #

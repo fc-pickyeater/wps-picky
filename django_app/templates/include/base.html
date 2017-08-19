@@ -6,10 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <style></style>
+    <title>Picky Cookbook</title>
 </head>
 
 <body>
+{#상단바#}
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -19,43 +23,33 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                      <a class="navbar-brand" href="#">Picky Cookbook</a>
+            <a class="navbar-brand" href="#">Picky Cookbook</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="#">Home</a></li>
-                <li><a href="#about">Recipes</a></li>
-
-{#                <li class="dropdown">#}
-{#                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>#}
-{#                      <ul class="dropdown-menu" role="menu">#}
-{#                        <li><a href="#">Action</a></li>#}
-{#                        <li><a href="#">Another action</a></li>#}
-{#                        <li><a href="#">Something else here</a></li>#}
-{#                        <li class="divider"></li>#}
-{#                        <li class="dropdown-header">Nav header</li>#}
-{#                        <li><a href="#">Separated link</a></li>#}
-{#                        <li><a href="#">One more separated link</a></li>#}
-{#                      </ul>#}
-{#                </li>#}
+{#                <li><a href="#">Home</a></li>#}
+                <li><a href="{% url 'recipe:recipe_list' %}">Recipes</a></li>
             </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="../navbar/">My Page</a></li>
-{#            <li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>#}
-          </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{% url 'member:user_detail' pk=13 %}">My Page</a></li>
+            </ul>
         </div>
     </div>
 </nav>
 
-    <div class="container" style="padding-top: 70px">
-      <!-- Main component for a primary marketing message or call to action -->
+{#상단이미지#}
+<div class="main-image-block">
+    <img src="{% static 'images/main_image.jpg' %}" alt="" class="w3-opacity">
+</div>
+
+    <div class="container list-body center-block" style="padding-top: 70px">
 
             {% block content %}
             {% endblock %}
 
 
-    </div> <!-- /container -->
+    </div>
 
 
 
