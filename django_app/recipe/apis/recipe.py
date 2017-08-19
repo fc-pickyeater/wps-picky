@@ -85,3 +85,4 @@ class RecipeCreateForFDS(generics.CreateAPIView):
             tags, _ = Tag.objects.get_or_create(content=cleaned_tag)
             # RecipeTag 데이블에 기존데이터가 있는지 확인하여 없으면 생성(위에서 만들어진 Tag object 사용)
             recipe_tag, _ = RecipeTag.objects.get_or_create(recipe=serializer.instance, tag=tags)
+
