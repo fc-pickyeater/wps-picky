@@ -41,8 +41,8 @@ class RecipeModifyDelete(generics.RetrieveUpdateDestroyAPIView):
     # RecipeSerializer 사용
     serializer_class = RecipeSerializer
 
-    def perform_update(self, serializer, **kwargs):
-        old_tag = RecipeTag.objects.filter(recipe_id=kwargs.get('pk'))
+    def perform_update(self, serializer):
+        old_tag = RecipeTag.objects.filter(recipe_id=self.kwargs['pk'])
         old_tag.delete()
         # 사용자가 tag 필드에 입력한 값을 가지고 옴
         tag = serializer.initial_data.get('tag', '')
