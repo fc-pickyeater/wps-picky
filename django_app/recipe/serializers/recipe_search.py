@@ -5,8 +5,6 @@ from recipe.models import Tag
 
 
 class RecipeSearchListSerializer(serializers.ModelSerializer):
-    # recipe = RecipeSearchSerializer()
-    # ingredient = IngredientSerializer()
 
     class Meta:
         model = Recipe

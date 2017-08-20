@@ -140,6 +140,9 @@ class RecipeStep(models.Model):
     timer = models.PositiveIntegerField(default=0)
     img_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
 
+    class Meta:
+        ordering = ['recipe', 'step']
+
     # step 숫자 자동입력 8/10 joe
     def save(self, *args, **kwargs):
         # 현재 레시피로 레시피스텝에 넣을 번호를 생성

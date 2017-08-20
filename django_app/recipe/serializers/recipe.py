@@ -32,6 +32,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'like_count',
             'reviews',
             'recipes',
+            'modified_date',
         )
 
         # user는 수정되서는 안되기때문에 read_only_fields에 정의
@@ -40,6 +41,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'rate_sum',
             'like_count',
             'reviews',
+            'modified_date',
 
         )
 
