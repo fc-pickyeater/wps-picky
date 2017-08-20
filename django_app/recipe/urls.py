@@ -46,5 +46,16 @@ urlpatterns = [
 
     # Recipe Search
     url(r'^search/$', apis.RecipeSearchListView.as_view()),
-    url(r'^search-tag/$', apis.RecipeTagSearchView.as_view())
+    url(r'^search-tag/$', apis.RecipeTagSearchView.as_view()),
+
+    # Recipe Bookmark
+    url(r'^bookmark/$', apis.BookMarkListView.as_view()),
+    url(r'^bookmark/(?P<recipe_pk>\d+)/$', apis.BookMarkView.as_view()),
+
+    # Recipe Like
+    url(r'^like/(?P<recipe_pk>\d+)/$', apis.RecipeListView.as_view()),
+
+    # Recipe Rate
+    url(r'^rate/(?P<recipe_pk>\d+)/$', apis.RecipeRateView.as_view())
+
 ]
