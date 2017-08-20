@@ -3,45 +3,43 @@
 {% block content %}
 
 <div class="jumbotron center-block">
-<h3>Recipes</h3>
-<table class="w3-table w3-bordered w3-centered w3-hoverable">
-    <tr class="text-center">
-        <th>Photo</th>
-        <th>Title</th>
-        <th>Created_date</th>
-        <th>Like</th>
-        <th>Bookmark</th>
-        <th>Rate</th>
-    </tr>
+    <h3>Recipes</h3>
+    <table class="w3-table w3-bordered w3-centered w3-hoverable">
+        <tr class="text-center">
+            <th>Photo</th>
+            <th>Title</th>
+            <th>Created_date</th>
+            <th>Like</th>
+            <th>Bookmark</th>
+            <th>Rate</th>
+        </tr>
 
-{% for recipe in recipe_list %}
-{#                    <a href="{% url 'recipe:recipe_detail' pk=recipe.pk %} ">#}
-    <tr onclick="document.location.href='{% url 'recipe:recipe_detail' pk=recipe.pk %}'">
-        <td class="col-md-2">
-            {% if recipe.img_recipe %}
-                <img src="{{ recipe.img_recipe.url }}" width="100" alt="">
-            {% endif %}
-        </td>
-        <td class="col-md-5">
-            <strong>{{ recipe.title }}</strong>
-        </td>
-        <td class="col-md-2">
-            {{ recipe.created_date|date:"Y년 M d일" }}
-        </td>
-        <td class="col-md-1 w3-cell-middle w3-centered">
-        {{ recipe.like_count }}
-        </td>
-        <td class="col-md-1 w3-cell-middle">
-        {{ recipe.bookmark_count }}
-        </td>
-        <td class="col-md-1 w3-cell-middle">
-        {{ recipe.rate_sum }}
-        </td>
-    </tr>
-{#                    </a>#}
+    {% for recipe in recipe_list %}
+        <tr onclick="document.location.href='{% url 'recipe:recipe_detail' pk=recipe.pk %}'">
+            <td class="col-md-2">
+                {% if recipe.img_recipe %}
+                    <img src="{{ recipe.img_recipe.url }}" width="100" alt="">
+                {% endif %}
+            </td>
+            <td class="col-md-5">
+                <strong>{{ recipe.title }}</strong>
+            </td>
+            <td class="col-md-2">
+                {{ recipe.created_date|date:"Y년 M d일" }}
+            </td>
+            <td class="col-md-1 w3-cell-middle w3-centered">
+            {{ recipe.like_count }}
+            </td>
+            <td class="col-md-1 w3-cell-middle">
+            {{ recipe.bookmark_count }}
+            </td>
+            <td class="col-md-1 w3-cell-middle">
+            {{ recipe.rate_sum }}
+            </td>
+        </tr>
 
-{% endfor %}
-</table>
+    {% endfor %}
+    </table>
 </div>
 
 {% endblock %}

@@ -60,5 +60,4 @@ urlpatterns = [
 
     # MyRecipe List
     url(r'^myrecipe/$', apis.MyRecipeListView.as_view())
-
 ]
