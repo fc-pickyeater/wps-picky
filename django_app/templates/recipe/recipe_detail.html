@@ -1,32 +1,36 @@
 {% extends 'include/base.html' %}
 
 {% block content %}
-    <div class="jumbotron">
-        {% if object.img_recipe %}
-             <img src="{{ object.img_recipe.url }}" alt="" class="col-xs-12">
-        {% endif %}
+<div class="jumbotron center-block col-xs-12">
 
-
-        <div class="col-xs-12">
-            <h3>{{ object.title }}</h3>
-            <p>{{ object.ingredient }}</p>
-            <p>{{ object.description }}</p>
-
-            {% for step in object.recipes.all %}
-                <div class="recipe-step inline-group contents">
-                    <span>Step {{ step.step }}</span>
-                    {% if step.img_step %}
-                    <img src="{{ step.img_step.url }}" alt="" width="150">
-                    {% endif %}
-                    {{ step.description }}
-                    {% if step.is_timer %}
-                        {{ step.timer }}
-                    {% endif %}
-
-                </div>
-            {% endfor %}
-
+    <h3>{{ object.title }}</h3>
+    {% if object.img_recipe == None %}
+    {% elif object.img_recipe %}
+        <img src="{{ object.img_recipe.url }}" alt="" width="300">
+    {% endif %}
+    <p>{{ object.ingredient }}</p>
+    <p>{{ object.description }}</p>
+    <div class="center-block">
+    {% for step in object.recipes.all %}
+        <div class="recipe-step">
+            <span class="col-md-2">Step {{ step.step }}</span>
+            <span class="col-md-3">
+            {% if step.img_step %}
+            <img src="{{ step.img_step.url }}" alt="" height="110">
+            {% endif %}
+            </span>
+            <span class="col-md-6">
+                {{ step.description }}
+            </span>
+            <span class="col-md-1">
+            {% if step.is_timer %}
+                {{ step.timer }}
+            {% endif %}
+            </span>
         </div>
-
+    {% endfor %}
     </div>
+
+
+</div>
 {% endblock %}
