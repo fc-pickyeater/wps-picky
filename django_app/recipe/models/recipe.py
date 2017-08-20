@@ -97,7 +97,7 @@ class Recipe(models.Model):
     tag = models.ManyToManyField(
         'Tag',
         through='RecipeTag',
-        related_name='RecipeTag'
+        related_name='RecipeTag',
     )
     bookmarks = models.ManyToManyField(
         PickyUser,
@@ -213,6 +213,6 @@ class Tag(models.Model):
 
 
 class RecipeTag(models.Model):
-    recipe = models.ForeignKey(Recipe)
+    recipe = models.ForeignKey(Recipe,on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag)
     created = models.DateTimeField(auto_now_add=True)
