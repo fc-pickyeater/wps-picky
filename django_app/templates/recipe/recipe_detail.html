@@ -1,11 +1,32 @@
 {% extends 'include/base.html' %}
 
 {% block content %}
-<div class="jumbotron center-block">
-    <h3>{{ object.title }}</h3>
+    <div class="jumbotron">
+        {% if object.img_recipe %}
+             <img src="{{ object.img_recipe.url }}" alt="" class="col-xs-12">
+        {% endif %}
 
 
+        <div class="col-xs-12">
+            <h3>{{ object.title }}</h3>
+            <p>{{ object.ingredient }}</p>
+            <p>{{ object.description }}</p>
 
+            {% for step in object.recipes.all %}
+                <div class="recipe-step inline-group contents">
+                    <span>Step {{ step.step }}</span>
+                    {% if step.img_step %}
+                    <img src="{{ step.img_step.url }}" alt="" width="150">
+                    {% endif %}
+                    {{ step.description }}
+                    {% if step.is_timer %}
+                        {{ step.timer }}
+                    {% endif %}
 
-</div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
 {% endblock %}
