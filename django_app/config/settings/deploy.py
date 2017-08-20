@@ -32,7 +32,7 @@ MEDIA_URL = '/media/'
 
 
 # 임시 배포 디버그 허용
-DEBUG = True
+DEBUG = False
 TEMPLATE_DIR = '/templates/'
 
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
