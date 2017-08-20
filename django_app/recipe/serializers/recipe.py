@@ -32,6 +32,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             'like_count',
             'reviews',
             'recipes',
+            'modified_date',
         )
 
         # user는 수정되서는 안되기때문에 read_only_fields에 정의
@@ -40,8 +41,10 @@ class RecipeSerializer(serializers.ModelSerializer):
             'rate_sum',
             'like_count',
             'reviews',
+            'modified_date',
 
         )
+
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):

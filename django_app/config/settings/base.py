@@ -27,6 +27,7 @@ CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.jso
 # CORS setting
 CORS_ORIGIN_WHITELIST = (
     'pickycookbook.co.kr',
+    'ec2-13-124-185-153.ap-northeast-2.compute.amazonaws.com',
     'localhost:8000',
     'localhost:8080',
 )
