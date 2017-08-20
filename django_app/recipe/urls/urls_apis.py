@@ -56,6 +56,9 @@ urlpatterns = [
     url(r'^like/(?P<recipe_pk>\d+)/$', apis.RecipeLikeView.as_view()),
 
     # Recipe Rate
-    url(r'^rate/(?P<recipe_pk>\d+)/$', apis.RecipeRateView.as_view())
+    url(r'^rate/(?P<recipe_pk>\d+)/$', apis.RecipeRateView.as_view()),
+
+    # MyRecipe List
+    url(r'^myrecipe/$', apis.MyRecipeListView.as_view())
 
 ]
