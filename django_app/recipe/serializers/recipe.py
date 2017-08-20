@@ -45,7 +45,6 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         )
 
-
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):
         ret = super().to_representation(instance)

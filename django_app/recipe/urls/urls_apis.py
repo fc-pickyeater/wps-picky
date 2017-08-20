@@ -57,5 +57,4 @@ urlpatterns = [
 
     # Recipe Rate
     url(r'^rate/(?P<recipe_pk>\d+)/$', apis.RecipeRateView.as_view())
-
 ]

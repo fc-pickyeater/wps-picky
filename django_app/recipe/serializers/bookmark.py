@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
-from member.models import PickyUser
 from recipe.models import BookMark
-from recipe.models import Recipe
 
 
 class BookMarkSerializer(serializers.ModelSerializer):
