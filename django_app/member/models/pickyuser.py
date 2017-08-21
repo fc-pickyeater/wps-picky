@@ -1,3 +1,8 @@
+import re
+
+import requests
+from django.core.files import File
+from django.core.files.temp import NamedTemporaryFile
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
@@ -35,14 +40,39 @@ class PickyUserManager(BaseUserManager):
 
     # facebook 유저 생성 8/16 joe
     def create_facebook_user(self, user_info):
-        user = self.model(
+        # user = self.model(
+        #         fb_id=user_info['id'],
+        #         nickname=user_info.get('name', ''),
+        #         email=user_info.get('email', ''),
+        #         id_type=PickyUser.USER_TYPE_FACEBOOK,
+        #         img_profile=user_info['picture']['data'].get('url', ''),
+        # )
+        # user.save()
+        # return user
+        user, user_created = self.get_or_create(
                 fb_id=user_info['id'],
                 nickname=user_info.get('name', ''),
                 email=user_info.get('email', ''),
                 id_type=PickyUser.USER_TYPE_FACEBOOK,
-                img_profile=user_info['picture']['data'].get('url', ''),
         )
-        user.save()
+        if user_created and user_info.get('picture'):
+            url_picture = user_info['picture']['data']['url']
+            p = re.compile(r'.*\.([^?]+)')
+            file_ext = re.search(p, url_picture).group(1)
+            file_name = '{}.{}'.format(
+                    user.pk,
+                    file_ext,
+            )
+            # 이미지파일을 임시저장할 객체. delete=True(기본값) 로컬변수가 사라지는 순간 삭제됨
+            temp_file = NamedTemporaryFile(delete=True)
+            # 프로필 이미지 url에 대한 get 요청(이미지 다운로드)
+            response = requests.get(url_picture)
+            # 요청 결과를 temp_file에 기록
+            temp_file.write(response.content)
+            # ImageField의 save()메서드를 호출해서 해당 임시파일객체를 주어진 이름의 파일로 저장
+            # 저장하는 파일명은 위에서 만든 <유저pk.주어진파일확장자> 를 사용
+            user.img_profile.save(file_name, File(temp_file))
+        # user.save()
         return user
 
 
