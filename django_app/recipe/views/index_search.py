@@ -1,18 +1,18 @@
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render
 
-from recipe.forms.recipe_search import RecipeSearchForm
+from recipe.forms import RecipeSearchForm
 from recipe.models import Recipe
 
 
 def recipe_search(request):
     if request.method == 'GET':
         form = RecipeSearchForm()
-        print(form)
         context = {
             'form': form,
         }
-        return render(request, 'index.html', context=context)
+        return render(request, 'Index-recipe-search.html', context=context)
 
     elif request.method == 'POST':
         form = RecipeSearchForm(request.POST)
@@ -31,4 +31,5 @@ def recipe_search(request):
                 context = {
                     'recipe_list': result,
                 }
-        return render(request, 'recipe/recipe_list.html', context)
+                return render(request, 'recipe/recipe_list.html', context)
+            return HttpResponse('검색 결과가 없습니다.')

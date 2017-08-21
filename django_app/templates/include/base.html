@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/recipe.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipe-search.css' %}">
     <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
     <style></style>
     <title>Picky Cookbook</title>
 </head>
@@ -34,7 +36,14 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'member:user_detail' pk=13 %}">My Page</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'member:user_detail' pk=user.pk %}">{{ user.nickname }}</a></li>
+                    <li><a href="{% url 'member:logout' %}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'member:login' %}">Log In</a></li>
+                    <li><a href="{% url 'member:signup' %}">Sign Up</a></li>
+                {% endif %}
+
             </ul>
         </div>
     </div>

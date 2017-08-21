@@ -20,11 +20,11 @@ class PickyUserCreateSerializer(serializers.Serializer):
             use_url=True,
             required=False,
     )
-    email = serializers.CharField(max_length=100, allow_null=True, required=False)
-    password1 = serializers.CharField(write_only=True, allow_null=True, required=False)
-    password2 = serializers.CharField(write_only=True, allow_null=True, required=False)
-    nickname = serializers.CharField(max_length=100, allow_null=True, required=False)
-    content = serializers.CharField(max_length=200, allow_null=True, required=False)
+    email = serializers.CharField(max_length=100, allow_null=True, required=False, allow_blank=True)
+    password1 = serializers.CharField(write_only=True, allow_null=True, required=False, allow_blank=True)
+    password2 = serializers.CharField(write_only=True, allow_null=True, required=False, allow_blank=True)
+    nickname = serializers.CharField(max_length=100, allow_null=True, required=False, allow_blank=True)
+    content = serializers.CharField(max_length=200, allow_null=True, required=False, allow_blank=True)
 
     # iOS 요청대로 error 메세지 출력 형태 수정 8/16 joe
     def validate(self, data):
@@ -74,6 +74,8 @@ class PickyUserCreateSerializer(serializers.Serializer):
         nickname = self.validated_data.get('nickname')
         img_profile = self.validated_data.get('img_profile')
         content = self.validated_data.get('content')
+        print(self.error_messages)
+        print(self.errors)
         user = PickyUser.objects.create_user(
             email=email,
             password=password,
@@ -89,4 +91,3 @@ class PickyUserCreateSerializer(serializers.Serializer):
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
         return ret
-
