@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render
 
 from recipe.forms.recipe_search import RecipeSearchForm
@@ -31,4 +32,5 @@ def recipe_search(request):
                 context = {
                     'recipe_list': result,
                 }
-        return render(request, 'recipe/recipe_list.html', context)
+                return render(request, 'recipe/recipe_list.html', context)
+            return HttpResponse('검색 결과가 없습니다.')

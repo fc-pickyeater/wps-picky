@@ -9,7 +9,6 @@ class RecipeSearchForm(forms.Form):
                     attrs={
                         'placeholder': '검색어를 입력하세요.',
                         'class': 'form-control',
-                        # 'width': '80%'
                     }
             )
     )
