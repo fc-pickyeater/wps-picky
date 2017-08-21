@@ -1,11 +1,16 @@
 {% extends 'include/base.html' %}
 
 {% block content %}
-<div class="container">
-      <div class="jumbotron">
-        <h2>{{ object.nickname }}</h2>
-        <p>{{ object.email }}</p>
-      </div>
+<div class="container center-block">
+    <div class="jumbotron center-block clearfix">
+        <div class="pull-left col-md-2">
+            <img src="{{ object.img_profile.url }}" alt="" width="100%">
+        </div>
+        <div class="pull-right col-md-10">
+            <h2>{{ object.nickname }}</h2>
+            <p>{{ object.email }}</p>
+        </div>
+    </div>
 
     <div class="jumbotron center-block">
       <h3>내가 쓴 레시피</h3>
@@ -15,31 +20,6 @@
     <div class="jumbotron center-block">
       <h3>내가 북마크한 레시피</h3>
         {% include 'include/recipe_list_base.html' with recipe_list=object.bookmark_set.all %}
-
-
-{#        {% for recipe in object.bookmark_set.all %}#}
-{#            <div class="container-fluid inline-group row">#}
-{#                <div class="col-md-2">#}
-{##}
-{#                    {% if recipe.img_recipe %}#}
-{#                        <img src="{{ recipe.img_recipe.url }}" width="100" alt="">#}
-{#                    {% endif %}#}
-{#                </div>#}
-{#                <div class="col-md-5">#}
-{#                <h4>{{ recipe.title }}</h4>#}
-{#                </div>#}
-{#                <div class="col-md-3">#}
-{#                {{ recipe.created_date }}#}
-{#                </div>#}
-{#                <div class="col-md-2">#}
-{#                {{ recipe.like_count }}#}
-{#                {{ recipe.bookmark_count }}#}
-{#                {{ recipe.rate_sum }}#}
-{#                </div>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#    </div>#}
-
     </div>
-
+</div>
 {% endblock %}

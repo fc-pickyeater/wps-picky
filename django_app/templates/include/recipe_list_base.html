@@ -8,9 +8,7 @@
             <th>Bookmark</th>
             <th>Rate</th>
         </tr>
-{#    {% if type == 'recipe_list' %}#}
         {% for recipe in recipe_list %}
-{#    {% endif %}#}
         <tr onclick="document.location.href='{% url 'recipe:recipe_detail' pk=recipe.pk %}'">
             <td class="col-md-2">
                 {% if recipe.img_recipe %}
