@@ -56,7 +56,10 @@ INSTALLED_APPS = [
 
     ### add list ###
     # django_extensions는 debug 파일로 옮깁니다. 8/2 Joe
-    # 'django_extensions',
+    # ----------------------------------------------------
+    # crawling시 deploy에 shell_plus가 없어서 에러가 뜸
+    # 다시 주석을 풀고 복구 시킴 8/21 hong
+    'django_extensions',
     'rest_framework',
     'django_filters',
     # user token 생성용 8/4 Joe
