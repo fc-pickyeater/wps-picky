@@ -4,11 +4,12 @@
 <div class="jumbotron center-block col-xs-12">
 
     <h3>{{ object.title }}</h3>
-    {% if object.img_recipe == None %}
-    {% elif object.img_recipe %}
+    {% if object.img_recipe %}
         <img src="{{ object.img_recipe.url }}" alt="" width="300">
     {% endif %}
-    <p>{{ object.ingredient }}</p>
+    {% if object.ingredient != None %}
+    <p>재료: {{ object.ingredient }}</p>
+    {% endif %}
     <p>{{ object.description }}</p>
     <div class="center-block">
     {% for step in object.recipes.all %}

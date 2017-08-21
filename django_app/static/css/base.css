@@ -8,8 +8,10 @@
     width: 100%; }
 
 .list-body {
-  padding-top: 70px;
   position: absolute;
   top: 100px; }
+
+.jumbotron {
+  background-color: #fbfbfb; }
 
 /*# sourceMappingURL=base.css.map */
