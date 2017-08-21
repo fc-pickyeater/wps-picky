@@ -12,7 +12,7 @@ def recipe_search(request):
         context = {
             'form': form,
         }
-        return render(request, 'index.html', context=context)
+        return render(request, 'Index-recipe-search.html', context=context)
 
     elif request.method == 'POST':
         form = RecipeSearchForm(request.POST)
