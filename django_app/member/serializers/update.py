@@ -14,7 +14,7 @@ class PickyUserUpdateSerializer(serializers.ModelSerializer):
         # allow_null=True, required=False 할 필요없음(partial_update에서 알아서 걸러줌)
         fields = (
             'img_profile',
-            # 'nickname',
+            'nickname',
             'content',
             'password',
         )
