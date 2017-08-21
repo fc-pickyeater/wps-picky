@@ -6,6 +6,7 @@ app_name = 'recipe'
 urlpatterns = [
     url(r'^$', views.RecipeListView.as_view(), name='recipe_list'),
     url(r'^detail/(?P<pk>\d+)/$', views.RecipeDetailView.as_view(), name='recipe_detail'),
+    url(r'^search/$', views.recipe_search, name='search'),
 
     # url(r'^create/$', apis.PickyUserCreate.as_view()),
     #
