@@ -1,6 +1,5 @@
 from django.db.models import Q
-from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 
 from recipe.forms.recipe_search import RecipeSearchForm
 from recipe.models import Recipe

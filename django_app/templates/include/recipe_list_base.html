@@ -1,5 +1,4 @@
-<div class="jumbotron center-block">
-    <h3>Recipes</h3>
+
     <table class="w3-table w3-bordered w3-centered w3-hoverable">
         <tr class="text-center">
             <th>Photo</th>
@@ -9,8 +8,9 @@
             <th>Bookmark</th>
             <th>Rate</th>
         </tr>
-
-    {% for recipe in recipe_list %}
+{#    {% if type == 'recipe_list' %}#}
+        {% for recipe in recipe_list %}
+{#    {% endif %}#}
         <tr onclick="document.location.href='{% url 'recipe:recipe_detail' pk=recipe.pk %}'">
             <td class="col-md-2">
                 {% if recipe.img_recipe %}
@@ -36,4 +36,4 @@
 
     {% endfor %}
     </table>
-</div>
+
