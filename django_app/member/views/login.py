@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login as django_login
+from django.contrib.auth import login as django_login, logout as django_logout
 
 from member.forms import LoginForm
 
@@ -17,5 +17,10 @@ def login(request):
             user = form.cleaned_data['user']
             django_login(request, user)
             return redirect('recipe:search')
+
+
+def logout(request):
+    django_logout(request)
+    return redirect('recipe:search')
 
 
