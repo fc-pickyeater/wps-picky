@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipe.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipe-search.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <style></style>
+    <title>Picky Cookbook</title>
+</head>
+
+<body>
+{#상단바#}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+{#            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">#}
+{#                <span class="sr-only">Toggle navigation</span>#}
+{#                <span class="icon-bar">Recipe</span>#}
+{#                <span class="icon-bar">My Page</span>#}
+{#                <span class="icon-bar"></span>#}
+{#            </button>#}
+            <a class="navbar-brand" href="{% url 'recipe:search' %}">Picky Cookbook</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+{#                <li><a href="#">Home</a></li>#}
+                <li><a href="{% url 'recipe:recipe_list' %}">Recipes</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'member:user_detail' pk=user.pk %}">{{ user.nickname }}</a></li>
+                    <li><a href="{% url 'member:logout' %}">Log Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'member:login' %}">Log In</a></li>
+                    <li><a href="{% url 'member:signup' %}">Sign Up</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{#상단이미지#}
+<div class="main-image-block">
+    <img src="{% static 'images/main_image.jpg' %}" alt="" class="w3-opacity">
+</div>
+
+<div class="container list-body">
+
+    {% block content %}
+    {% endblock %}
+
+</div>
+
+</body>
+</html>

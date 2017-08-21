@@ -27,6 +27,7 @@ CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.jso
 # CORS setting
 CORS_ORIGIN_WHITELIST = (
     'pickycookbook.co.kr',
+    'ec2-13-124-185-153.ap-northeast-2.compute.amazonaws.com',
     'localhost:8000',
     'localhost:8080',
 )
@@ -55,7 +56,10 @@ INSTALLED_APPS = [
 
     ### add list ###
     # django_extensions는 debug 파일로 옮깁니다. 8/2 Joe
-    # 'django_extensions',
+    # ----------------------------------------------------
+    # crawling시 deploy에 shell_plus가 없어서 에러가 뜸
+    # 다시 주석을 풀고 복구 시킴 8/21 hong
+    'django_extensions',
     'rest_framework',
     'django_filters',
     # user token 생성용 8/4 Joe

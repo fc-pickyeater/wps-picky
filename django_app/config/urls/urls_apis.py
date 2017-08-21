@@ -2,8 +2,8 @@ from django.conf.urls import include, url
 
 urlpatterns = [
     # ingredient 매핑 - hong 8/1
-    url(r'^api/ingredient/', include('ingredient.urls')),
+    url(r'^ingredient/', include('ingredient.urls')),
     # recipe 매핑 - hong 8/1
-    url(r'^api/recipe/', include('recipe.urls')),
-    url(r'^api/member/', include('member.urls')),
+    url(r'^recipe/', include('recipe.urls.urls_apis')),
+    url(r'^member/', include('member.urls.urls_apis')),
 ]

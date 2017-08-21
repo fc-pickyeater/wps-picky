@@ -1,12 +1,10 @@
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
 
 from utils.permissions import ObjectIsRequestUser
-from ..serializers import RecipeReviewModifySerializer, RecipeReviewCreateSerializer, RecipeReviewListSerializer
 from ..models import RecipeReview, Recipe
-
+from ..serializers import RecipeReviewModifySerializer, RecipeReviewCreateSerializer
 
 __all__ = (
     'RecipeReviewCreateView',
@@ -32,7 +30,7 @@ class RecipeReviewCreateView(generics.CreateAPIView):
         recipe_pk = self.kwargs['pk']
         serializer.save(
             user=self.request.user,
-            recipe= get_object_or_404(Recipe,pk=recipe_pk)
+            recipe=get_object_or_404(Recipe, pk=recipe_pk)
         )
 
 
@@ -59,4 +57,3 @@ class RecipeReviewModifyView(generics.RetrieveUpdateDestroyAPIView):
     def get_serializer_class(self):
         if self.request.method == 'PATCH':
             return RecipeReviewModifySerializer
-

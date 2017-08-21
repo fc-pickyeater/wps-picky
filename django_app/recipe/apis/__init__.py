@@ -4,3 +4,6 @@ from .recipe_search import *
 from .recipestep import *
 from .recipestep_comment import *
 from .recipe_review import *
+from .bookmark import *
+from .like import *
+from .rate import *

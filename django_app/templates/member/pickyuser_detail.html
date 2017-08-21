@@ -1,0 +1,27 @@
+{% extends 'include/base.html' %}
+
+{% block content %}
+<div class="container center-block">
+    <div class="jumbotron center-block clearfix">
+        <div class="pull-left col-md-2">
+            {% if object.img_profile %}
+            <img src="{{ object.img_profile.url }}" alt="" width="100%">
+            {% endif %}
+        </div>
+        <div class="pull-right col-md-10">
+            <h2>{{ object.nickname }}</h2>
+            <p>{{ object.email }}</p>
+        </div>
+    </div>
+
+    <div class="jumbotron center-block">
+      <h3>내가 쓴 레시피</h3>
+        {% include 'include/recipe_list_base.html' with recipe_list=object.recipe_set.all %}
+    </div>
+
+    <div class="jumbotron center-block">
+      <h3>내가 북마크한 레시피</h3>
+        {% include 'include/recipe_list_base.html' with recipe_list=object.bookmark_set.all %}
+    </div>
+</div>
+{% endblock %}

@@ -32,13 +32,14 @@ MEDIA_URL = '/media/'
 
 
 # 임시 배포 디버그 허용
-DEBUG = True
+DEBUG = False
 TEMPLATE_DIR = '/templates/'
 
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 
 # Database
 DATABASES = config_secret_deploy['django']['databases']
+
 
 # 1. RDS연동 후 데이터 들어가는지 확인
 #    DJANGO_SETTINGS_MODULE=config.settings.deploy설정

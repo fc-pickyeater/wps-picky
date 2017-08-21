@@ -97,7 +97,7 @@ class Recipe(models.Model):
     tag = models.ManyToManyField(
         'Tag',
         through='RecipeTag',
-        related_name='RecipeTag'
+        related_name='RecipeTag',
     )
     bookmarks = models.ManyToManyField(
         PickyUser,
@@ -139,6 +139,9 @@ class RecipeStep(models.Model):
     is_timer = models.BooleanField(default=False)
     timer = models.PositiveIntegerField(default=0)
     img_step = models.ImageField(upload_to=recipe_step_img_directory, blank=True)
+
+    class Meta:
+        ordering = ['recipe', 'step']
 
     # step 숫자 자동입력 8/10 joe
     def save(self, *args, **kwargs):
@@ -210,6 +213,6 @@ class Tag(models.Model):
 
 
 class RecipeTag(models.Model):
-    recipe = models.ForeignKey(Recipe)
+    recipe = models.ForeignKey(Recipe,on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag)
     created = models.DateTimeField(auto_now_add=True)

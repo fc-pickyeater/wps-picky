@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AACA,WAAY;EACR,UAAU,EAAE,IAAI;EAChB,KAAK,EAAE,KAAK",
+"sources": ["../scss/recipe-search.scss"],
+"names": [],
+"file": "recipe-search.css"
+}

@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from member.serializers.login import FacebookLoginSerializer
-from ..serializers import PickyAuthTokenSerializer, PickyUserSerializer
+from ..serializers import PickyAuthTokenSerializer
 
 PickyUser = get_user_model()
 
@@ -21,11 +21,14 @@ class ObtainAuthToken(APIView):
     serializer_class = PickyAuthTokenSerializer
 
     def post(self, request, *args, **kwargs):
+        d = dict()
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
-        return Response({'token': token.key})
+        d['token'] = token.key
+        d['pk'] = user.pk
+        return Response(d)
 
 
 obtain_auth_token = ObtainAuthToken.as_view()
@@ -35,13 +38,13 @@ class FacebookLoginAPIView(APIView):
     # get_access_token은 생략됨(JavaScript SDK를 사용)
     # access token을 받은 이후 처리만 하면 됨
     app_access_token = '{}|{}'.format(
-            settings.FACEBOOK_APP_ID,
-            settings.FACEBOOK_SECRET_CODE,
+        settings.FACEBOOK_APP_ID,
+        settings.FACEBOOK_SECRET_CODE,
     )
-    # serializer_class = PickyUserSerializer
 
     def post(self, request):
         token = request.data.get('token')
+
         if not token:
             raise APIException('token required')
 
@@ -82,5 +85,3 @@ class FacebookLoginAPIView(APIView):
         response = requests.get(url_user_info, params=url_user_info_params)
         result = response.json()
         return result
-
-

@@ -12,6 +12,7 @@
 - AWS Elastic Beanstalk
 - AWS S3
 - AWS RDS
+- Docker
 - Postgresql
 - Git
 - Gitbook ([API 문서 - 작성 중](https://recordingbetter.gitbooks.io/picky-cookbook-api/content/))
