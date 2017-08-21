@@ -19,6 +19,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
             max_length=None,
             use_url=True,
             required=False,
+            allow_null=True,
     )
     email = serializers.CharField(max_length=100, allow_null=True, required=False, allow_blank=True)
     password1 = serializers.CharField(write_only=True, allow_null=True, required=False, allow_blank=True)
