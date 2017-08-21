@@ -4,7 +4,9 @@
 <div class="container center-block">
     <div class="jumbotron center-block clearfix">
         <div class="pull-left col-md-2">
+            {% if object.img_profile %}
             <img src="{{ object.img_profile.url }}" alt="" width="100%">
+            {% endif %}
         </div>
         <div class="pull-right col-md-10">
             <h2>{{ object.nickname }}</h2>

@@ -2,14 +2,13 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from recipe.forms.recipe_search import RecipeSearchForm
+from recipe.forms import RecipeSearchForm
 from recipe.models import Recipe
 
 
 def recipe_search(request):
     if request.method == 'GET':
         form = RecipeSearchForm()
-        print(form)
         context = {
             'form': form,
         }

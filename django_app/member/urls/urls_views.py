@@ -1,11 +1,13 @@
 from django.conf.urls import url
 
 from member import views
+from member.views import login
 
 app_name = 'member'
 urlpatterns = [
     url(r'^$', views.PickyUserListView.as_view(), name='user_list'),
     url(r'^detail/(?P<pk>\d+)/$', views.PickyUserDetailView.as_view(), name='user_detail'),
+    url(r'^login/$', login, name='login'),
 
     # url(r'^create/$', apis.PickyUserCreate.as_view()),
     #

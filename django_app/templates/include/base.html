@@ -35,7 +35,12 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'member:user_detail' pk=13 %}">My Page</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'member:user_detail' pk=user.pk %}">{{ user.nickname }}</a></li>
+                {% else %}
+                    <li><a href="{% url 'member:user_login' %}">Login</a></li>
+                {% endif %}
+                <li><a href="{% url 'member:user_detail' pk=user.pk %}">My Page</a></li>
             </ul>
         </div>
     </div>
