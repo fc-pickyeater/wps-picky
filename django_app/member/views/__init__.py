@@ -1,3 +1,3 @@
 from .member import *
-from .login import *
+from .auth import *
 

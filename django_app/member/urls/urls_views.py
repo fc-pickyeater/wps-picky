@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from member import views
-from member.views import login, logout
+from member.views import login, logout, signup
 
 app_name = 'member'
 urlpatterns = [
@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^detail/(?P<pk>\d+)/$', views.PickyUserDetailView.as_view(), name='user_detail'),
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, name='logout'),
+    url(r'^signup/$', signup, name='signup'),
+    
 
     # url(r'^create/$', apis.PickyUserCreate.as_view()),
     #
