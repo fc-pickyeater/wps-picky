@@ -36,9 +36,9 @@ class RecipeStepCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         description = self.initial_data.get('description', '')
         if description == '':
-            raise CustomValidationError({"description": "설명을 입력하세요."})
+            raise CustomValidationError({"description_error": "설명을 입력하세요."})
         elif len(data['description']) > 256:
-            raise CustomValidationError({"description": "설명이 256자를 초과했습니다."})
+            raise CustomValidationError({"description_length_error": "설명이 256자를 초과했습니다."})
         else:
             return data
 
@@ -85,9 +85,9 @@ class RecipeModifySerializer(serializers.ModelSerializer):
         description = self.initial_data.get('description', None)
         if description is not None:
             if description == '':
-                raise CustomValidationError({"description": "설명을 입력하세요."})
+                raise CustomValidationError({"description_error": "설명을 입력하세요."})
             elif len(data['description']) > 256:
-                raise CustomValidationError({"description": "설명이 256자를 초과했습니다."})
+                raise CustomValidationError({"description_length_error": "설명이 256자를 초과했습니다."})
             else:
                 return data
         return data
