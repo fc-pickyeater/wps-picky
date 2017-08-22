@@ -13,6 +13,7 @@ from ..serializers import PickyAuthTokenSerializer
 PickyUser = get_user_model()
 
 
+# 로그인 view
 class ObtainAuthToken(APIView):
     throttle_classes = ()
     permission_classes = ()
