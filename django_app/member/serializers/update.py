@@ -8,7 +8,6 @@ PickyUser = get_user_model()
 
 
 class PickyUserUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = PickyUser
         # allow_null=True, required=False 할 필요없음(partial_update에서 알아서 걸러줌)
