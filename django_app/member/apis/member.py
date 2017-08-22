@@ -48,7 +48,7 @@ class PickyUserUpdate(generics.RetrieveUpdateDestroyAPIView):
 
     def delete(self, request, *args, **kwargs):
         d = dict()
-        d['result'] = '탈되되었습니다.'
+        d['result'] = '탈퇴되었습니다.'
         self.destroy(request, *args, **kwargs)
         return Response(d)
 
