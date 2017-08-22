@@ -75,8 +75,8 @@ class PickyUserCreateSerializer(serializers.Serializer):
                 d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다'
                 raise CustomValidationError(d)
                 # 위 조건들을 통과하면 입력된 비번을 해시해서 저장
-            else:
-                self.instance.set_password(password1)
+            # else:
+            #     self.instance.set_password(password1)
         return data
 
     def create(self, *args, **kwargs):
