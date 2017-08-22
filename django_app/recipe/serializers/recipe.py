@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from recipe.models import Recipe, Tag
-from ..serializers import RecipeStepListSerializer, RecipeReviewListSerializer
+from ..serializers import RecipeStepListSerializer, RecipeReviewListSerializer, CustomValidationError
 
 __all__ = (
     'RecipeSerializer',
@@ -44,6 +44,10 @@ class RecipeSerializer(serializers.ModelSerializer):
             'modified_date',
 
         )
+
+    title = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    ingredient = serializers.CharField(required=False)
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):
@@ -112,6 +116,25 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'created_date',
         )
+
+    title = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    ingredient = serializers.CharField(required=False)
+
+    def validate(self, data):
+        description = self.initial_data.get('description', '')
+        title = self.initial_data.get('title', '')
+        ingredient = self.initial_data.get('ingredient', '')
+        if title == '':
+            raise CustomValidationError({"title_error": "제목을 입력하세요."})
+        if description == '':
+            raise CustomValidationError({"description_error": "설명을 입력하세요."})
+        elif len(data['description']) > 256:
+            raise CustomValidationError({"description_error": "설명이 256자를 초과했습니다."})
+        if ingredient == '':
+            raise CustomValidationError({"ingredient_error": "재료를 입력하세요."})
+        else:
+            return data
 
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):

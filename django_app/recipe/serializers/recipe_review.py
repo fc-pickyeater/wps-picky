@@ -52,7 +52,7 @@ class RecipeReviewCreateSerializer(serializers.ModelSerializer):
     def validate(self, data):
         content = self.initial_data.get('content', '')
         if content == '':
-            raise CustomValidationError({"content": "후기 내용을 채워주세요."})
+            raise CustomValidationError({"content_error": "후기 내용을 채워주세요."})
         else:
             return data
 
@@ -75,3 +75,12 @@ class RecipeReviewModifySerializer(serializers.ModelSerializer):
             'user',
             'recipe',
         )
+
+    content = serializers.CharField(required=False)
+
+    def validate(self, data):
+        content = self.initial_data.get('content', '')
+        if content == '':
+            raise CustomValidationError({"content_error": "후기 내용을 채워주세요."})
+        else:
+            return data
