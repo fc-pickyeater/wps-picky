@@ -35,7 +35,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
         password1 = data.get('password1', None)
         password2 = data.get('password2', None)
         # email 필드 검증
-        if email is None:
+        if email is None or email == '':
             d['email_empty'] = 'email을 입력해주세요.'
             raise CustomValidationError(d)
         if PickyUser.objects.filter(email=email).exists():
@@ -48,7 +48,7 @@ class PickyUserCreateSerializer(serializers.Serializer):
                 d['email_invalid'] = '유효한 이메일을 입력하세요.'
                 raise CustomValidationError(d)
         # nickname 필드 검증
-        if nickname is None:
+        if nickname is None or nickname == '':
             d['nickname_empty'] = 'nickname을 입력해주세요.'
             raise CustomValidationError(d)
         if PickyUser.objects.filter(nickname=nickname).exists():
@@ -75,8 +75,6 @@ class PickyUserCreateSerializer(serializers.Serializer):
         nickname = self.validated_data.get('nickname')
         img_profile = self.validated_data.get('img_profile')
         content = self.validated_data.get('content')
-        print(self.error_messages)
-        print(self.errors)
         user = PickyUser.objects.create_user(
             email=email,
             password=password,
