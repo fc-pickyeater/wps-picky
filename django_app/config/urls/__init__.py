@@ -10,7 +10,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^$', views.index, name='index'),
     url(r'^api/', include(urls_apis)),
-    url(r'^views/', include(urls_views)),
+    url(r'^api/views/', include(urls_views)),
 ]
 urlpatterns += static(
     prefix=settings.MEDIA_URL,
