@@ -64,8 +64,11 @@ class PickyUserCreateSerializer(serializers.Serializer):
         elif (not password1 and password2) or password1 is None:
             d['empty_password1'] = 'password1을 입력해주세요.'
             raise CustomValidationError(d)
-        if password1 != password2:
+        elif password1 != password2:
             d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다.'
+            raise CustomValidationError(d)
+        elif len(password1) < 4:
+            d['too_short_password'] = '패스워드는 최소 4글자 이상이어야 합니다.'
             raise CustomValidationError(d)
         return data
 
