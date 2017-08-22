@@ -75,8 +75,6 @@ class PickyUserCreateSerializer(serializers.Serializer):
         nickname = self.validated_data.get('nickname')
         img_profile = self.validated_data.get('img_profile')
         content = self.validated_data.get('content')
-        print(self.error_messages)
-        print(self.errors)
         user = PickyUser.objects.create_user(
             email=email,
             password=password,

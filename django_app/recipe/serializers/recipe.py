@@ -45,6 +45,10 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         )
 
+    title = serializers.CharField(required=False)
+    description = serializers.CharField(required=False)
+    ingredient = serializers.CharField(required=False)
+
     # 반환되는 'tag'의 값을 override하기 위한 함수 (tag id가 기존값)
     def to_representation(self, instance):
         ret = super().to_representation(instance)
