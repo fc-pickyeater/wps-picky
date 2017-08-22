@@ -146,7 +146,12 @@ class RecipeStep(models.Model):
     # step 숫자 자동입력 8/10 joe
     def save(self, *args, **kwargs):
         # 현재 레시피로 레시피스텝에 넣을 번호를 생성
-        step = get_recipe_step_no(self.recipe)
+        # create_date가 비어있다면 생성되지 않았다는 경우
+        if self.created_date is None:
+            step = get_recipe_step_no(self.recipe)
+        else:
+        # else의 경우 이미 생성이 되어있고 수정하는 경우
+            step = self.step
         # step 필드에 위 번호를 넣어준다.
         self.step = step
         super(RecipeStep, self).save(*args, **kwargs)
