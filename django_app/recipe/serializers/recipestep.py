@@ -78,8 +78,7 @@ class RecipeModifySerializer(serializers.ModelSerializer):
             'recipe',
             'step',
         )
-
-    description = serializers.CharField(required=False)
+    description = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     def validate(self, data):
         description = self.initial_data.get('description', None)
