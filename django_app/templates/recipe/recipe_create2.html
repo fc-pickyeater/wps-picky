@@ -1,0 +1,40 @@
+{% extends "include/base.html" %}
+
+
+{% block content %}
+<form action="" method="post" class="form-horizontal" enctype="multipart/form-data">
+{% csrf_token %}
+<h4 class="center-block">Recipe</h4>
+{% for f in form %}
+    <div class="form-group">
+        <div class="control-label">
+            <label for="id_email" class="col-sm-2 control-label">{{ f.label }}</label>
+        </div>
+        <div class="col-sm-10 signup">
+        {{ f }}
+        </div>
+    </div>
+{% endfor %}
+
+        <h4>Step</h4>
+        {{ formset.management_form }}
+        {% for f in formset %}
+            <div class="form-group">
+                <div class="control-label">
+                    <label for="id_email" class="col-sm-2 control-label">{{ f.label }}</label>
+                </div>
+                <div class="col-sm-10 signup">
+                {{ f }}
+                </div>
+            </div>
+        {% endfor %}
+
+        <p>
+            <input class="btn btn-primary search-btn center-block" type="submit" value="전송"/>
+            {% if object %}
+                <input class="btn btn-danger search-btn center-block" type="button" value="삭제"
+                       onclick="location.href='{% url 'program_formset:delete' object.id %}'"/>
+            {% endif %}
+        </p>
+    </form>
+{% endblock content %}
