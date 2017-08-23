@@ -16,10 +16,10 @@ __all__ = (
 # PickyUser 생성
 class PickyUserCreateSerializer(serializers.Serializer):
     img_profile = serializers.ImageField(
-            max_length=None,
-            use_url=True,
-            required=False,
-            allow_null=True,
+        max_length=None,
+        use_url=True,
+        required=False,
+        allow_null=True,
     )
     email = serializers.CharField(max_length=100, allow_null=True, required=False, allow_blank=True)
     password1 = serializers.CharField(write_only=True, allow_null=True, required=False, allow_blank=True)
@@ -75,8 +75,8 @@ class PickyUserCreateSerializer(serializers.Serializer):
                 d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다'
                 raise CustomValidationError(d)
                 # 위 조건들을 통과하면 입력된 비번을 해시해서 저장
-            # else:
-            #     self.instance.set_password(password1)
+                # else:
+                #     self.instance.set_password(password1)
         return data
 
     def create(self, *args, **kwargs):

@@ -13,7 +13,10 @@ from ..serializers import PickyAuthTokenSerializer
 PickyUser = get_user_model()
 
 
+# 토큰 로그인 하는 View
+# 토큰 검증
 class ObtainAuthToken(APIView):
+    # 공부가 필요
     throttle_classes = ()
     permission_classes = ()
     parser_classes = (parsers.FormParser, parsers.MultiPartParser, parsers.JSONParser,)

@@ -23,6 +23,7 @@ class PickyUserManager(BaseUserManager):
                 content=content,
                 img_profile=img_profile,
         )
+        # set_password AbstractBaseUser 내장함수
         user.set_password(password)
         user.save()
         return user
