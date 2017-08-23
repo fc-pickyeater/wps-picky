@@ -16,10 +16,10 @@ __all__ = (
 # PickyUser 생성
 class PickyUserCreateSerializer(serializers.Serializer):
     img_profile = serializers.ImageField(
-            max_length=None,
-            use_url=True,
-            required=False,
-            allow_null=True,
+        max_length=None,
+        use_url=True,
+        required=False,
+        allow_null=True,
     )
     email = serializers.CharField(max_length=100, allow_null=True, required=False, allow_blank=True)
     password1 = serializers.CharField(write_only=True, allow_null=True, required=False, allow_blank=True)
