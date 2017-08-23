@@ -96,4 +96,5 @@ class PickyUserCreateSerializer(serializers.Serializer):
         ret = super().to_representation(instance)
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
+        ret['pk'] = self.instance.pk
         return ret
