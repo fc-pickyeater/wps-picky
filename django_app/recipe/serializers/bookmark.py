@@ -23,3 +23,7 @@ class BookMarkSerializer(serializers.ModelSerializer):
 
     memo = serializers.CharField(required=False)
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['recipe_title'] = instance.recipe.title
+        return ret
