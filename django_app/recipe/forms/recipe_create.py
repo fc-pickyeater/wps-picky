@@ -1,6 +1,7 @@
 from django import forms
+from django.forms import BaseModelFormSet, modelformset_factory
 
-from recipe.models import Recipe
+from recipe.models import Recipe, RecipeStep
 
 
 class RecipeCreateForm(forms.ModelForm):
@@ -12,3 +13,10 @@ class RecipeCreateForm(forms.ModelForm):
             'ingredient',
             'img_recipe',
         ]
+
+
+class RecipeStepCreateForm(forms.ModelForm):
+    class Meta:
+        model = RecipeStep
+        fields = '__all__'
+
