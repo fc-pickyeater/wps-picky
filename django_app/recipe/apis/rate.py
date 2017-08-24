@@ -24,7 +24,7 @@ class RecipeRateView(APIView):
         except:
             return Response(
                 {
-                    "detail": "레시피를 찾을 수 없습니다.",
+                    "recipe_not_found": "레시피를 찾을 수 없습니다.",
                     "status_code": status.HTTP_404_NOT_FOUND
                 },
                 status=status.HTTP_404_NOT_FOUND
@@ -35,7 +35,7 @@ class RecipeRateView(APIView):
         if RecipeRate.objects.filter(user=user_, recipe=recipe_).exists():
             return Response(
                 {
-                    "detail": "이미 평점을 주었습니다.",
+                    "already_rated": "이미 평점을 주었습니다.",
                     "status_code": status.HTTP_404_NOT_FOUND
                 },
                 status=status.HTTP_404_NOT_FOUND
@@ -66,7 +66,7 @@ class RecipeRateView(APIView):
         except:
             return Response(
                 {
-                    "detail": "레시피를 찾을 수 없습니다.",
+                    "recipe_not_found": "레시피를 찾을 수 없습니다.",
                     "status_code": status.HTTP_404_NOT_FOUND
                 },
                 status=status.HTTP_404_NOT_FOUND
@@ -92,7 +92,7 @@ class RecipeRateView(APIView):
         except:
             return Response(
                 {
-                    "detail": "레시피를 찾을 수 없습니다.",
+                    "recipe_not_found": "레시피를 찾을 수 없습니다.",
                     "status_code": status.HTTP_404_NOT_FOUND
                 },
                 status=status.HTTP_404_NOT_FOUND
