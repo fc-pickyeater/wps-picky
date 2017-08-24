@@ -20,4 +20,5 @@ class FacebookLoginSerializer(serializers.ModelSerializer):
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
         ret['img_profile'] = instance.img_profile.name
+        ret['pk'] = instance.pk
         return ret
