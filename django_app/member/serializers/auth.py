@@ -22,8 +22,8 @@ class PickyUserTokenSerializer(serializers.ModelSerializer):
 
 # iOS 요청대로 error 메세지 출력 형태 수정 8/16 joe
 class PickyAuthTokenSerializer(serializers.Serializer):
-    email = serializers.CharField(allow_null=True, required=False)
-    password = serializers.CharField(allow_null=True, required=False, style={'input_type': 'password'})
+    email = serializers.CharField(allow_null=True, required=False, allow_blank=True)
+    password = serializers.CharField(allow_null=True, required=False, allow_blank=True, style={'input_type': 'password'})
 
     def validate(self, attrs):
         d = dict()
