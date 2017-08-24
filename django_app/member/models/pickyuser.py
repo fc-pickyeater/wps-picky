@@ -23,6 +23,7 @@ class PickyUserManager(BaseUserManager):
                 content=content,
                 img_profile=img_profile,
         )
+        # set_password AbstractBaseUser 내장함수
         user.set_password(password)
         user.save()
         return user
@@ -69,14 +70,20 @@ class PickyUserManager(BaseUserManager):
 # user image 저장폴더이름 지정 - user email의 특수문자를 제외한 폴더에 이미지 저장
 # 저장되는 파일이름은 nickname-날짜-밀리세컨드.기존확장자
 def user_img_directory(instance, filename):
-    plain_email = instance.email.replace("@", "_").replace(".", "_")
+    # 이메일이 없거나 빈값이면 pk + 닉네임으로 폴더 생성 (페이스북에 이메일없는 계정이 있음)
+    if not instance.email or instance.email == '':
+        folder_name = instance.pk + instance.nickname.replace(" ", "_")
+    # 이메일이 있으면
+    else:
+        folder_name = instance.email.replace("@", "_").replace(".", "_")
+
     filename = '{nickname}-{date}-{microsecond}{extension}'.format(
             nickname=instance.nickname,
             date=datetime.datetime.now().strftime('%Y-%m-%d'),
             microsecond=datetime.datetime.now().microsecond,
             extension=os.path.splitext(filename)[1],
     )
-    return 'user/{dir}/{filename}'.format(dir=plain_email, filename=filename)
+    return 'user/{dir}/{filename}'.format(dir=folder_name, filename=filename)
 
 
 class PickyUser(AbstractBaseUser):

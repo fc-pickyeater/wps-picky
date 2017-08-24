@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     # user token 생성용 8/4 Joe
+    # token Table 생성
     'rest_framework.authtoken',
 
     'recipe',
@@ -141,7 +142,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

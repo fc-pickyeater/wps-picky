@@ -16,10 +16,10 @@ __all__ = (
 # PickyUser 생성
 class PickyUserCreateSerializer(serializers.Serializer):
     img_profile = serializers.ImageField(
-            max_length=None,
-            use_url=True,
-            required=False,
-            allow_null=True,
+        max_length=None,
+        use_url=True,
+        required=False,
+        allow_null=True,
     )
     email = serializers.CharField(max_length=100, allow_null=True, required=False, allow_blank=True)
     password1 = serializers.CharField(write_only=True, allow_null=True, required=False, allow_blank=True)
@@ -57,23 +57,25 @@ class PickyUserCreateSerializer(serializers.Serializer):
             raise CustomValidationError(d)
 
         # 입력된 password 필드 검증
-        # password 필드 중 하나라도 데이터가 있는 경우
-        if password1 or password2:
-            # 새로운 비번이 하나만 비어있을 경우
-            if (not password1 and password2) or password1 == '':
-                d['empty_password1'] = 'password1을 입력해주세요.'
-                raise CustomValidationError(d)
-            elif (password1 and not password2) or password2 == '':
-                d['empty_password2'] = 'password2를 입력해주세요.'
-                raise CustomValidationError(d)
-            # 비번이 4글자보다 적으면 에러 발생
-            elif len(password1) < 4 or len(password2) < 4:
-                d['too_short_password'] = '패스워드는 최소 4글자 이상이어야 합니다.'
-                raise CustomValidationError(d)
-            # 입력된 비번이 다르면 에러 발생
-            elif password1 != password2:
-                d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다'
-                raise CustomValidationError(d)
+        # password 필드가 모두 비어있는 경우
+        if not (password1 and password2) or (password1 == '' and password2 == ''):
+            d['empty_passwords'] = 'password를 입력해주세요.'
+            raise CustomValidationError(d)
+        # 새로운 비번이 하나만 비어있을 경우
+        elif password2 != '' and password1 == '':
+            d['empty_password1'] = 'password1을 입력해주세요.'
+            raise CustomValidationError(d)
+        elif password1 != '' and password2 == '':
+            d['empty_password2'] = 'password2를 입력해주세요.'
+            raise CustomValidationError(d)
+        # 비번이 4글자보다 적으면 에러 발생
+        elif len(password1) < 4 or len(password2) < 4:
+            d['too_short_password'] = '패스워드는 최소 4글자 이상이어야 합니다.'
+            raise CustomValidationError(d)
+        # 입력된 비번이 다르면 에러 발생
+        elif password1 != password2:
+            d['passwords_not_match'] = '입력된 패스워드가 일치하지 않습니다'
+            raise CustomValidationError(d)
         return data
 
     def create(self, *args, **kwargs):

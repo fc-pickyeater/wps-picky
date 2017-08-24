@@ -39,7 +39,6 @@ class BookMarkView(APIView):
         user_ = request.user
 
         # pk로 받은 recipe
-        # recipe_ = get_object_or_404(Recipe, pk=kwargs.get('recipe_pk'))
         try:
             recipe_ = Recipe.objects.get(pk=kwargs.get('recipe_pk'))
         except:
