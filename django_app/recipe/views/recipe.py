@@ -16,10 +16,7 @@ class RecipeListView(ListView):
     model = Recipe
 
 
-# class RecipeListView2(FormView):
-#     pass
-
-
+# formset을 써보려했으나 잘되지않음. 8/24 Joe
 class RecipeCreateView(ModelFormMixin, FormView):
     form_class = RecipeCreateForm
     formset_class = inlineformset_factory(
@@ -66,7 +63,7 @@ class RecipeCreateView(ModelFormMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
-
+# 레시피작성. 작동은 됨. 8/24 Joe
 # class RecipeCreateView(CreateView):
 #     model = Recipe
 #     success_url = reverse_lazy('recipe:recipestep_create')
