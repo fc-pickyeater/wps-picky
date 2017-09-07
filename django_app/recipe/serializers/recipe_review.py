@@ -27,6 +27,11 @@ class RecipeReviewListSerializer(serializers.ModelSerializer):
             'user',
         )
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['nickname'] = instance.user.nickname
+        return ret
+
 
 class RecipeReviewCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -56,6 +61,11 @@ class RecipeReviewCreateSerializer(serializers.ModelSerializer):
         else:
             return data
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['nickname'] = instance.user.nickname
+        return ret
+
 
 class RecipeReviewModifySerializer(serializers.ModelSerializer):
     class Meta:
@@ -84,3 +94,8 @@ class RecipeReviewModifySerializer(serializers.ModelSerializer):
             raise CustomValidationError({"content_error": "후기 내용을 채워주세요."})
         else:
             return data
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['nickname'] = instance.user.nickname
+        return ret

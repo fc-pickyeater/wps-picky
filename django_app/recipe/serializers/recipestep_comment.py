@@ -25,6 +25,11 @@ class RecipeStepCommentListSerializer(serializers.ModelSerializer):
             'user',
         )
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['nickname'] = instance.user.nickname
+        return ret
+
 
 class RecipeStepCommentCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,6 +60,11 @@ class RecipeStepCommentCreateSerializer(serializers.ModelSerializer):
         else:
             return data
 
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['nickname'] = instance.user.nickname
+        return ret
+
 
 class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
     class Meta:
@@ -83,3 +93,8 @@ class RecipeStepCommentModifySerializer(serializers.ModelSerializer):
             raise CustomValidationError({"content_length_error": "댓글의 내용이 256자를 초과합니다."})
         else:
             return data
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        ret['nickname'] = instance.user.nickname
+        return ret
