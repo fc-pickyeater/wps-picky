@@ -52,7 +52,7 @@ class RecipeRateView(APIView):
             # 다시 평점을 계산하는 공식
             new_avg = float((avg * (cnt - 1) + current_rate) / cnt)
             # 대입 후 저장
-            recipe_.rate_sum = new_avg
+            recipe_.rate_sum = round(new_avg, 1)
             recipe_.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
