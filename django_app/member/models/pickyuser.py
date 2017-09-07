@@ -109,6 +109,7 @@ class PickyUser(AbstractBaseUser):
     )
     password = models.CharField(
             max_length=200,
+            null=True,
     )
     img_profile = models.ImageField(
             # 위의 user_img_directory 함수에서 정해진 폴더에 저장
