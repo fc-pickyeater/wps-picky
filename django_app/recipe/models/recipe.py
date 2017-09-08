@@ -3,7 +3,6 @@ import os
 
 from django.db import models
 
-from ingredient.models import Ingredient
 from member.models import PickyUser
 
 __all__ = (
@@ -107,7 +106,8 @@ class Recipe(models.Model):
     rate_sum = models.FloatField(default=0)
     img_recipe = models.ImageField(
         upload_to=recipe_img_directory,
-        blank=True
+        blank=True,
+        null=True,
     )
     cal_sum = models.PositiveIntegerField(default=0)
 
