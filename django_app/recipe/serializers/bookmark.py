@@ -38,7 +38,7 @@ class BookMarkSerializer(serializers.ModelSerializer):
         ret['rate_sum'] = recipe.rate_sum
         ret['like_count'] = recipe.like_count
         # img_recipe의 값이 없을 경우 에러 발생함. 9/6 Joe
-        domain = 'https://s3.ap-northeast-2.amazonaws.com/picky-bucket/'
+        domain = 'https://s3.ap-northeast-2.amazonaws.com/picky-bucket/media/'
         if recipe.img_recipe.name:
             ret['img_recipe'] = domain + recipe.img_recipe.name
         else:
