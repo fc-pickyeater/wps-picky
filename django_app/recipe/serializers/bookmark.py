@@ -33,7 +33,7 @@ class BookMarkSerializer(serializers.ModelSerializer):
         # img_recipe의 값이 없을 경우 에러 발생함. 9/6 Joe
         try:
             img_path = recipe.img_recipe.path
-        except:
+        except ValueError:
             ret['img_recipe'] = None
         else:
             ret['img_recipe'] = img_path
