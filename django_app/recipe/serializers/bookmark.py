@@ -7,16 +7,15 @@ from recipe.serializers.recipe import RecipeListSerializer
 class BookMarkSerializer(serializers.ModelSerializer):
     # img_recipe = RecipeListSerializer(many=True)
     # img_recipe = serializers.ImageField(allow_null=True, required=False)
-    img_recipe = serializers.ImageField(default=Recipe.img_recipe)
+    # img_recipe = serializers.ImageField(default=Recipe.img_recipe)
 
     class Meta:
-
         model = BookMark
         fields = (
             'pk',
             'user',
             'recipe',
-            'img_recipe',
+            # 'img_recipe',
             'memo',
             'created_date',
 
@@ -25,7 +24,7 @@ class BookMarkSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'user',
             'recipe',
-            'img_recipe',
+            # 'img_recipe',
             'created_date'
         )
 
@@ -39,9 +38,13 @@ class BookMarkSerializer(serializers.ModelSerializer):
         ret['rate_sum'] = recipe.rate_sum
         ret['like_count'] = recipe.like_count
         # img_recipe의 값이 없을 경우 에러 발생함. 9/6 Joe
-        # ret['img_recipe'] = recipe.img_recipe
+        domain = 'https://s3.ap-northeast-2.amazonaws.com/picky-bucket/'
+        if recipe.img_recipe.name:
+            ret['img_recipe'] = domain + recipe.img_recipe.name
+        else:
+            ret['img_recipe'] = None
         # try:
-        #     img_path = recipe.img_recipe.path
+        #     img_path = recipe.img_recipe
         # except ValueError:
         #     ret['img_recipe'] = None
         # else:
