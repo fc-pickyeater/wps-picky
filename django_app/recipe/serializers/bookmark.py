@@ -5,9 +5,6 @@ from recipe.serializers.recipe import RecipeListSerializer
 
 
 class BookMarkSerializer(serializers.ModelSerializer):
-    # img_recipe = RecipeListSerializer(many=True)
-    # img_recipe = serializers.ImageField(allow_null=True, required=False)
-    # img_recipe = serializers.ImageField(default=Recipe.img_recipe)
 
     class Meta:
         model = BookMark
@@ -15,7 +12,6 @@ class BookMarkSerializer(serializers.ModelSerializer):
             'pk',
             'user',
             'recipe',
-            # 'img_recipe',
             'memo',
             'created_date',
 
@@ -24,7 +20,6 @@ class BookMarkSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'user',
             'recipe',
-            # 'img_recipe',
             'created_date'
         )
 
@@ -43,10 +38,4 @@ class BookMarkSerializer(serializers.ModelSerializer):
             ret['img_recipe'] = domain + recipe.img_recipe.name
         else:
             ret['img_recipe'] = None
-        # try:
-        #     img_path = recipe.img_recipe
-        # except ValueError:
-        #     ret['img_recipe'] = None
-        # else:
-        #     ret['img_recipe'] = img_path
         return ret
