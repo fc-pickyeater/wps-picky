@@ -1,9 +1,11 @@
 from rest_framework import serializers
 
 from recipe.models import BookMark, Recipe
+from recipe.serializers.recipe import RecipeListSerializer
 
 
 class BookMarkSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = BookMark
         fields = (
@@ -31,10 +33,9 @@ class BookMarkSerializer(serializers.ModelSerializer):
         ret['rate_sum'] = recipe.rate_sum
         ret['like_count'] = recipe.like_count
         # img_recipe의 값이 없을 경우 에러 발생함. 9/6 Joe
-        try:
-            img_path = recipe.img_recipe.path
-        except:
-            ret['img_recipe'] = None
+        domain = 'https://s3.ap-northeast-2.amazonaws.com/picky-bucket/media/'
+        if recipe.img_recipe.name:
+            ret['img_recipe'] = domain + recipe.img_recipe.name
         else:
-            ret['img_recipe'] = img_path
+            ret['img_recipe'] = None
         return ret
