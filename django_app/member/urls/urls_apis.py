@@ -12,5 +12,6 @@ urlpatterns = [
     # 로그인시, 토큰을 생성하는 url
     url(r'^login/$', obtain_auth_token),
     url(r'^facebook-login/$', FacebookLoginAPIView.as_view()),
+    # url(r'^kakao-login/$', FacebookLoginAPIView.as_view()),
     url(r'^logout/$', apis.PickyUserLogout.as_view()),
 ]

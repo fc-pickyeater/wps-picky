@@ -66,17 +66,34 @@ INSTALLED_APPS = [
     # token Table 생성
     'rest_framework.authtoken',
 
+    # kakao login을 위한 django-allauth
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.kakao',
+    # 'allauth.socialaccount.providers.naver',
+
     'recipe',
     'ingredient',
     'member',
     'corsheaders',
 ]
+
+# 'django.contrib.sites'를 사용할 경우 필요.
+# 지정하지 않으면 요청시 host 명의 Site 인스턴스를 찾음.
+# SITE_ID = 1
+
+# 이메일확인을 하지않음. (이미 안보내고있긴함) 9/9 조
+# SOCIALACCOUNT_EMAIL_VERIFICATION = 'none'
+
 # 8/1 hong 추가 search filter html보여주는듯? -hong 8/1
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     # token 기반인증을 위해 추가 8/7 joe
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        # 'allauth.account.auth_backends.AuthenticationBackend',
     ),
     # 반환되는 JSON에 status_code를 같이 보내줌.
     'EXCEPTION_HANDLER': 'utils.exception_handler.custom_exception_handler',
