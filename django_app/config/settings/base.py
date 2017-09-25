@@ -45,6 +45,15 @@ AUTH_USER_MODEL = 'member.PickyUser'
 FACEBOOK_APP_ID = config_secret_common['facebook']['app_id']
 FACEBOOK_SECRET_CODE = config_secret_common['facebook']['secret_code']
 
+# Email
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+EMAIL_HOST = 'smtp.mailgun.org'
+EAMIL_PORT = 25
+EMAIL_HOST_USER = config_secret_common['email']['USER']
+EMAIL_HOST_PASSWORD = config_secret_common['email']['PASSWORD']
+
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',

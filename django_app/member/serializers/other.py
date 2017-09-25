@@ -32,3 +32,4 @@ class PickyUserSerializer(serializers.ModelSerializer):
         token, _ = Token.objects.get_or_create(user=instance)
         ret['token'] = token.key
         return ret
+

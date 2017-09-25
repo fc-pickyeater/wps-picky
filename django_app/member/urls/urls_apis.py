@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
 
-from member.apis.auth import FacebookLoginAPIView, obtain_auth_token
-from member import apis
+from ..apis.auth import FacebookLoginAPIView, obtain_auth_token
+from .. import apis
 
 urlpatterns = [
     url(r'^$', apis.PickyUserList.as_view()),
@@ -14,4 +14,5 @@ urlpatterns = [
     url(r'^facebook-login/$', FacebookLoginAPIView.as_view()),
     # url(r'^kakao-login/$', FacebookLoginAPIView.as_view()),
     url(r'^logout/$', apis.PickyUserLogout.as_view()),
+    url(r'^find-password/$', apis.PickyUserFindPassword.as_view(), name='find-password')
 ]

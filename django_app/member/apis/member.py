@@ -1,7 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
+
 from rest_framework import generics, permissions
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
+from config.settings.base import EMAIL_HOST_USER
 from utils.permissions import ObjectIsMe
 from ..serializers import (
     PickyUserSerializer,
@@ -17,6 +21,7 @@ __all__ = (
     'PickyUserCreate',
     'PickyUserLogout',
     'PickyUserUpdate',
+    'PickyUserFindPassword',
 )
 
 
@@ -68,3 +73,25 @@ class PickyUserLogout(generics.DestroyAPIView):
         d['result'] = '로그아웃 되었습니다.'
         request.user.auth_token.delete()
         return Response(d)
+
+
+class PickyUserFindPassword(APIView):
+
+    def post(request, user_email):
+        email = user_email.POST['user_email']
+        d = dict()
+        try:
+            PickyUser.objects.get(email=email)
+        except Exception:
+            d['email_error'] = '일치하는 아이디가 없습니다.'
+            return Response(d)
+        else:
+            send_mail(
+                    subject='Picky Cookbook 패스워드 재설정입니다.',
+                    message='password reset link',
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[email,],
+                    fail_silently=False,
+            )
+            d['email_sent'] = '패스워드 재설정 이메일을 발송했습니다.'
+            return Response(d)
