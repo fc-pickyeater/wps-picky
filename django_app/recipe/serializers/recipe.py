@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from recipe.models import Recipe, Tag
-from ..serializers import RecipeStepListSerializer, RecipeReviewListSerializer, CustomValidationError
+from ..serializers import RecipeStepListSerializer, RecipeReviewListSerializer
+from utils.exceptions import CustomValidationError
 
 __all__ = (
     'RecipeSerializer',
