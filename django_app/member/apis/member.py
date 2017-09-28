@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.core.mail import send_mail
+from django.core.mail import send_mail, utils
+from django.template import loader
 
 from rest_framework import generics, permissions
 from rest_framework.response import Response
@@ -22,6 +23,7 @@ __all__ = (
     'PickyUserLogout',
     'PickyUserUpdate',
     'PickyUserFindPassword',
+    'PickUserPasswordConfirm',
 )
 
 
@@ -81,17 +83,29 @@ class PickyUserFindPassword(APIView):
         email = user_email.POST['user_email']
         d = dict()
         try:
-            PickyUser.objects.get(email=email)
+            user = PickyUser.objects.get(email=email)
         except Exception:
             d['email_error'] = '일치하는 아이디가 없습니다.'
             return Response(d)
         else:
+
+            html_message = loader.render_to_string(
+                    'member/password_reset_email.html',
+                    {'user': user.nickname}
+            )
+
+
             send_mail(
                     subject='Picky Cookbook 패스워드 재설정입니다.',
-                    message='password reset link',
+                    message='test message',
+                    html_message=html_message,
                     from_email=EMAIL_HOST_USER,
                     recipient_list=[email,],
                     fail_silently=False,
             )
             d['email_sent'] = '패스워드 재설정 이메일을 발송했습니다.'
             return Response(d)
+
+
+class PickUserPasswordConfirm(APIView):
+    pass
