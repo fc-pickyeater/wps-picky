@@ -166,3 +166,33 @@ class PickyUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+
+
+def onehour_after_now():
+    current_time = datetime.datetime.now()
+    expired_hour = current_time.hour + 1
+    expired_time = current_time.replace(hour=expired_hour)
+    return expired_time
+
+
+class PickyUserPasswordReset(models.Model):
+    user = models.OneToOneField(
+            PickyUser,
+            on_delete=models.CASCADE,
+            primary_key=True,
+    )
+    reset_link = models.CharField(
+            max_length=250,
+            unique=True,
+    )
+    expired_date = models.DateTimeField(
+            default=onehour_after_now(),
+    )
+    used = models.CharField(
+            max_length=3,
+            default='n',
+    )
+
+
+
+
