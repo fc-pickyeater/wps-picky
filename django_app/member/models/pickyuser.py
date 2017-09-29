@@ -1,3 +1,4 @@
+import hashlib
 import re
 
 import requests
@@ -175,6 +176,18 @@ def onehour_after_now():
     return expired_time
 
 
+def password_reset_link():
+    current_time = datetime.datetime.now()
+    current_time_numbers = str(current_time.strftime('%d')) + str(current_time.year) + str(current_time.strftime('%m')) + str(current_time.microsecond)
+    numbers_length = len(current_time_numbers)
+    by = int(current_time_numbers).to_bytes(numbers_length, 'little')
+    h = hashlib.sha256()
+    h.update(by)
+    hashed = h.hexdigest()
+    hashed_link = "https://pickycookbook.co.kr/api/member/password-reset/" + hashed
+    return hashed_link
+
+
 class PickyUserPasswordReset(models.Model):
     user = models.OneToOneField(
             PickyUser,
@@ -184,6 +197,7 @@ class PickyUserPasswordReset(models.Model):
     reset_link = models.CharField(
             max_length=250,
             unique=True,
+            default=password_reset_link,
     )
     expired_date = models.DateTimeField(
             default=onehour_after_now(),
