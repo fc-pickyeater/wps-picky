@@ -1,6 +1,5 @@
 from django.conf.urls import url
 
-
 from ..apis.auth import FacebookLoginAPIView, obtain_auth_token
 from .. import apis
 
@@ -15,6 +14,5 @@ urlpatterns = [
     # url(r'^kakao-login/$', FacebookLoginAPIView.as_view()),
     url(r'^logout/$', apis.PickyUserLogout.as_view()),
     url(r'^password-reset/request/$', apis.PickyUserFindPassword.as_view()),
-    url(r'^password-reset/(?P<hashed_link>[0-9A-Za-z_\-]+)/$', apis.PickUserPasswordConfirm.as_view(), name='password-reset-confirm'),
-    # url(r'^password-reset/done/$', apis.PickUserPasswordConfirm.as_view()),
+    url(r'^password-reset/submit/(\d\w+)/$', apis.PickUserPasswordConfirm.as_view()),
 ]

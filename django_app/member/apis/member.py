@@ -1,5 +1,8 @@
+from datetime import datetime
+
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail, utils
+from django.http import HttpResponse
 from django.template import loader
 
 from rest_framework import generics, permissions
@@ -78,6 +81,7 @@ class PickyUserLogout(generics.DestroyAPIView):
         return Response(d)
 
 
+# password 재설정 메일 발송
 class PickyUserFindPassword(APIView):
 
     def post(request, user_email):
@@ -89,16 +93,24 @@ class PickyUserFindPassword(APIView):
             d['email_error'] = '일치하는 아이디가 없습니다.'
             return Response(d)
         else:
-            password_reset = PickyUserPasswordReset.objects.create(
-                    user_id=user.pk,
-            )
+            try:
+                password_reset = PickyUserPasswordReset.objects.filter(user_id=user.pk)
+            except PickyUserPasswordReset.DoesNotExist:
+                password_reset = PickyUserPasswordReset.objects.create(
+                        user_id=user.pk,
+                )
+            else:
+                password_reset.delete()
+                password_reset = PickyUserPasswordReset.objects.create(
+                        user_id=user.pk,
+                )
+
             html_message = loader.render_to_string(
                     'member/password_reset_email.html', {
                         'user': user.nickname,
                         'reset_link': password_reset.reset_link,
                     }
             )
-
             send_mail(
                     subject='Picky Cookbook 패스워드 재설정입니다.',
                     message='test message',
@@ -112,4 +124,23 @@ class PickyUserFindPassword(APIView):
 
 
 class PickUserPasswordConfirm(APIView):
-    pass
+
+    def get(request, *args, **kwargs):
+        d = dict()
+        link = request.args[0]
+        current_time = datetime.now()
+        try:
+            password_reset = PickyUserPasswordReset.objects.get(reset_link=link)
+        except PickyUserPasswordReset.DoesNotExist:
+            d['DoesNotExist'] = "존재하지 않는 링크입니다."
+        else:
+            if password_reset.used != 'n':
+                d['used_link'] = "이미 사용된 링크입니다."
+            elif current_time > password_reset.expired_date:
+                d['expired_link'] = "만료된 링크입니다."
+            else:
+                password_reset.used = 'y'
+                password_reset.save()
+                d['email'] = PickyUser.objects.get(pk=password_reset.user_id).email
+        return Response(d)
+

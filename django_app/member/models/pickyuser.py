@@ -169,6 +169,7 @@ class PickyUser(AbstractBaseUser):
         return self.is_admin
 
 
+# 지금부터 한시간 후
 def onehour_after_now():
     current_time = datetime.datetime.now()
     expired_hour = current_time.hour + 1
@@ -176,6 +177,7 @@ def onehour_after_now():
     return expired_time
 
 
+# password reset link 생성
 def password_reset_link():
     current_time = datetime.datetime.now()
     current_time_numbers = str(current_time.strftime('%d')) + str(current_time.year) + str(current_time.strftime('%m')) + str(current_time.microsecond)
@@ -184,10 +186,10 @@ def password_reset_link():
     h = hashlib.sha256()
     h.update(by)
     hashed = h.hexdigest()
-    hashed_link = "https://pickycookbook.co.kr/api/member/password-reset/" + hashed
-    return hashed_link
+    return hashed
 
 
+# password reset table. PickyUser와 1 to 1
 class PickyUserPasswordReset(models.Model):
     user = models.OneToOneField(
             PickyUser,
@@ -206,7 +208,3 @@ class PickyUserPasswordReset(models.Model):
             max_length=3,
             default='n',
     )
-
-
-
-
