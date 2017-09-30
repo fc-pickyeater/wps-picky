@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from config.settings.base import EMAIL_HOST_USER
+from member.models.pickyuser import PickyUserPasswordReset
 from utils.permissions import ObjectIsMe
 from ..serializers import (
     PickyUserSerializer,
@@ -88,12 +89,15 @@ class PickyUserFindPassword(APIView):
             d['email_error'] = '일치하는 아이디가 없습니다.'
             return Response(d)
         else:
-
-            html_message = loader.render_to_string(
-                    'member/password_reset_email.html',
-                    {'user': user.nickname}
+            password_reset = PickyUserPasswordReset.objects.create(
+                    user_id=user.pk,
             )
-
+            html_message = loader.render_to_string(
+                    'member/password_reset_email.html', {
+                        'user': user.nickname,
+                        'reset_link': password_reset.reset_link,
+                    }
+            )
 
             send_mail(
                     subject='Picky Cookbook 패스워드 재설정입니다.',
